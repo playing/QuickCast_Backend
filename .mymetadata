@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="quickcast"
+  name="quickcast0327"
   id="myeclipse.1395843861414"
   context-root="/quickcast"
   j2ee-spec="5.0"
-  archive="quickcast.war">
+  archive="quickcast0327.war">
   <attributes>
     <attribute name="webrootdir" value="/WebRoot" />
   </attributes>

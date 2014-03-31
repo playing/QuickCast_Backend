@@ -7,6 +7,7 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import com.paragon.quickcast.entity.User_Reg;
+import com.paragon.quickcast.form.User;
 
 
 @Component
@@ -25,7 +26,7 @@ public class User_RegDAO{
 	public boolean insert(User_Reg user_reg){
 
 		//判断用户名是否存在
-		User_RegDAO user_regdao = new User_RegDAO();
+	//	User_RegDAO user_regdao = new User_RegDAO();
 			hibernateTemplate.save(user_reg);
 			return true;
 		}

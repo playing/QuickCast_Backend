@@ -14,14 +14,10 @@ public class UserServiceImpl implements UserService {
 	@Resource
 	private User_RegDAO userregDao;
 	
-	public void insert(String user_name,String password,String user_type){
+	public void insert(User_Reg user){
 		//System.out.println("UserServiceImpl.add()");
-		User_Reg u = new User_Reg();
-		u.setUser_name(user_name);
-		u.setPassword(password);
-		u.setUser_type(user_type);
-		
-		userregDao.insert(u);
+		 System.out.printf("ssssssss");
+		userregDao.insert(user);
 	}
 
 	public User_RegDAO getUserregDao() {

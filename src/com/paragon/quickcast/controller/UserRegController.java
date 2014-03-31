@@ -4,7 +4,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.paragon.quickcast.entity.User_Reg;
 import com.paragon.quickcast.service.UserService;
 
 @Controller
@@ -13,12 +15,13 @@ public class UserRegController{
 
 	@Resource
 	private UserService userService;
+
 	
 	@RequestMapping(params="method=reg")
-	public String reg(String user_name,String password,String user_type){
-		userService.insert(user_name,password,user_type);
-		return "index";
-	}
+	public @ResponseBody String reg(User_Reg user_reg){
+		userService.insert(user_reg);
+		return "asdasd";
+		}
 	
 	
 
@@ -29,6 +32,7 @@ public class UserRegController{
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+
 
 	
 }
