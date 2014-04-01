@@ -9,5 +9,6 @@ public interface UserService {
 	
 	//public void insert(String user_name,String password,String user_type);
     public void insert(User_Reg user); 
+    public String check_username(String username);
 	
 }

@@ -3,7 +3,7 @@
   type="WEB"
   name="quickcast0327"
   id="myeclipse.1395843861414"
-  context-root="/quickcast"
+  context-root="/quickcast0331"
   j2ee-spec="5.0"
   archive="quickcast0327.war">
   <attributes>

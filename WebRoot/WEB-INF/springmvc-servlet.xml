@@ -16,8 +16,14 @@
     <mvc:annotation-driven />  <!-- 支持spring3.0新的mvc注解 -->
 
     <!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
-
+	  <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">  
+        <property name="cacheSeconds" value="0" />  
+        <property name="messageConverters">  
+            <list>  
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>  
+            </list>  
+        </property>
+    </bean>
     <!--对模型视图名称的解析，即在模型视图名称添加前后缀 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
          p:suffix=".jsp">

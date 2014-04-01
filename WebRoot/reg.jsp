@@ -12,14 +12,34 @@ function  login(){
  $.ajax({
         type: "post",
         url: "user_reg.do?method=reg",
-        data: ajax_data,
+        data: ajax_data, 
         success: function(date) {
           alert("success");
           alert(date);
-          window.location.href = "index.jsp";
+       //   window.location.href = "index.jsp";
         }
     });
  
+
+}
+
+function check_uname(){
+     var x = document.getElementById("user_name").value;
+      $.ajax({
+        type: "post",
+        url: "user_reg.do?method=check_uname",
+        data: {user_name:x,encoding:"utf-8"},
+        success: function(date) {
+      //  data=decodeURI(date);
+      data = decodeURIComponent(date);
+      data=JSON.parse(data);
+         alert(data.user[0].bed_num);
+        }
+    });
+
+
+
+//     alert(x);
 
 }
 
@@ -30,9 +50,12 @@ function  login(){
 </head>
 <body>
       <form id = "login">
-           用户名：<input type=text name="user_name"/><br/>
+          <input type = "radio" value = "求职者" name = "user_type">求职者
+          <input type = "radio" value = "猎头" name = "user_type">猎头
+          <input type = "radio" value = "企业" name = "user_type">企业<br/>
+           用户名：<input type=text id = "user_name"  name="user_name" onchange = "check_uname()" /><br/>
            密  码：<input type=password name="password"/><br/>
-           用户类型：<input type=text name="user_type"/><br/> 
+          
           <button type = button onclick = "login()" >注册</button>
       </form>
 

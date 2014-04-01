@@ -26,9 +26,9 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
                 value="com.mysql.jdbc.Driver">  
             </property>  
             <property name="url" 
-            value="jdbc:mysql://localhost:3306/quickcast?characterEncoding=utf8"></property>  
+            value="jdbc:mysql://localhost:3306/quickcast?characterEncoding=UTF-8"></property>  
             <property name="username" value="root"></property>  
-            <property name="password" value="123456"></property>
+            <property name="password" value="playing"></property>
     </bean>  
 
    <bean id="sessionFactory"  

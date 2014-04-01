@@ -21,6 +21,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <a href="/quickcast/reg.jsp">点击注册</a> <br>
+    <a href="/quickcast/reg.jsp">点击注册</a> <br/>
+    简历编号：${personal_rsm.rsm_id}
+    用户编号：${personal_rsm.user_id}
+    编辑时间：${personal_rsm.edit_time}
+    谁看过我的简历：${personal_rsm.read_status}
   </body>
 </html>

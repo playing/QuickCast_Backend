@@ -16,8 +16,13 @@ public class UserServiceImpl implements UserService {
 	
 	public void insert(User_Reg user){
 		//System.out.println("UserServiceImpl.add()");
-		 System.out.printf("ssssssss");
+		// System.out.printf("ssssssss");
 		userregDao.insert(user);
+	}
+	
+	public String check_username(String username){
+		return userregDao.check_username(username);
+		
 	}
 
 	public User_RegDAO getUserregDao() {
