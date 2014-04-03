@@ -1,63 +1,33 @@
 package com.paragon.quickcast.dao;
 
-
-import com.paragon.quickcast.entity.*;
-
-
-
-import java.util.Iterator;
 import java.util.List;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+
+import javax.annotation.Resource;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.paragon.quickcast.entity.Rsm_Deliver;
 
 
-
+@Repository
 public class Rsm_DeliverDAO{
 	// property constants
-	private Session session = null;
-
-	public Session getSession(){
-		//读取hibernate.cfg.htm配置文件；
-		Configuration conn = new Configuration().configure();
-		//读取hibernate.cfg.htm配置文件中sessionFactory与mysql数据库的联系信息
-		SessionFactory factory=conn.buildSessionFactory();
-		//开启事务
-		Session session =factory.openSession();
-		return session;
-	}
+	@Resource
+	private HibernateTemplate hibernateTemplate;
 	
 	//插入用户新注册信息；
 	//以Rsm_Deliver类为传递参数；
 	public boolean insert(Rsm_Deliver rsm_deliver){
 		
-		session= this.getSession();
-		Transaction tran = this.session.beginTransaction();
-		//有transient状态变为persistent状态
-		
-			this.session.save(rsm_deliver);
-			//提交事务
-			tran.commit();
-			if(session.isOpen()){
-				session.close();
-				return true;
-			}
-			else return false;
+		hibernateTemplate.save(rsm_deliver);
+		return true;
 	}
 	
 	//更新数据库操作
 	//以Rsm_Deliver类为传递参数
 	public void update(Rsm_Deliver rsm_deliver){
-			session = this.getSession();
-			Transaction tran = this.session.beginTransaction();
-			//调用Session自带的update方法；
-			this.session.update(rsm_deliver);
-			tran.commit();
-			if(session.isOpen()){
-				session.close();
-			}	
+			
+		hibernateTemplate.update(rsm_deliver);
 	}
 	
 	//查找投递信息
@@ -66,15 +36,8 @@ public class Rsm_DeliverDAO{
 	//返回List
 	public List queryByRsmId(int rsm_id){
 		
-		session = this.getSession();
 		String hql = "FROM Rsm_Deliver as rsm_deliver WHERE rsm_deliver.rsm_id=?";
-		//通过Query借口查询
-		Query q = this.session.createQuery(hql);
-		q.setInteger(0,rsm_id);
-		List l = q.list();
-		if(session.isOpen()){
-			session.close();
-		}
+		List l = hibernateTemplate.find(hql,rsm_id);	 
 		return l;
 	}
 	
@@ -84,15 +47,9 @@ public class Rsm_DeliverDAO{
 		//返回List
 		public List queryByEtpId(int etp_id){
 			
-			session = this.getSession();
+
 			String hql = "FROM Rsm_Deliver as rsm_deliver WHERE rsm_deliver.etp_id=?";
-			//通过Query借口查询
-			Query q = this.session.createQuery(hql);
-			q.setInteger(0,etp_id);
-			List l = q.list();
-			if(session.isOpen()){
-				session.close();
-			}
+			List l = hibernateTemplate.find(hql,etp_id);	 
 			return l;
 		}
 	
@@ -102,83 +59,45 @@ public class Rsm_DeliverDAO{
 		//返回List
 		public List queryByHunterId(int hunter_id){
 			
-			session = this.getSession();
 			String hql = "FROM Rsm_Deliver as rsm_deliver WHERE rsm_deliver.hunter_id=?";
-			//通过Query借口查询
-			Query q = this.session.createQuery(hql);
-			q.setInteger(0,hunter_id);
-			List l = q.list();
-			if(session.isOpen()){
-				session.close();
-			}
+			List l = hibernateTemplate.find(hql,hunter_id);			
 			return l;
 		}
 		
-	//根据信息deliver_id查询投递信息
+	    //根据信息deliver_id查询投递信息
+		//使用此种方法是第二个参数必须是主键
 		public Rsm_Deliver queryByDeliverId(int deliver_id){
 			
-			Rsm_Deliver rsm_deliver = null;
-			session = this.getSession();
-			String hql = "FROM Rsm_Deliver as rsm_deliver WHERE rsm_deliver.deliver_id=?";
-			//通过Query借口查询
-			Query q = this.session.createQuery(hql);
-			q.setInteger(0,deliver_id);
-			List l = q.list();
-			Iterator iter = l.iterator();
-			if(iter.hasNext())
-			{
-				rsm_deliver = (Rsm_Deliver)iter.next();
-			}
-			if(session.isOpen()){
-				session.close();
-			}
-			return rsm_deliver;
+			return hibernateTemplate.get(Rsm_Deliver.class, deliver_id);
 		}
-		
+		 
 		
 		//删除简历投递信息，但是传进来的参数是Rsm_Deliver类
 		public void delete(Rsm_Deliver rsm_deliver){
 			
-			session = this.getSession();
-			Transaction tran = this.session.beginTransaction();
-			if(rsm_deliver != null){
-				this.session.delete(rsm_deliver);
-			}
-			tran.commit();
-			if(session.isOpen()){
-				session.close();
-			}
+			hibernateTemplate.delete(rsm_deliver);
 		}
 		
 		//根据rsm_id为参数，删除简历投递信息
 		public void deleteByRsmId(int rsm_id){
 			
-			session = this.getSession();
-			String hql = "DELETE Rsm_Deliver WHERE rsm_id=?";
-			Query q = this.session.createQuery(hql);
-			//把参数设置
-			q.setInteger(0,rsm_id);
-			//执行更新语句
-			q.executeUpdate();
-			this.session.beginTransaction().commit();
-			if(session.isOpen()){
-				session.close();
-			}
+			String hql = "FROM Rsm_Deliver as rsm_deliver WHERE rsm_id=?";
+			List l = hibernateTemplate.find(hql,rsm_id);	 
+			hibernateTemplate.deleteAll(l);
+			
 		}
 		
 		public void deleteByDeliverId(int deliver_id){
 			
-			session = this.getSession();
-			String hql = "DELETE Rsm_Deliver WHERE deliver_id=?";
-			Query q = this.session.createQuery(hql);
-			//把参数设置
-			q.setInteger(0,deliver_id);
-			//执行更新语句
-			q.executeUpdate();
-			this.session.beginTransaction().commit();
-			if(session.isOpen()){
-				session.close();
-			}
+			hibernateTemplate.delete(hibernateTemplate.get(Rsm_Deliver.class, deliver_id));
+		}
+
+		public HibernateTemplate getHibernateTemplate() {
+			return hibernateTemplate;
+		}
+
+		public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+			this.hibernateTemplate = hibernateTemplate;
 		}
 
 }

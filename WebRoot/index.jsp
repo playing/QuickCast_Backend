@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -22,9 +23,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <a href="/quickcast/reg.jsp">点击注册</a> <br/>
-    简历编号：${personal_rsm.rsm_id}
-    用户编号：${personal_rsm.user_id}
-    编辑时间：${personal_rsm.edit_time}
-    谁看过我的简历：${personal_rsm.read_status}
+    简历编号：${personal_rsm.rsm_id}<br/>
+    用户编号：${personal_rsm.user_id}<br/>
+    编辑时间：${personal_rsm.edit_time}<br/>
+    谁看过我的简历：${personal_rsm.read_status}<br/>
   </body>
 </html>

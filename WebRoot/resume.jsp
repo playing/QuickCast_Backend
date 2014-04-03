@@ -23,16 +23,100 @@ function  add_resume(){
  alert(ajax_data);
  $.ajax({
         type: "post",
-        url: "personal_rsm.do?method=personal_rsm",
+        url: "personal_rsm.do?method=imp_resume_insert",
         data: ajax_data, 
         success: function(date) {
           alert("success");
        //   window.location.href = "index.jsp";
         }
     });
- 
-
 }
+
+function  update_resume(){
+ var ajax_data = $("#resume").serialize();
+ alert(ajax_data);
+ $.ajax({
+        type: "post",
+        url: "personal_rsm.do?method=imp_resume_update",
+        data: ajax_data, 
+        success: function(date) {
+          alert("success");
+       //   window.location.href = "index.jsp";
+        }
+    });
+}
+
+function  queryByRsmId_resume(){
+ var ajax_data = $("#resume").serialize();
+ alert(ajax_data);
+ $.ajax({
+        type: "post",
+        url: "personal_rsm.do?method=imp_resume_queryByRsmId",
+        data: ajax_data, 
+        success: function(date) {
+          alert("success");
+       //   window.location.href = "index.jsp";
+        }
+    });
+}
+
+function  queryByUserId_resume(){
+ var ajax_data = $("#resume").serialize();
+ alert(ajax_data);
+ $.ajax({
+        type: "post",
+        url: "personal_rsm.do?method=imp_resume_queryByUserId",
+        data: ajax_data, 
+        success: function(date) {
+          alert("success");
+       //   window.location.href = "index.jsp";
+        }
+    });
+}
+
+function  delete_resume(){
+ var ajax_data = $("#resume").serialize();
+ alert(ajax_data);
+ $.ajax({
+        type: "post",
+        url: "personal_rsm.do?method=imp_resume_delete",
+        data: ajax_data, 
+        success: function(date) {
+          alert("success");
+       //   window.location.href = "index.jsp";
+        }
+    });
+}
+
+function  deleteByUserId_resume(){
+ var ajax_data = $("#resume").serialize();
+ alert(ajax_data);
+ $.ajax({
+        type: "post",
+        url: "personal_rsm.do?method=imp_resume_deleteByUserId",
+        data: ajax_data, 
+        success: function(date) {
+          alert("success");
+       //   window.location.href = "index.jsp";
+        }
+    });
+}
+
+function  deleteByRsmId_resume(){
+ var ajax_data = $("#resume").serialize();
+ alert(ajax_data);
+ $.ajax({
+        type: "post",
+        url: "personal_rsm.do?method=imp_resume_deleteByRsmId",
+        data: ajax_data, 
+        success: function(date) {
+          alert("success");
+       //   window.location.href = "index.jsp";
+        }
+    });
+}
+
+
 </script>
 	
 	<!--
@@ -44,7 +128,7 @@ function  add_resume(){
   <body>
     Resume
     <form id= "resume">
-           
+           简历编号：<input type=text name="rsm_id"/><br/>
            用户编号：<input type=text name="user_id"/><br/>
            编辑时间：<input type=text name="edit_time"/><br/>
            谁看过我的简历：<input type=text name="read_status"/><br/>
@@ -61,7 +145,13 @@ function  add_resume(){
            自我评价：<input type=text name="self_evaluate"/><br/>
            自我评价：<input type=text name="add_info"/><br/>     
            
-          <button type = "button" onclick = "add_resume()">添加</button>
+          <button type = "button" onclick = "add_resume()">add</button>
+          <button type = "button" onclick = "update_resume()">update</button>
+          <button type = "button" onclick = "queryByUserId_resume()">queryByUserId</button>
+          <button type = "button" onclick = "queryByRsmId_resume()">queryByRsmId</button>         
+          <button type = "button" onclick = "delete_resume()">delete</button>
+          <button type = "button" onclick = "deleteByUserId_resume()">deleteByUserId</button>
+          <button type = "button" onclick = "deleteByRsmId_resume()">deleteByRsmId</button>
       </form>
   </body>
 </html>

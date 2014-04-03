@@ -10,5 +10,14 @@ public interface ResumeService {
 	
 	public void update(Personal_Rsm personal_rsm);
 	
+	public Personal_Rsm queryByUserId(int user_id);
+	
+	public Personal_Rsm queryByRsmId(int rsm_id);
+	
+	public void delete(Personal_Rsm personal_rsm);
+	
+	public void deleteByUserId(int user_id);
+	
+	public void deleteByRsmId(int rsm_id);
 
 }

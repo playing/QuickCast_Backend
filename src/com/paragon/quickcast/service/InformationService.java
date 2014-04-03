@@ -10,5 +10,6 @@ public interface InformationService {
  
 	public boolean insert(Seeker_Info seeker_info);
 	public boolean delete(int info_id);
-	public boolean insert1(Hunter_Info hunter_info);
+	public boolean update(Seeker_Info seeker_info);
+	public boolean add(Hunter_Info hunter_info);
 }

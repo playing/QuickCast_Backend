@@ -12,7 +12,7 @@ import com.paragon.quickcast.service.ResumeService;
 public class Personal_RsmServiceImpl implements ResumeService{
 	
 	@Resource
-	Personal_RsmDAO personal_rsmdao = new Personal_RsmDAO();
+	private Personal_RsmDAO personal_rsmdao;
 	
 	
 	public boolean insert(Personal_Rsm personal_rsm){
@@ -25,16 +25,52 @@ public class Personal_RsmServiceImpl implements ResumeService{
 	public void update(Personal_Rsm personal_rsm){
 		
 		personal_rsmdao.update(personal_rsm);
+		
+	}
+	
+	
+    public Personal_Rsm queryByUserId(int user_id){
+    	
+    	return personal_rsmdao.queryByUserId(user_id);
+    	
+    }
+	
+	public Personal_Rsm queryByRsmId(int rsm_id){
+		
+		return personal_rsmdao.queryByRsmId(rsm_id);
+		
+	}
+	
+	public void delete(Personal_Rsm personal_rsm){
+		
+		personal_rsmdao.delete(personal_rsm);
+		
+	}
+	
+	public void deleteByUserId(int user_id){
+		
+		personal_rsmdao.deleteByUserId(user_id);
+		
+	}
+	
+	public void deleteByRsmId(int rsm_id){
+		
+		personal_rsmdao.deleteByRsmId(rsm_id);
+		
 	}
 
 
 	public Personal_RsmDAO getPersonal_rsmdao() {
+		
 		return personal_rsmdao;
+		
 	}
 
 
 	public void setPersonal_rsmdao(Personal_RsmDAO personal_rsmdao) {
+		
 		this.personal_rsmdao = personal_rsmdao;
+		
 	}
 	
 

@@ -24,9 +24,6 @@ public class Hunter_InfoDAO{
 	@Resource
 	private HibernateTemplate hibernateTemplate;
 	public boolean insert(Hunter_Info hunter_info){
-		if(hunter_info.getInfo_id()==0 && hunter_info.getUser_id() == 0 ) 
-			return false;
-		else{
 		hibernateTemplate.save(hunter_info);
 		return true;
 		}
@@ -177,4 +174,4 @@ public class Hunter_InfoDAO{
 		}
 	}
 */
-}
+

@@ -2,20 +2,19 @@ package com.paragon.quickcast.serviceImpl;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.paragon.quickcast.dao.Hunter_InfoDAO;
 import com.paragon.quickcast.dao.Seeker_InfoDAO;
-import com.paragon.quickcast.dao.User_RegDAO;
 import com.paragon.quickcast.entity.Hunter_Info;
 import com.paragon.quickcast.entity.Seeker_Info;
-import com.paragon.quickcast.entity.User_Reg;
 import com.paragon.quickcast.service.InformationService;
 
-@Component
+@Service
 public class InformationServiceImpl implements InformationService {
 	@Resource
 	private Seeker_InfoDAO seeker_infodao; 
+	@Resource
 	private Hunter_InfoDAO hunter_infodao;
 	public boolean insert(Seeker_Info seeker_info){
 		//System.out.println("UserServiceImpl.add()");
@@ -29,8 +28,14 @@ public class InformationServiceImpl implements InformationService {
 		return true;
 	}
 	
+	//继承更新方法
+	public boolean update(Seeker_Info seeker_info){
+		seeker_infodao.update(seeker_info);
+		return true;
+	}
+	
 	//对猎头的操作
-	public boolean insert1(Hunter_Info hunter_info){
+	public boolean add(Hunter_Info hunter_info){
 		hunter_infodao.insert(hunter_info);
 		return true;
 	}
@@ -39,6 +44,14 @@ public class InformationServiceImpl implements InformationService {
 	}
 	public void setSeeker_infodao(Seeker_InfoDAO seeker_infodao) {
 		this.seeker_infodao = seeker_infodao;
+	}
+
+	public Hunter_InfoDAO getHunter_infodao() {
+		return hunter_infodao;
+	}
+
+	public void setHunter_infodao(Hunter_InfoDAO hunter_infodao) {
+		this.hunter_infodao = hunter_infodao;
 	}
 	
 

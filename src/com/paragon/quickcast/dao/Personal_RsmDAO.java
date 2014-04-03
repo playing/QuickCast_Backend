@@ -1,6 +1,10 @@
 package com.paragon.quickcast.dao;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.annotation.Resource;
+
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,11 +21,11 @@ public class Personal_RsmDAO{
 	//以Personal_Rsm类为传递参数；
 	public boolean insert(Personal_Rsm personal_rsm){
 		
-		//判断用户信息是否存在
+		   //判断用户信息是否存在			
 	       hibernateTemplate.save(personal_rsm);
-		   return true;
+		   return true;	   
 		   
-		}
+	}
 	
 	//更新数据库操作
 	//以Personal_Rsm类为传递参数
@@ -37,7 +41,15 @@ public class Personal_RsmDAO{
 	//根据User_ID找到Personal_Rsm的全部信息；
 	public Personal_Rsm queryByUserId(int user_id){
 		
-		return hibernateTemplate.get(Personal_Rsm.class, user_id);
+		Personal_Rsm personal_rsm = null;
+		String hql = "FROM Personal_Rsm as personal_rsm WHERE personal_rsm.user_id=?";
+		List l = hibernateTemplate.find(hql,user_id);	 
+		Iterator iter = l.iterator();
+		while(iter.hasNext())
+		{
+			personal_rsm = (Personal_Rsm)iter.next();
+		}
+		return personal_rsm;
 		
 	}
 	
@@ -58,7 +70,15 @@ public class Personal_RsmDAO{
 	//根据user_id为参数，删除个人简历；
 	public void deleteByUserId(int user_id){
 		
-		hibernateTemplate.delete(hibernateTemplate.get(Personal_Rsm.class, user_id));
+		Personal_Rsm personal_rsm = new Personal_Rsm();
+		String hql = "FROM Personal_Rsm as personal_rsm WHERE personal_rsm.user_id=?";	
+		List l = hibernateTemplate.find(hql,user_id);	 
+		Iterator iter = l.iterator();
+		if(iter.hasNext())
+		{
+			personal_rsm = (Personal_Rsm)iter.next();
+		}
+		hibernateTemplate.delete(personal_rsm);
 
 	}
 	
@@ -68,6 +88,7 @@ public class Personal_RsmDAO{
 		hibernateTemplate.delete(hibernateTemplate.get(Personal_Rsm.class, rsm_id));
 		
 	}
+
 
 	public HibernateTemplate getHibernateTemplate() {
 		return hibernateTemplate;

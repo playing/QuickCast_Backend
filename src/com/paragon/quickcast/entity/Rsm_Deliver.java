@@ -1,11 +1,24 @@
 package com.paragon.quickcast.entity;
 
-public class Rsm_Deliver {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+
+@Entity
+public class Rsm_Deliver {	
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private int deliver_id;
 	
+	@Column(nullable = false)
 	private int rsm_id;
 	
+	@Column(nullable = false)
 	private int etp_id;
 	
 	private int hunter_id;
