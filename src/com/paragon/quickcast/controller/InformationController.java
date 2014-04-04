@@ -6,49 +6,97 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import com.paragon.quickcast.entity.Etp_Info;
 import com.paragon.quickcast.entity.Hunter_Info;
 import com.paragon.quickcast.entity.Seeker_Info;
 import com.paragon.quickcast.service.InformationService;
+import com.paragon.quickcast.serviceImpl.EtpinfoServiceImpl;
+import com.paragon.quickcast.serviceImpl.HunterinfoServiceImpl;
+import com.paragon.quickcast.serviceImpl.InformationServiceImpl;
 
 @Controller
 @RequestMapping("/seekerinfo.do")
 public class InformationController extends MultiActionController{
-
-	//求职者个人信息管理模块
+	//@Resource
+	//private InformationService informationservice; 
+	
+	@Resource 
+	private InformationServiceImpl seekerinfoImpl = new InformationServiceImpl();
+	@Resource 
+	private HunterinfoServiceImpl hunterinfoImpl = new HunterinfoServiceImpl();
 	@Resource
-	private InformationService informationservice;
+	private EtpinfoServiceImpl etpinfoservice = new EtpinfoServiceImpl();
+	
+	//求职者个人信息管理模块
 	@RequestMapping(params="method=seekerinfo_insert")
 	public String seekerinfo_insert(Seeker_Info seeker_info){
-		
-		informationservice.insert(seeker_info);
+		seekerinfoImpl.insert(seeker_info);
 		return "seekerinfo_object";
 	}
 	
     @RequestMapping(params="method=seekerinfo_delete")
     public String seekerinfo_delete(int info_id){
-    	informationservice.delete(info_id);
+    	seekerinfoImpl.delete(info_id);
     	return "index";
     }
     
     @RequestMapping(params="method=seekerinfo_update")
     public String seekerinfo_update(Seeker_Info seeker_info){
-    	informationservice.update(seeker_info);
+    	seekerinfoImpl.update(seeker_info);
      return "index";
     }
     
-    //猎头个人信息管理模块
+    @RequestMapping(params="method=seekeremail_delete")
+    public String seekeremail_delete(String email){
+    	seekerinfoImpl.delete1(email);
+    	return "index";
+    }
+    
+  //猎头个人信息管理模块
     @RequestMapping(params="method=hunterinfo_insert")
     public String hunterinfo_insert(Hunter_Info hunter_info){
-    	informationservice.add(hunter_info);
+    	hunterinfoImpl.insert(hunter_info);
     	return "seekerinfo_object";
     }
     
-	public InformationService getInformationservice() {
-		return informationservice;
-	}    
+    @RequestMapping(params="method=hunterinfodelete")
+    public String hunterinfodelete(int info_id){
+    	hunterinfoImpl.delete(info_id);
+    	return "index";
+    }
 
-	public void setInformationservice(InformationService informationservice) {
-		this.informationservice = informationservice;
+    //企业信息管理模块
+    @RequestMapping(params="method=editetpinfo")
+    public String editetpinfo(Etp_Info etp_info){
+    	etpinfoservice.insert(etp_info);
+    	return "index";
+    }
+    
+    @RequestMapping(params="method=deleteetpinfo")
+    public String deleteetpinfo(int info_id){
+    	etpinfoservice.delete(info_id);
+    	return "index";
+    }
+    @RequestMapping(params="method=updateetpinfo")
+    public String updateetpinfo(Etp_Info etp_info){
+    	//etpinfoservice.update(seeker_info);
+    	return "index";
+    }
+    
+	public InformationServiceImpl getSeekerinfoImpl() {
+		return seekerinfoImpl;
+	}
+
+	public void setSeekerinfoImpl(InformationServiceImpl seekerinfoImpl) {
+		this.seekerinfoImpl = seekerinfoImpl;
+	}
+
+	public HunterinfoServiceImpl getHunterinfoImpl() {
+		return hunterinfoImpl;
+	}
+
+	public void setHunterinfoImpl(HunterinfoServiceImpl hunterinfoImpl) {
+		this.hunterinfoImpl = hunterinfoImpl;
 	}
 
 }

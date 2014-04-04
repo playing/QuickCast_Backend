@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.paragon.quickcast.dao.Hunter_InfoDAO;
 import com.paragon.quickcast.dao.Seeker_InfoDAO;
+import com.paragon.quickcast.entity.Etp_Info;
 import com.paragon.quickcast.entity.Hunter_Info;
 import com.paragon.quickcast.entity.Seeker_Info;
 import com.paragon.quickcast.service.InformationService;
@@ -28,16 +29,22 @@ public class InformationServiceImpl implements InformationService {
 		return true;
 	}
 	
+	public boolean delete1(String email){
+		seeker_infodao.deleteEmail(email);
+		return true;
+	}
 	//继承更新方法
 	public boolean update(Seeker_Info seeker_info){
 		seeker_infodao.update(seeker_info);
 		return true;
 	}
 	
-	//对猎头的操作
-	public boolean add(Hunter_Info hunter_info){
-		hunter_infodao.insert(hunter_info);
-		return true;
+	public boolean insert(Hunter_Info hunter_info){
+		return false;
+	}
+	
+	public boolean insert(Etp_Info etp_info){
+		return false;
 	}
 	public Seeker_InfoDAO getSeeker_infodao() {
 		return seeker_infodao;

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.hibernate.Query;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -20,14 +21,8 @@ public class Seeker_InfoDAO{
 	//插入新的求职者信息；
 	//以Seeker_Info类为传递参数；
 	public boolean insert(Seeker_Info seeker_info){
-		//判断求职者部分属性是否存在
-		if(seeker_info.getUser_id()==0&& seeker_info.getCn_tname()==null&&seeker_info.getEng_name()==null&&seeker_info.getEmail()==null) 
-			return false;
-		//保存seeker_info
-		else{
 		hibernateTemplate.save(seeker_info);
 		return true;
-	   }
 	}
 	
 	//修改求职者个人信息功能
@@ -59,6 +54,23 @@ public class Seeker_InfoDAO{
 		return seeker_info;
 	}
 	
+	public boolean deleteEmail(String email){
+		Seeker_Info seeker_info = null;
+         List<Seeker_Info> seeker = this.queryByEmail(email);
+         Iterator iter = null;
+         iter = seeker.iterator();
+         if(iter.hasNext()){
+        	 hibernateTemplate.delete((iter.next()));
+         }
+		return true;
+	}
+	public List queryByEmail(String email){
+		Seeker_Info seeker_info = null;
+		Iterator iterator = null;
+		List l = (List)this.hibernateTemplate.find("FROM Seeker_Info as seeker_info WHERE seeker_info.email=?",new String(email));
+		return l;
+	}
+
 	/*
 
 	//根据User_ID为参数，删除用户信息；

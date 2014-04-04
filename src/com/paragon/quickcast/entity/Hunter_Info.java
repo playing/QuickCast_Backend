@@ -1,5 +1,6 @@
 package com.paragon.quickcast.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,28 +12,38 @@ public class Hunter_Info {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int info_id;
 	
+	@Column(name="user_id",unique=true,nullable=false)
 	private int user_id;
 	
 	private String eng_name;
 	
+	@Column(name="cn_tname",unique=false,nullable=false)
 	private String cn_tname;
 	
+	@Column(name="etp_name",unique=false,nullable=false)
 	private String etp_name;
 	
+	@Column(name="gender",unique=false,nullable=false)
 	private String gender;
 	
+	@Column(name="mobile",unique=false,nullable=false)
 	private String mobile;
 	
+	@Column(name="work_phone",unique=false,nullable=false)
 	private String work_phone;
 	
+	@Column(name="hunter_fax",unique=false,nullable=false)
 	private String hunter_fax;
 	
+	@Column(name="work_email",unique=false,nullable=false)
 	private String work_email;
 	
 	private String work_time;
 	
+	@Column(name="t_area",unique=false,nullable=false)
 	private String t_area;
 	
+	@Column(name="work_city",nullable=false)
 	private String work_city;
 	
 	private String self_intro;
@@ -43,8 +54,10 @@ public class Hunter_Info {
 	
 	private String business_card;
 	
+	@Column(name="certificate",unique=false,nullable=false)
 	private String certificate;
 	
+	@Column(name="check_status",unique=false,nullable=false)
 	private String check_status;
 	
 

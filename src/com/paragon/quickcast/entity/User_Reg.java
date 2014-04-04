@@ -1,5 +1,6 @@
 package com.paragon.quickcast.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,9 +13,22 @@ public class User_Reg {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int user_id;
 	
+	
+	@Column(name="user_name",unique=false,nullable=false)
 	private String user_name;
 	
+	@Column(name="password",unique=false,nullable=false)
 	private String password;
+	
+	
+	@Column(name="eng_name",unique=false,nullable=true)
+	private String eng_name;
+	
+	@Column(name="cn_tname",unique=false,nullable=false)
+	private String cn_tname;
+	
+	@Column(name="email",unique=true,nullable=false)
+	private String email;
 	
 	private String user_type;
 
@@ -50,6 +64,30 @@ public class User_Reg {
 
 	public void setUser_type(String user_type) {
 		this.user_type = user_type;
+	}
+
+	public String getEng_name() {
+		return eng_name;
+	}
+
+	public void setEng_name(String eng_name) {
+		this.eng_name = eng_name;
+	}
+
+	public String getCn_tname() {
+		return cn_tname;
+	}
+
+	public void setCn_tname(String cn_tname) {
+		this.cn_tname = cn_tname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	

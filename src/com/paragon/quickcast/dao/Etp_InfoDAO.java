@@ -1,24 +1,50 @@
 package com.paragon.quickcast.dao;
 
 
-import com.paragon.quickcast.entity.*;
-
-
-
 import java.util.Iterator;
 import java.util.List;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+
+import javax.annotation.Resource;
 
 
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
 
+import com.paragon.quickcast.entity.Etp_Info;
+
+@Repository
 public class Etp_InfoDAO{
-	// property constants
-	private Session session = null;
 
+	@Resource
+	private HibernateTemplate hibernateTemplate;
+	
+	public boolean insert(Etp_Info etp_info){
+		hibernateTemplate.save(etp_info);
+		return true;
+	}
+	public boolean update(Etp_Info etp_info){
+		hibernateTemplate.update(etp_info);
+		return true;
+	}
+	public boolean delete(int info_id){
+		Etp_Info etp_info = this.queryByEtpId(info_id);
+		hibernateTemplate.delete(etp_info);
+		return true;
+	}
+	public Etp_Info queryByEtpId(int info_id){
+		Etp_Info etp_info = null;
+ 		Iterator iterator = null;
+ 		List l = (List)this.hibernateTemplate.find("FROM Etp_Info as etp_info WHERE etp_info.info_id=?",new Integer(info_id));
+ 		iterator = l.iterator();
+ 		if(iterator.hasNext())
+ 		{
+ 			etp_info = (Etp_Info)iterator.next();
+ 		}
+ 		return etp_info;
+ 	}
+}
+
+	/*
 	public Session getSession(){
 		//∂¡»°hibernate.cfg.htm≈‰÷√Œƒº˛£ª
 		Configuration conn = new Configuration().configure();
@@ -174,5 +200,5 @@ public class Etp_InfoDAO{
 			session.close();
 		}
 	}
-
-}
+	}
+*/

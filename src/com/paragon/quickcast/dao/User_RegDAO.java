@@ -1,11 +1,14 @@
 package com.paragon.quickcast.dao;
 
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.json.JSONArray;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +29,72 @@ public class User_RegDAO{
 	}*/
 
 
+    //登录
+	//用户名或密码错误返回 "wrong",登录成功返回用户id
+	public String login(String user_name,String password){
+		
+		String hql = "FROM User_Reg as user_reg WHERE user_reg.user_name=?";
+		List list = hibernateTemplate.find(hql,user_name);
+		Iterator  iter = list.iterator();
+		if(iter.hasNext()){
+			
+			user = (User_Reg)iter.next();
+		}
+					
+		String respon_result = null;
+		Map login_request = new HashMap();
+		Map data = new HashMap();
+		JSONArray json = new JSONArray();
+		login_request.clear();
+		data.clear();
+		
+		if(password.equals(user.getPassword())) {
+					
+			data.put("user_name", user.getUser_name());
+			data.put("user_id",user.getUser_id()+"");
+			data.put("user_type", user.getUser_type()+"");
 
+			login_request.put("status", "success");
+			login_request.put("data", data);
+		
+//			
+			json.put(login_request);
+		
+		 respon_result = "{\"login_report\":"+ json +"}";	
+			return respon_result;
+		}
+		
+		else  {
+			data.put("error","danger");
+			login_request.put("status", "fail");
+			login_request.put("data", data);
+			json.put(login_request);
+			respon_result = "{\"login_report\":"+ json +"}";
+			return respon_result;
+			
+			
+			
+		}		
+		
+	}
+	
+	
+	
 	//插入用户新注册信息；
 	//以User_Reg类为传递参数；
-	public boolean insert(User_Reg user_reg){
+	public String insert(User_Reg user_reg){
 
 		
 	//	User_RegDAO user_regdao = new User_RegDAO();
 			hibernateTemplate.save(user_reg);
-			return true;
+			String hql = "FROM User_Reg as user_reg WHERE user_reg.user_name=?";
+			List list = hibernateTemplate.find(hql,user_reg.getUser_name());
+			Iterator iter = list.iterator();
+			if(iter.hasNext()){
+				user = (User_Reg)iter.next();
+			}
+			String ss = "";
+			return user.getUser_id()+ss;
 		}
     
 	
@@ -64,6 +124,32 @@ public class User_RegDAO{
 		
 		
 	}
+	
+	
+	public String check_email(String email) {
+		// TODO Auto-generated method stub
+		user = null;
+		String hql = "FROM User_Reg as user_reg WHERE user_reg.email=?";
+		List list = hibernateTemplate.find(hql,email);
+		Iterator iter = list.iterator();
+		
+        if(iter.hasNext()){
+			
+			user = (User_Reg)iter.next();
+			
+		}
+		
+		if(user==null){
+         System.out.print("email可用");
+         return "1";
+		}
+		else{
+			System.out.print("email已存在");
+			return "0";
+		}
+		
+	}
+
 	
 	
 //public User_Reg queryByUserName(String user_name){

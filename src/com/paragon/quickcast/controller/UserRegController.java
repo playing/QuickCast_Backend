@@ -7,7 +7,7 @@ import java.util.*;
 
 import javax.annotation.Resource;
 
-import org.json.JSONArray;
+import org.json.JSONArray;//json包
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,28 +25,28 @@ public class UserRegController{
 	@RequestMapping(params = "method=check_uname" )
     public @ResponseBody  String check_uname(String user_name) {
 	   
-		
-		User_Reg user = new User_Reg();
-		Map user_R = new HashMap();
-		user.setUser_name("asdasd");
-		user.setPassword("阿斯顿范德萨发");
-		user_R.put("facilities", user.getUser_name());
-		user_R.put("bed_num", user.getPassword());
-		JSONArray json = new JSONArray();	
-		
-		json.put(user_R);
+//		
+//		User_Reg user = new User_Reg();
+//		Map user_R = new HashMap();
+//		user.setUser_name("asdasd");
+//		user.setPassword("阿斯顿范德萨发");
+//		user_R.put("facilities", user.getUser_name());
+//		user_R.put("bed_num", user.getPassword());
+//		JSONArray json = new JSONArray();	
+//		
+//		json.put(user_R);
 	
-	String respon_result = "{\"user\":"+ json +"}";	
-    String ss = null;
-	try {
-		ss = URLEncoder.encode(respon_result, "utf-8");
-
-		
-	} catch (Exception e) {
-		// TODO: handle exception
-	}
-		//System.out.print(json);
-	
+//	String respon_result = "{\"user\":"+ json +"}";	
+//    String ss = null;
+//	try {
+//		ss = URLEncoder.encode(respon_result, "utf-8");
+//
+//		
+//	} catch (Exception e) {
+//		// TODO: handle exception
+//	}
+//		//System.out.print(json);
+//	
 	
 		
 		
@@ -54,8 +54,8 @@ public class UserRegController{
 		if(userService.check_username(user_name)=="1"){
     	 //  System.out.print("OK");
     		//	System.out.printf(user_name);
-    	  System.out.print(ss);
-    		return ss;
+//    	  System.out.print(ss);
+    		return "true";
     	}
     	
     	else return "false";
@@ -67,10 +67,27 @@ public class UserRegController{
 	
 	@RequestMapping(params="method=reg")
 	public @ResponseBody String reg(User_Reg user_reg){
-		userService.insert(user_reg);
-		return "qweoijsodnqoeihjfasdonf";
+		
+		return userService.insert(user_reg);
 		}
 	
+	
+	@RequestMapping(params="method=check_email")
+	public @ResponseBody String check_email(String email){
+		
+		String result = userService.check_email(email);
+		return result;
+	}
+	
+	
+	
+	
+	@RequestMapping(params="method=login")
+	public @ResponseBody String login(String user_name,String password){
+		System.out.print(user_name);
+		String id = userService.login(user_name,password);
+		return id;
+	}
 	
 	
 	

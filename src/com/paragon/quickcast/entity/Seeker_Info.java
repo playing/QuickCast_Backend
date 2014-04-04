@@ -15,20 +15,21 @@ public class Seeker_Info {
 	@Column(name="user_id",unique=true,nullable=false)
 	private int user_id;
 	
-	@Column(name="eng_name",unique=false,nullable=true)
+	@Column(name="eng_name",unique=false,nullable=false)
 	private String eng_name;
 	
-	@Column(name="cn_tname",unique=false,nullable=true)
+	@Column(name="cn_tname",unique=false,nullable=false)
 	private String cn_tname;
 	
-	@Column(name="email",unique=true,nullable=true)
+	@Column(name="email",unique=true,nullable=false)
 	private String email;
 	
-	@Column(name="mobile",unique=true,nullable=true)
+	@Column(name="mobile",unique=true,nullable=false)
 	private String mobile;
 	
 	private String seeker_photo;
 	
+	@Column(name="gender",nullable=false)
 	private String gender;
 	
 	private String birthday;
@@ -36,28 +37,37 @@ public class Seeker_Info {
 	private String marital_status;
 	
 	//最高学历
+	@Column(name="highest",nullable=true )
 	private String highest_edu;
 	
 	//教育类型（统招全日）
+	@Column(name="edu_type",nullable=false)
 	private String edu_type;
 	
+	@Column(name="start_time",nullable=false)
 	private String start_time;
 	
+	@Column(name="job_status",nullable=false)
 	private String job_status;
 	
 	private String self_intro;
 	
+	@Column(name="work_place",nullable=false)
 	private String work_place;
 	
+	@Column(name="etp_name",nullable=false)
 	private String etp_name;
 	
 	//目前职位名称
+	@Column(name="seeker_profession",nullable=false)
 	private String seeker_profession;
 	
 	//公司所在行业
+	@Column(name="etp_industry",nullable=false)
 	private String etp_industry;
 	
 	//目前职能方向
+	@Column(name="tech_direction",nullable=false)
 	private String tech_direction;
 	
 

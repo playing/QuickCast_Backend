@@ -6,12 +6,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript">
-function  delete_seekeremail(){
- var ajax_data = $("#delete_seekerinfo").serialize();
+function  hunterinfo_delete(){
+ var ajax_data = $("#hunterinfo_delete").serialize();
  alert(ajax_data);
  $.ajax({
         type: "post",
-        url: "seekerinfo.do?method=seekeremail_delete",
+        url: "seekerinfo.do?method=hunterinfodelete",
         data: ajax_data,
         success: function(date) {
           alert("success");
@@ -27,9 +27,9 @@ function  delete_seekeremail(){
 <title>Insert title here</title>
 </head>
 <body>
-      <form id = "delete_seekerinfo">
-           email<input type=text name="email"/><br/>
-          <button type = button onclick = "delete_seekeremail()" >删除email信息</button>
+      <form id = "hunterinfo_delete">
+           info_id<input type=text name="info_id"/><br/>
+          <button type = button onclick = "hunterinfo_delete()" >删除hunter信息</button>
       </form>
 </body>
 </html>

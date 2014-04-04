@@ -26,8 +26,32 @@ public class Hunter_InfoDAO{
 	public boolean insert(Hunter_Info hunter_info){
 		hibernateTemplate.save(hunter_info);
 		return true;
-		}
 	}
+
+    public boolean update(Hunter_Info hunter_info){
+	    hibernateTemplate.update(hunter_info);
+	    return true;
+    }
+     
+     public boolean delete(int info_id){
+    	 Hunter_Info hunter_info = null;
+    	 hunter_info = this.queryByHunerId(info_id);
+    	 hibernateTemplate.delete(hunter_info);
+    	 return true;
+     }
+     
+     public Hunter_Info queryByHunerId(int info_id){
+    	Hunter_Info hunter_info = null;
+ 		Iterator iterator = null;
+ 		List l = (List)this.hibernateTemplate.find("FROM Hunter_Info as hunter_info WHERE hunter_info.info_id=?",new Integer(info_id));
+ 		iterator = l.iterator();
+ 		if(iterator.hasNext())
+ 		{
+ 			hunter_info = (Hunter_Info)iterator.next();
+ 		}
+ 		return hunter_info;
+ 	}
+}
 	/*
 	//插入新的猎头信息
 	//以Hunter_Info类为传递参数；

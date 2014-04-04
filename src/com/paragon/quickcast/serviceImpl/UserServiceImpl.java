@@ -14,16 +14,31 @@ public class UserServiceImpl implements UserService {
 	@Resource
 	private User_RegDAO userregDao;
 	
-	public void insert(User_Reg user){
+	public String insert(User_Reg user){
 		//System.out.println("UserServiceImpl.add()");
 		// System.out.printf("ssssssss");
-		userregDao.insert(user);
+		String id = "false";
+		id = userregDao.insert(user);
+		return id;
+	}
+	
+	public String login(String user_name, String password) {
+		// TODO Auto-generated method stub
+		
+		String result = userregDao.login(user_name,password);
+		return result;
 	}
 	
 	public String check_username(String username){
 		return userregDao.check_username(username);
 		
 	}
+	
+	public String check_email(String email) {
+		// TODO Auto-generated method stub	
+		return userregDao.check_email(email);
+	}
+
 
 	public User_RegDAO getUserregDao() {
 		return userregDao;
@@ -33,6 +48,9 @@ public class UserServiceImpl implements UserService {
 		this.userregDao = userregDao;
 	}
 
+
+
+	
 	
 
 }

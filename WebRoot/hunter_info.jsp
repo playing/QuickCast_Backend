@@ -27,12 +27,24 @@ function  edit_hunterinfo(){
 <title>Insert title here</title>
 </head>
 <body>
-      <form id = "edit_hunterinfo">
-           用户ID<input type=text name="user_id"/><br/>
-           用户英文名<input type=text name="eng_name"/><br/>
-           用户真实名<input type=text name="cn_tname"/><br/>
-                     公司名称<input type=text name="etp_name"/><br/>
-                     性别<input tytpe=text name="gender"><br/>
+      <form id = "edit_hunterinfo"> 
+           用户ID<input type=text name="user_id" /><br/>
+           用户英文名<input type=text name="eng_name" /><br/>
+           用户真实名<input type=text name="cn_tname" /><br/>
+                    公司名称<input type=text name="etp_name"/><br/>
+           性别<input type=text name="gender"><br/>
+           手机号码<input type=text name="mobile"><br/>
+           工作电话<input type=text name="work_phone"><br/>
+           猎头传真<input type=text name="hunter_fax"><br/>
+           工作邮箱<input type=text name="work_email"><br/>
+           工作时间<input type=text name="work_time"><br/>
+           t_area<input type=text name="t_area"><br/>
+           工作城市<input type=text name="work_city"><br/>
+           suc_case<input type=text name="suc_case"><br/>
+           etp_intro<input type=text name="etp_intro"><br/>
+           business_card<input type=text name="business_card"><br/>
+           certificate<input type=text name="certificate"><br/>
+           check_status<input type=text name="check_status">
           <button type = button onclick = "edit_hunterinfo()" >编辑猎头个人信息</button>
       </form>
 </body>
