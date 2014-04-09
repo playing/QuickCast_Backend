@@ -1,19 +1,34 @@
 package com.paragon.quickcast.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Message {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private int msg_id;
 	
+	@Column(nullable = false)
 	private int dispatch_id;
 	
+	@Column(nullable = false)
 	private int receive_id;
 	
+	@Column(nullable = false)
 	private String title;
 	
+	@Column(nullable = false)
 	private String content;
 	
+	@Column(nullable = false)
 	private String status;
 	
+	@Column(nullable = false)
 	private String dispatch_time;
 
 	

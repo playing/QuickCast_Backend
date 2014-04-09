@@ -1,14 +1,10 @@
 package com.paragon.quickcast.controller;
 
 
-import java.net.URLEncoder;//±àÂë°ü
-import java.util.*;
-
-
 import javax.annotation.Resource;
 
-import org.json.JSONArray;//json°ü
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -83,9 +79,9 @@ public class UserRegController{
 	
 	
 	@RequestMapping(params="method=login")
-	public @ResponseBody String login(String user_name,String password){
-		System.out.print(user_name);
-		String id = userService.login(user_name,password);
+	public @ResponseBody String login(@RequestBody User_Reg user){
+		//System.out.print(user_name);
+		String id = userService.login(user.getUser_name(),user.getPassword());
 		return id;
 	}
 	

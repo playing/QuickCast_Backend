@@ -1,16 +1,11 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ page language="java"  pageEncoding="utf-8"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
+  
+    <title>My JSP 'login.jsp' starting page</title>
     
-    <title>My JSP 'index.jsp' starting page</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -19,13 +14,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+	<%@ include file="common.jsp"%>
+<script type="text/javascript">
+function login(){
+
+var ajax_data = $("#login").serialize();
+// alert(ajax_data);
+ $.ajax({
+        type: "post",
+        url: "user_reg.do?method=login",
+        data: ajax_data, 
+        success: function(data) {
+         alert(data);
+         data=JSON.parse(data);
+         if(data.login_report[0].status=="success"){
+         alert(data.login_report[0].data[0].user_type);
+         }
+         
+        }
+    });
+
+}
+
+
+</script>
   </head>
   
   <body>
-    <a href="/quickcast/reg.jsp">点击注册</a> <br/>
-    简历编号：${personal_rsm.rsm_id}<br/>
-    用户编号：${personal_rsm.user_id}<br/>
-    编辑时间：${personal_rsm.edit_time}<br/>
-    谁看过我的简历：${personal_rsm.read_status}<br/>
+  <form id = "login">
+    用户名：<input type=text id = "user_name"  name="user_name"/><br/>
+    密  码：<input type=password name="password"/><br/>
+    <button type = "button" onclick = "login()">登录</button>
+   </form>
   </body>
 </html>

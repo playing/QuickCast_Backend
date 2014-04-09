@@ -48,7 +48,18 @@ public class User_RegDAO{
 		login_request.clear();
 		data.clear();
 		
-		if(password.equals(user.getPassword())) {
+		
+		if(user == null){
+			data.put("error","danger");
+			login_request.put("status", "fail");
+			login_request.put("data", data);
+			json.put(login_request);
+			respon_result = "{\"login_report\":"+ json +"}";
+	    	return respon_result;
+	    }
+		
+		
+		if(password.equals(user.getPassword())&&user_name.equals(user.getUser_name())) {
 					
 			data.put("user_name", user.getUser_name());
 			data.put("user_id",user.getUser_id()+"");
