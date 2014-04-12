@@ -9,11 +9,15 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
+import com.paragon.quickcast.controller.Checker;
 import com.paragon.quickcast.entity.User_Reg;
 
+//求职者是1 雇主是2  猎头是3//
 
 @Component
 public class User_RegDAO{
@@ -22,6 +26,10 @@ public class User_RegDAO{
 	private HibernateTemplate hibernateTemplate;
 	private User_Reg user;
 	private User_RegDAO user_regdao;
+	@Resource
+	private Checker checker;
+	@Resource
+	private ToJson tojson;
 	
 	/*public void add(User u){
 		System.out.println("UserDao.add()");
@@ -45,6 +53,7 @@ public class User_RegDAO{
 		Map login_request = new HashMap();
 		Map data = new HashMap();
 		JSONArray json = new JSONArray();
+		JSONArray json_data = new JSONArray();
 		login_request.clear();
 		data.clear();
 		
@@ -64,9 +73,10 @@ public class User_RegDAO{
 			data.put("user_name", user.getUser_name());
 			data.put("user_id",user.getUser_id()+"");
 			data.put("user_type", user.getUser_type()+"");
-
+            
+            json_data.put(data);
 			login_request.put("status", "success");
-			login_request.put("data", data);
+			login_request.put("data", json_data);
 		
 //			
 			json.put(login_request);
@@ -104,8 +114,17 @@ public class User_RegDAO{
 			if(iter.hasNext()){
 				user = (User_Reg)iter.next();
 			}
+			Map data = new HashMap();
+			JSONObject json = new JSONObject();
+			data.put("user_id", user.getUser_id());
+			try {
+				json.put("login_result", data);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			String ss = "";
-			return user.getUser_id()+ss;
+			return json.toString();
 		}
     
 	
@@ -113,6 +132,7 @@ public class User_RegDAO{
 	public String check_username(String username){
 
 		user = null;
+		String temp = "";
 		String hql = "FROM User_Reg as user_reg WHERE user_reg.user_name=?";
 		
 		List list = hibernateTemplate.find(hql,username);
@@ -124,15 +144,16 @@ public class User_RegDAO{
 		}
 		
 		if(user==null){
-         System.out.print("null");
-         return "1";
+        temp = "1";
+        
 		}
 		else{
-			System.out.print("no null");
-			return "0";
+		temp = "0";
+		
 		}
 		
-		
+		String result = tojson.tojson(temp);
+		return result;
 		
 	}
 	
@@ -140,6 +161,8 @@ public class User_RegDAO{
 	public String check_email(String email) {
 		// TODO Auto-generated method stub
 		user = null;
+		String temp = "";
+		String result = "";
 		String hql = "FROM User_Reg as user_reg WHERE user_reg.email=?";
 		List list = hibernateTemplate.find(hql,email);
 		Iterator iter = list.iterator();
@@ -149,15 +172,21 @@ public class User_RegDAO{
 			user = (User_Reg)iter.next();
 			
 		}
-		
+		//返回值0 邮箱已被注册  1邮箱可用   2邮箱格式不正确
 		if(user==null){
-         System.out.print("email可用");
-         return "1";
+         boolean isemail = checker.isEmail(email);
+         if(isemail){
+			System.out.print("email可用");
+            temp="1";
+         }
+         else temp = "2";
 		}
 		else{
 			System.out.print("email已存在");
-			return "0";
+			temp = "0";
 		}
+		result = tojson.tojson(temp);
+		return result;
 		
 	}
 
@@ -212,6 +241,18 @@ public class User_RegDAO{
 	}
 
 
+	public ToJson getTojson() {
+		return tojson;
+	}
+
+
+
+	public void setTojson(ToJson tojson) {
+		this.tojson = tojson;
+	}
+
+
+
 	public User_RegDAO getUser_regdao() {
 		return user_regdao;
 	}
@@ -220,5 +261,21 @@ public class User_RegDAO{
 	public void setUser_regdao(User_RegDAO user_regdao) {
 		this.user_regdao = user_regdao;
 	}
+
+
+
+	public Checker getChecker() {
+		return checker;
+	}
+
+
+
+	public void setChecker(Checker checker) {
+		this.checker = checker;
+	}
+
+
+
+
 	
 }

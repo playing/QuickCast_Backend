@@ -19,17 +19,23 @@
 function login(){
 
 var ajax_data = $("#login").serialize();
+var login_data = {"user_name":"3","password":"3"};
 // alert(ajax_data);
+
  $.ajax({
         type: "post",
         url: "user_reg.do?method=login",
         data: ajax_data, 
+        // dataType:"json",      
+       // contentType:"application/json",    
         success: function(data) {
-         alert(data);
-         data=JSON.parse(data);
-         if(data.login_report[0].status=="success"){
-         alert(data.login_report[0].data[0].user_type);
-         }
+      var s = decodeURI(data);
+     s = decodeURI(s);
+         alert(s);
+ //        data=JSON.parse(data);
+//         if(data.login_report[0].status=="success"){
+//         alert(data.login_report[0].data[0].user_type);
+         
          
         }
     });

@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.paragon.quickcast.dao.ToJson;
 import com.paragon.quickcast.dao.User_RegDAO;
 import com.paragon.quickcast.entity.User_Reg;
 import com.paragon.quickcast.service.UserService;
@@ -13,11 +14,14 @@ public class UserServiceImpl implements UserService {
 
 	@Resource
 	private User_RegDAO userregDao;
+	@Resource 
+	private ToJson tojson;
 	
 	public String insert(User_Reg user){
 		//System.out.println("UserServiceImpl.add()");
 		// System.out.printf("ssssssss");
-		String id = "false";
+		
+		String id = tojson.tojson("false");
 		id = userregDao.insert(user);
 		return id;
 	}
@@ -46,6 +50,14 @@ public class UserServiceImpl implements UserService {
 
 	public void setUserregDao(User_RegDAO userregDao) {
 		this.userregDao = userregDao;
+	}
+
+	public ToJson getTojson() {
+		return tojson;
+	}
+
+	public void setTojson(ToJson tojson) {
+		this.tojson = tojson;
 	}
 
 

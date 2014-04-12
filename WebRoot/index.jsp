@@ -15,36 +15,11 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 	<%@ include file="common.jsp"%>
-<script type="text/javascript">
-function login(){
-
-var ajax_data = $("#login").serialize();
-// alert(ajax_data);
- $.ajax({
-        type: "post",
-        url: "user_reg.do?method=login",
-        data: ajax_data, 
-        success: function(data) {
-         alert(data);
-         data=JSON.parse(data);
-         if(data.login_report[0].status=="success"){
-         alert(data.login_report[0].data[0].user_type);
-         }
-         
-        }
-    });
-
-}
 
 
-</script>
   </head>
   
   <body>
-  <form id = "login">
-    用户名：<input type=text id = "user_name"  name="user_name"/><br/>
-    密  码：<input type=password name="password"/><br/>
-    <button type = "button" onclick = "login()">登录</button>
-   </form>
+         这里是index.jsp！！！
   </body>
 </html>

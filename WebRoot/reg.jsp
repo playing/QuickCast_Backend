@@ -19,10 +19,7 @@ function  reg(){
         success: function(data) {
          if(data != "false"){
           alert(data);
-           var user_name=$("#user_name").val();
-           setCookie("username",user_name,7);
-           setCookie("user_id",data,7);
-           window.location.href = "login.jsp";
+          
          
          }
          else alert("something wrong!");
@@ -42,13 +39,8 @@ function check_uname(){
         url: "user_reg.do?method=check_uname",
         data: {user_name:x},
         success: function(data) {
-      //  data=decodeURI(data);
-  //    data = decodeURIComponent(data);
- //     data=JSON.parse(data);
-        if(data == "true"){
-        alert("用户名可用");
-        }
-        else  alert("用户名不可用");
+
+        alert(data);
         }
     });
 
@@ -63,8 +55,7 @@ var x = document.getElementById("email").value;
         url: "user_reg.do?method=check_email",
         data: {email:x},
         success: function(data) {
-        if(data == "1") alert("可用");
-        else alert("不可用");
+        alert(data);
         }
     });
 
