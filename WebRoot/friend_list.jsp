@@ -15,8 +15,9 @@ function  insert_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_insert",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
+          alert(data);
           //window.location.href = "index.jsp";
         }
     });
@@ -30,7 +31,7 @@ function  update_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_update",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
           //window.location.href = "index.jsp";
         }
@@ -45,7 +46,7 @@ function  queryByPartnerId_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_queryByPartnerId",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
           //window.location.href = "index.jsp";
         }
@@ -60,7 +61,7 @@ function  queryBySelfId_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_queryBySelfId",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
           //window.location.href = "index.jsp";
         }
@@ -75,7 +76,7 @@ function  queryByRltsId_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_queryByRltsId",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
           //window.location.href = "index.jsp";
         }
@@ -90,7 +91,7 @@ function  delete_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_delete",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
           //window.location.href = "index.jsp";
         }
@@ -105,7 +106,7 @@ function  deleteByRltsId_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_deleteByRltsId",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
           //window.location.href = "index.jsp";
         }
@@ -120,7 +121,7 @@ function  deleteByPartnerId_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_deleteByPartnerId",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
           //window.location.href = "index.jsp";
         }
@@ -135,7 +136,7 @@ function  deleteBySelfId_friend_list(){
         type: "post",
         url: "friend_list.do?method=imp_friend_list_deleteBySelfId",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
           alert("success");
           //window.location.href = "index.jsp";
         }

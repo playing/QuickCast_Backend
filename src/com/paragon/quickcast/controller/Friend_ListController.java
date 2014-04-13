@@ -6,7 +6,9 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.paragon.quickcast.entity.Friend_List;
 import com.paragon.quickcast.service.Friend_ListService;
@@ -19,6 +21,7 @@ public class Friend_ListController {
 	private Friend_ListService friend_listservice;
 	
 	@RequestMapping(params="method=imp_friend_list_insert")
+	@ResponseBody
 	public String imp_friend_list_insert(Friend_List friend_list){
 		
 		friend_listservice.insert(friend_list);
@@ -26,8 +29,8 @@ public class Friend_ListController {
 		System.out.println("-----------partner_id:"+friend_list.getPartner_id()+"---------");
 		System.out.println("-----------self_id:"+friend_list.getSelf_id()+"---------");
 		System.out.println("-----------status:"+friend_list.getStatus()+"---------");
-			
-		return "index";
+		return "true";
+
 	}
 	
 	

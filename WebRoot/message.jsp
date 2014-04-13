@@ -59,7 +59,9 @@ function  queryByReceiveId_message(){
         type: "post",
         url: "message.do?method=imp_message_queryByReceiveId",
         data: ajax_data, 
-        success: function(date) {
+        success: function(data) {
+        data = decodeURIComponent(decodeURIComponent(data));
+        alert(data);
           alert("success");
           //window.location.href = "index.jsp";
         }
