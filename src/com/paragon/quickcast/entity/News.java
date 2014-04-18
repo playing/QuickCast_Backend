@@ -21,6 +21,9 @@ public class News {
 	
 	@Column(nullable = false)
 	private String content;
+	
+	@Column(nullable = false)
+	private String type;
 
 	
 	
@@ -54,6 +57,14 @@ public class News {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}	
 	
 }

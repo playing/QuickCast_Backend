@@ -8,17 +8,35 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.paragon.quickcast.entity.Friend_List;
+import com.paragon.quickcast.entity.FriendsGroup;
+import com.paragon.quickcast.entity.User_Reg;
 
 @Repository
 public class Friend_ListDAO{
 	
 	@Resource
 	private HibernateTemplate hibernateTemplate;
+	
+	@Resource
+	private User_RegDAO user_regdao;
+	
+	@Resource
+	private FriendsGroupDAO friendsgroupdao;
+
 
 	//插入用户新注册信息；
 	//以Friend_List类为传递参数；
 	public boolean insert(Friend_List friend_list){
-		
+		//FriendsGroup friendsgroup = new FriendsGroup();
+		//User_Reg user_reg = null;
+		String Tempgrouptype = user_regdao.queryByUserId(friend_list.getPartner_id()).getUser_type();
+		System.out.println("----"+Tempgrouptype+"------");
+		/*friendsgroup.setGrouptype(Tempgrouptype);
+		hibernateTemplate.save(friendsgroup);
+		friend_list.setFriendsgroup(friendsgroup);
+		hibernateTemplate.save(friend_list);*/
+		FriendsGroup friendsgroup = (FriendsGroup)friendsgroupdao.findFriendsGroup(Tempgrouptype);
+		friend_list.setFriendsgroup(friendsgroup);
 		hibernateTemplate.save(friend_list);
 		return true;
 		
@@ -90,5 +108,24 @@ public class Friend_ListDAO{
 
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
+	}
+
+	public User_RegDAO getUser_regdao() {
+		return user_regdao;
+	}
+
+
+	public void setUser_regdao(User_RegDAO user_regdao) {
+		this.user_regdao = user_regdao;
+	}
+
+
+	public FriendsGroupDAO getFriendsgroupdao() {
+		return friendsgroupdao;
+	}
+
+
+	public void setFriendsgroupdao(FriendsGroupDAO friendsgroupdao) {
+		this.friendsgroupdao = friendsgroupdao;
 	}
 }

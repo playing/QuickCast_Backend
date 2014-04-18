@@ -13,42 +13,95 @@ import com.paragon.quickcast.service.InformationService;
 @Service
 public class HunterinfoServiceImpl implements InformationService {
 
-	@Resource 
+	@Resource
 	private Hunter_InfoDAO hunter_infodao;
-	public boolean delete(int info_id) {
-		hunter_infodao.delete(info_id);
-		return false;
-	}
-
-
-	public boolean insert(Hunter_Info hunter_info) {
-		hunter_infodao.insert(hunter_info);
-		return false;
-	}
-
-	public boolean update(Seeker_Info seeker_info) {
-		return false;
-	}
-
-	public boolean delete1(String email) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
+	//Seeker_Info
 	public boolean insert(Seeker_Info seeker_info) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public boolean insert(Etp_Info etp_info){
+
+	public boolean update(Seeker_Info seeker_info) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	public Hunter_InfoDAO getHunter_infodao() {
-		return hunter_infodao;
+
+	public boolean delete(Seeker_Info seeker_info) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
-	public void setHunter_infodao(Hunter_InfoDAO hunter_infodao) {
-		this.hunter_infodao = hunter_infodao;
+	public Seeker_Info queryBySeekerInfoId(int info_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Seeker_Info queryBySeekerUserId(int user_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	//Hunter_InfoImpl
+	public boolean insert(Hunter_Info hunter_info) {
+		hunter_infodao.insert(hunter_info);
+		return true;
+	}
+
+	public boolean update(Hunter_Info hunter_info) {
+		hunter_infodao.update(hunter_info);
+		return true;
+	}
+
+	public boolean delete(Hunter_Info hunter_info) {
+		hunter_infodao.delete(hunter_info);
+		return true;
+	}
+
+	public Hunter_Info queryByHunterInfoId(int info_id) {
+		return hunter_infodao.queryByHunterInfoId(info_id);
+	}
+
+	public Hunter_Info queryByHunterUserId(int user_id) {
+		return hunter_infodao.queryByHunterUserId(user_id);
+	}
+
+	
+	//Etp_Info
+	public boolean insert(Etp_Info etp_info) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean update(Etp_Info etp_info) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean delete(Etp_Info etp_info) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Etp_Info queryByEtpInfoId(int info_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Etp_Info queryByEtpUserId(int user_id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	//Õ®”√
+	public void deleteByUserId(int user_id) {
+		hunter_infodao.deleteByUserId(user_id);
+	}
+
+	public void deleteByInfoId(int info_id) {
+		hunter_infodao.deleteByInfoId(info_id);
 	}
 
 }

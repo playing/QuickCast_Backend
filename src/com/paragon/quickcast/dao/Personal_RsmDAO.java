@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +23,8 @@ public class Personal_RsmDAO{
 	public boolean insert(Personal_Rsm personal_rsm){
 		
 		   //判断用户信息是否存在			
-	       hibernateTemplate.save(personal_rsm);
+	    
+			hibernateTemplate.save(personal_rsm);
 		   return true;	   
 		   
 	}

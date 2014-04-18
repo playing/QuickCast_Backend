@@ -1,12 +1,11 @@
 package com.paragon.quickcast.dao;
 
 
-import java.util.Iterator;
+
 import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.hibernate.Query;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -32,76 +31,32 @@ public class Seeker_InfoDAO{
     }
     
    //删除个人信息
-    public boolean delete(int tempinfo_id){
-    	Seeker_Info seeker_info = null;
-    	seeker_info = this.queryByUserId(tempinfo_id);
+    public boolean delete(Seeker_Info seeker_info){
     	hibernateTemplate.delete(seeker_info);
     	return true;
     }
     
-  //查找用户信息
-	//传递参数为User_ID
-	//根据User_ID找到Seeker_Info的全部信息；
-	public Seeker_Info queryByUserId(int info_id){
-		Seeker_Info seeker_info = null;
-		Iterator iterator = null;
-		List l = (List)this.hibernateTemplate.find("FROM Seeker_Info as seeker_info WHERE seeker_info.info_id=?",new Integer(info_id));
-		iterator = l.iterator();
-		if(iterator.hasNext())
-		{
-			seeker_info = (Seeker_Info)iterator.next();
-		}
-		return seeker_info;
+	public Seeker_Info queryBySeekerInfoId(int info_id){
+		return hibernateTemplate.get(Seeker_Info.class, info_id);
 	}
 	
-	public boolean deleteEmail(String email){
-		Seeker_Info seeker_info = null;
-         List<Seeker_Info> seeker = this.queryByEmail(email);
-         Iterator iter = null;
-         iter = seeker.iterator();
-         if(iter.hasNext()){
-        	 hibernateTemplate.delete((iter.next()));
-         }
-		return true;
+	public Seeker_Info queryBySeekerUserId(int user_id){
+		
+		String hql = "FROM Seeker_Info as seeker_info WHERE seeker_info.user_id=?";		
+		List l = hibernateTemplate.find(hql, user_id);
+		return (Seeker_Info)l.get(0);
 	}
-	public List queryByEmail(String email){
-		Seeker_Info seeker_info = null;
-		Iterator iterator = null;
-		List l = (List)this.hibernateTemplate.find("FROM Seeker_Info as seeker_info WHERE seeker_info.email=?",new String(email));
-		return l;
-	}
-
-	/*
-
-	//根据User_ID为参数，删除用户信息；
+	
 	public void deleteByUserId(int user_id){
 		
-		session = this.getSession();
-		String hql = "DELETE Seeker_Info WHERE user_id=?";
-		Query q = this.session.createQuery(hql);
-		//把参数设置
-		q.setInteger(0,user_id);
-		//执行更新语句
-		q.executeUpdate();
-		this.session.beginTransaction().commit();
-		if(session.isOpen()){
-			session.close();
-		}
+		String hql = "FROM Seeker_Info as seeker_info WHERE seeker_info.user_id=?";		
+		List l = hibernateTemplate.find(hql, user_id);
+		hibernateTemplate.deleteAll(l);
 	}
 	
 	public void deleteByInfoId(int info_id){
 		
-		session = this.getSession();
-		String hql = "DELETE Seeker_Info WHERE info_id=?";
-		Query q = this.session.createQuery(hql);
-		//把参数设置
-		q.setInteger(0,info_id);
-		//执行更新语句
-		q.executeUpdate();
-		this.session.beginTransaction().commit();
-		if(session.isOpen()){
-			session.close();
-		}
-	}*/
+		hibernateTemplate.delete(hibernateTemplate.get(Seeker_Info.class, info_id));
+	}
 
 }

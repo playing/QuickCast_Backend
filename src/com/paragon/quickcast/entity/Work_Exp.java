@@ -1,17 +1,31 @@
 package com.paragon.quickcast.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Work_Exp {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int exp_id;
 	
+	@Column(nullable=false)
 	private int user_id;
 	
+	@Column(nullable=false)
 	private String start_time;
 	
+	@Column(nullable=false)
 	private String end_time;
 	
+	@Column(nullable=false)
 	private String etp_name;
 	
+	@Column(nullable=false)
 	private String etp_industry;
 	
 	private String etp_nature;
@@ -20,10 +34,13 @@ public class Work_Exp {
 	
 	private String etp_desc;
 	
+	@Column(nullable=false)
 	private String profession;
 	
+	@Column(nullable=false)
 	private String work_place;
 	
+	@Column(nullable=false)
 	private String work_duty;
 
 	

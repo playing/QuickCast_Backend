@@ -1,8 +1,14 @@
 package com.paragon.quickcast.controller;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,6 +61,32 @@ public class UserRegController{
 		String temp = userService.login(user.getUser_name(),user.getPassword());
        
 		return temp;
+	}
+	
+	@RequestMapping(params="method=imp_userreg_queryByUserId")
+	public @ResponseBody String imp_userreg_queryByUserId(@RequestBody User_Reg userreg){
+		User_Reg userregInstance = userService.queryByUserId(userreg.getUser_id());
+		Map data = new HashMap();
+		JSONArray json_result = new JSONArray();
+		data.put("user_id", userregInstance.getUser_id());
+		data.put("user_name", userregInstance.getUser_name());
+		data.put("eng_name", userregInstance.getEng_name());
+		data.put("cn_tname", userregInstance.getCn_tname());
+		data.put("email", userregInstance.getEmail());
+		data.put("password", userregInstance.getPassword());
+		data.put("user_type", userregInstance.getUser_type());
+		json_result.put(data);
+		String result = "{\"user\":"+ json_result +"}";
+		String result_temp = "error";
+		try {
+			result_temp = URLEncoder.encode(result, "utf-8");
+			result_temp = URLEncoder.encode(result, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+									
+		return result_temp;
 	}
 	
 	

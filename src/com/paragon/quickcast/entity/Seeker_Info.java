@@ -15,15 +15,6 @@ public class Seeker_Info {
 	@Column(name="user_id",unique=true,nullable=false)
 	private int user_id;
 	
-	@Column(name="eng_name",unique=false,nullable=false)
-	private String eng_name;
-	
-	@Column(name="cn_tname",unique=false,nullable=false)
-	private String cn_tname;
-	
-	@Column(name="email",unique=true,nullable=false)
-	private String email;
-	
 	@Column(name="mobile",unique=true,nullable=false)
 	private String mobile;
 	
@@ -32,12 +23,12 @@ public class Seeker_Info {
 	@Column(name="gender",nullable=false)
 	private String gender;
 	
-	private String birthday;
+	private String age;
 	
 	private String marital_status;
 	
 	//最高学历
-	@Column(name="highest",nullable=true )
+	@Column(name="highest_edu",nullable=true )
 	private String highest_edu;
 	
 	//教育类型（统招全日）
@@ -46,6 +37,9 @@ public class Seeker_Info {
 	
 	@Column(name="start_time",nullable=false)
 	private String start_time;
+	
+	@Column(name="end_time",nullable=false)
+	private String end_time;
 	
 	@Column(name="job_status",nullable=false)
 	private String job_status;
@@ -88,30 +82,6 @@ public class Seeker_Info {
 		this.user_id = user_id;
 	}
 
-	public String getEng_name() {
-		return eng_name;
-	}
-
-	public void setEng_name(String eng_name) {
-		this.eng_name = eng_name;
-	}
-
-	public String getCn_tname() {
-		return cn_tname;
-	}
-
-	public void setCn_tname(String cn_tname) {
-		this.cn_tname = cn_tname;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getMobile() {
 		return mobile;
 	}
@@ -136,12 +106,12 @@ public class Seeker_Info {
 		this.gender = gender;
 	}
 
-	public String getBirthday() {
-		return birthday;
+	public String getAge() {
+		return age;
 	}
 
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
+	public void setAge(String age) {
+		this.age = age;
 	}
 
 	public String getMarital_status() {
@@ -170,6 +140,14 @@ public class Seeker_Info {
 
 	public String getStart_time() {
 		return start_time;
+	}
+
+	public String getEnd_time() {
+		return end_time;
+	}
+
+	public void setEnd_time(String end_time) {
+		this.end_time = end_time;
 	}
 
 	public void setStart_time(String start_time) {
@@ -231,9 +209,5 @@ public class Seeker_Info {
 	public void setTech_direction(String tech_direction) {
 		this.tech_direction = tech_direction;
 	}
-
-
-	
-	
-	
+		
 }

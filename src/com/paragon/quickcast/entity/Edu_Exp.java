@@ -1,17 +1,31 @@
 package com.paragon.quickcast.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Edu_Exp {
-	
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int exp_id;
 	
+	@Column(nullable=false)
 	private int user_id;
 	
+	@Column(nullable=false)
 	private String school_name;
 	
+	@Column(nullable=false)
 	private String study_date;
 	
+	@Column(nullable=false)
 	private String major;
 	
+	@Column(nullable=false)
 	private String edu_bg;
 
 	

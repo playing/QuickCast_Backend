@@ -4,45 +4,42 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.paragon.quickcast.dao.Etp_InfoDAO;
+import com.paragon.quickcast.dao.Seeker_InfoDAO;
 import com.paragon.quickcast.entity.Etp_Info;
 import com.paragon.quickcast.entity.Hunter_Info;
 import com.paragon.quickcast.entity.Seeker_Info;
 import com.paragon.quickcast.service.InformationService;
 
 @Service
-public class EtpinfoServiceImpl implements InformationService {
+public class SeekerinfoServiceImpl implements InformationService {
 
 	@Resource
-	private Etp_InfoDAO etp_infodao;
+	private Seeker_InfoDAO seeker_infodao;
 	
-	//Seeker_Info
+	//Seeker_InfoImpl
 	public boolean insert(Seeker_Info seeker_info) {
-		// TODO Auto-generated method stub
-		return false;
+		seeker_infodao.insert(seeker_info);
+		return true;
 	}
 
 	public boolean update(Seeker_Info seeker_info) {
-		// TODO Auto-generated method stub
-		return false;
+		seeker_infodao.update(seeker_info);
+		return true;
 	}
 
 	public boolean delete(Seeker_Info seeker_info) {
-		// TODO Auto-generated method stub
-		return false;
+		seeker_infodao.delete(seeker_info);
+		return true;
 	}
 
 	public Seeker_Info queryBySeekerInfoId(int info_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return seeker_infodao.queryBySeekerInfoId(info_id);
 	}
 
 	public Seeker_Info queryBySeekerUserId(int user_id) {
-		// TODO Auto-generated method stub
-		return null;
+		return seeker_infodao.queryBySeekerUserId(user_id);
 	}
 
-	
 	//Hunter_Info
 	public boolean insert(Hunter_Info hunter_info) {
 		// TODO Auto-generated method stub
@@ -69,39 +66,39 @@ public class EtpinfoServiceImpl implements InformationService {
 		return null;
 	}
 
-	
-	//Etp_InfoImpl
+	//Etp_Info
 	public boolean insert(Etp_Info etp_info) {
-		etp_infodao.insert(etp_info);
-		return true;
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public boolean update(Etp_Info etp_info) {
-		etp_infodao.update(etp_info);
-		return true;
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public boolean delete(Etp_Info etp_info) {
-		etp_infodao.delete(etp_info);
-		return true;
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	public Etp_Info queryByEtpInfoId(int info_id) {
-		return etp_infodao.queryByEtpInfoId(info_id);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	public Etp_Info queryByEtpUserId(int user_id) {
-		return etp_infodao.queryByEtpUserId(user_id);
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	
+
 	//Õ®”√
 	public void deleteByUserId(int user_id) {
-		etp_infodao.deleteByUserId(user_id);
+		seeker_infodao.deleteByUserId(user_id);
 	}
 
 	public void deleteByInfoId(int info_id) {
-		etp_infodao.deleteByInfoId(info_id);
+		seeker_infodao.deleteByInfoId(info_id);
 	}
 
 }

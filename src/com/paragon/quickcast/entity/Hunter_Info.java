@@ -15,49 +15,47 @@ public class Hunter_Info {
 	@Column(name="user_id",unique=true,nullable=false)
 	private int user_id;
 	
-	private String eng_name;
-	
-	@Column(name="cn_tname",unique=false,nullable=false)
-	private String cn_tname;
-	
-	@Column(name="etp_name",unique=false,nullable=false)
+	@Column(name="etp_name",nullable=false)
 	private String etp_name;
 	
-	@Column(name="gender",unique=false,nullable=false)
+	@Column(name="gender",nullable=false)
 	private String gender;
 	
-	@Column(name="mobile",unique=false,nullable=false)
+	@Column(name="mobile",nullable=false)
 	private String mobile;
 	
-	@Column(name="work_phone",unique=false,nullable=false)
+	@Column(name="work_phone",nullable=false)
 	private String work_phone;
 	
-	@Column(name="hunter_fax",unique=false,nullable=false)
+	@Column(name="hunter_fax",nullable=false)
 	private String hunter_fax;
 	
-	@Column(name="work_email",unique=false,nullable=false)
+	@Column(name="work_email",nullable=false)
 	private String work_email;
 	
 	private String work_time;
 	
-	@Column(name="t_area",unique=false,nullable=false)
+	@Column(name="t_area",nullable=false)
 	private String t_area;
 	
 	@Column(name="work_city",nullable=false)
 	private String work_city;
 	
+	@Column(name="msg_addr",nullable=false)
+	private String msg_addr;
+	
 	private String self_intro;
 	
-	private String suc_case;
+	private String partner;
 	
 	private String etp_intro;
 	
 	private String business_card;
 	
-	@Column(name="certificate",unique=false,nullable=false)
+	@Column(name="certificate",nullable=false)
 	private String certificate;
 	
-	@Column(name="check_status",unique=false,nullable=false)
+	@Column(name="check_status",nullable=false)
 	private String check_status;
 	
 
@@ -75,22 +73,6 @@ public class Hunter_Info {
 
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
-	}
-
-	public String getEng_name() {
-		return eng_name;
-	}
-
-	public void setEng_name(String eng_name) {
-		this.eng_name = eng_name;
-	}
-
-	public String getCn_tname() {
-		return cn_tname;
-	}
-
-	public void setCn_tname(String cn_tname) {
-		this.cn_tname = cn_tname;
 	}
 
 	public String getEtp_name() {
@@ -164,6 +146,14 @@ public class Hunter_Info {
 	public void setWork_city(String work_city) {
 		this.work_city = work_city;
 	}
+	
+	public String getMsg_addr() {
+		return msg_addr;
+	}
+
+	public void setMsg_addr(String msg_addr) {
+		this.msg_addr = msg_addr;
+	}
 
 	public String getSelf_intro() {
 		return self_intro;
@@ -173,12 +163,12 @@ public class Hunter_Info {
 		this.self_intro = self_intro;
 	}
 
-	public String getSuc_case() {
-		return suc_case;
+	public String getPartner() {
+		return partner;
 	}
 
-	public void setSuc_case(String suc_case) {
-		this.suc_case = suc_case;
+	public void setPartner(String partner) {
+		this.partner = partner;
 	}
 
 	public String getEtp_intro() {

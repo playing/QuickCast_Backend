@@ -13,5 +13,6 @@ public interface UserService {
     public String check_username(String username);
     public String check_email(String email);
     public String login(String user_name,String password);
+    public User_Reg queryByUserId(int user_id);
 	
 }

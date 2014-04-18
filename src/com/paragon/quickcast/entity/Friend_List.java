@@ -1,30 +1,36 @@
 package com.paragon.quickcast.entity;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Friend_List {
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY) 
 	private int rlts_id;
 	
-	@Column(nullable = false)
 	private int partner_id;
-	
-	@Column(nullable = false)
 	private int self_id;
 	
-	@Column(nullable = false)
 	private String status;
-
+  
+	private FriendsGroup friendsgroup;
 	
-	
-
+	@ManyToOne(cascade={CascadeType.ALL})
+    @JoinColumn(name="deptid")
+	public FriendsGroup getFriendsgroup() {
+		return friendsgroup;
+	}
+		
+	public void setFriendsgroup(FriendsGroup friendsgroup) {
+		this.friendsgroup = friendsgroup;
+	}
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getRlts_id() {
 		return rlts_id;
 	}

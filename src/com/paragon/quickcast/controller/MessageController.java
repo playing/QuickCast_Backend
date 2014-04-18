@@ -11,11 +11,15 @@ import javax.annotation.Resource;
 
 import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.paragon.quickcast.dao.ToJson;
 import com.paragon.quickcast.entity.Message;
+import com.paragon.quickcast.entity.User_Reg;
 import com.paragon.quickcast.service.MessageService;
+import com.paragon.quickcast.service.UserService;
 
 @Controller
 @RequestMapping("/message.do")
@@ -23,9 +27,24 @@ public class MessageController {
 	
 	@Resource
 	private MessageService messageservice;
+	@Resource
+	private UserService userservice;
+	@Resource
+	private Encoding encoding;
 	
+	
+	public Encoding getEncoding() {
+		return encoding;
+	}
+
+
+	public void setEncoding(Encoding encoding) {
+		this.encoding = encoding;
+	}
+
+
 	@RequestMapping(params="method=imp_message_insert")
-	public String imp_news_insert(Message message){
+	public @ResponseBody String imp_news_insert(Message message){		
 		
 		messageservice.insert(message);
 		System.out.println("-----------msg_id:"+message.getMsg_id()+"---------");
@@ -35,8 +54,18 @@ public class MessageController {
 		System.out.println("-----------status:"+message.getStatus()+"---------");
 		System.out.println("-----------content:"+message.getContent()+"---------");
 		System.out.println("-----------title:"+message.getTitle()+"---------");
-			
-		return "index";
+		
+		String temp = "success";
+		ToJson tojosn = new ToJson();		
+		String result_temp = tojosn.tojson(temp);
+		try {
+			result_temp = URLEncoder.encode(temp, "utf-8");
+			result_temp = URLEncoder.encode(temp, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}								
+		return result_temp;	
 	}
 	
 	
@@ -57,28 +86,54 @@ public class MessageController {
 	
 	
 	@RequestMapping(params="method=imp_message_queryByDispatchId")
-	public String imp_message_queryByDispatchId(Message message){
+	public @ResponseBody String imp_message_queryByDispatchId(@RequestBody Message message){
 		
+		User_Reg userregInstance = null;
 		List l = messageservice.queryByDispatchId(message.getDispatch_id());
 		Iterator iter = l.iterator();
+		Map data = new HashMap();
+		JSONArray json_result = new JSONArray();
 		while(iter.hasNext()){
 			Message messageInstance = (Message)iter.next();
+			data.put("msg_id", messageInstance.getMsg_id());
+			data.put("dispatch_id", messageInstance.getDispatch_id());			
+			data.put("receive_id", messageInstance.getReceive_id());
+			userregInstance = userservice.queryByUserId(messageInstance.getReceive_id());
+			data.put("receive_name",userregInstance.getCn_tname());
+			data.put("dispatch_time", messageInstance.getDispatch_time());
+			data.put("status", messageInstance.getStatus());
+			data.put("title", messageInstance.getTitle());
+			data.put("content", messageInstance.getContent());
+			data.put("message_type", messageInstance.getMessage_type());
+			json_result.put(data);
 			System.out.println("-----------msg_id:"+messageInstance.getMsg_id()+"---------");
 			System.out.println("-----------dispatch_id:"+messageInstance.getDispatch_id()+"---------");
+			System.out.println("-----------receive_name:"+userregInstance.getCn_tname()+"---------");
 			System.out.println("-----------receive_id:"+messageInstance.getReceive_id()+"---------");
 			System.out.println("-----------dispatch_time:"+messageInstance.getDispatch_time()+"---------");
 			System.out.println("-----------status:"+messageInstance.getStatus()+"---------");
 			System.out.println("-----------content:"+messageInstance.getContent()+"---------");
 			System.out.println("-----------title:"+messageInstance.getTitle()+"---------");
+			System.out.println("-----------message_type:"+messageInstance.getMessage_type()+"---------");
 		}
-					
-		return "index";
+		String result = "{\"message\":"+ json_result +"}";
+		String result_temp = "error";
+		try {
+			result_temp = URLEncoder.encode(result, "utf-8");
+			result_temp = URLEncoder.encode(result, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+									
+		return result_temp;			
 	}
 	
 	
 	@RequestMapping(params="method=imp_message_queryByReceiveId")
-	public @ResponseBody String imp_message_queryByReceiveId(Message message){
+	public @ResponseBody String imp_message_queryByReceiveId(@RequestBody Message message){
 		
+		User_Reg userregInstance = userservice.queryByUserId(message.getReceive_id());
 		List l = messageservice.queryByReceiveId(message.getReceive_id());
 		Iterator iter = l.iterator();
 		Map data = new HashMap();
@@ -88,19 +143,24 @@ public class MessageController {
 			Message messageInstance = (Message)iter.next();
 			data.put("msg_id", messageInstance.getMsg_id());
 			data.put("dispatch_id", messageInstance.getDispatch_id());
+			userregInstance = userservice.queryByUserId(messageInstance.getDispatch_id());
+			data.put("dispatch_name",userregInstance.getCn_tname());
 			data.put("receive_id", messageInstance.getReceive_id());
 			data.put("dispatch_time", messageInstance.getDispatch_time());
 			data.put("status", messageInstance.getStatus());
 			data.put("title", messageInstance.getTitle());
 			data.put("content", messageInstance.getContent());
+			data.put("message_type", messageInstance.getMessage_type());
 			json_result.put(data);
 			System.out.println("-----------msg_id:"+messageInstance.getMsg_id()+"---------");
 			System.out.println("-----------dispatch_id:"+messageInstance.getDispatch_id()+"---------");
+			System.out.println("-----------dispatch_name:"+userregInstance.getCn_tname()+"---------");
 			System.out.println("-----------receive_id:"+messageInstance.getReceive_id()+"---------");
 			System.out.println("-----------dispatch_time:"+messageInstance.getDispatch_time()+"---------");
 			System.out.println("-----------status:"+messageInstance.getStatus()+"---------");
 			System.out.println("-----------content:"+messageInstance.getContent()+"---------");
 			System.out.println("-----------title:"+messageInstance.getTitle()+"---------");
+			System.out.println("-----------message_type:"+messageInstance.getMessage_type()+"---------");
 		
 		}
 		String result = "{\"message\":"+ json_result +"}";
@@ -112,11 +172,7 @@ public class MessageController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-					
+									
 		return result_temp;
 	}
 	
@@ -131,7 +187,7 @@ public class MessageController {
 		System.out.println("-----------status:"+messageInstance.getStatus()+"---------");
 		System.out.println("-----------content:"+messageInstance.getContent()+"---------");
 		System.out.println("-----------title:"+messageInstance.getTitle()+"---------");
-		
+										
 		return "index";
 	}
 	
@@ -145,11 +201,26 @@ public class MessageController {
 	}
 	
 	@RequestMapping(params="method=imp_message_deleteByMsgId")
-	public String imp_message_deleteByMsgId(Message message){
+	public @ResponseBody String imp_message_deleteByMsgId(@RequestBody Message message){
+		String temp = "success";
+		ToJson tojosn = new ToJson();		
+		try {
+			messageservice.deleteByMsgId(message.getMsg_id());
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();
+			return result_temp;
+		}							
 		
-		messageservice.deleteByMsgId(message.getMsg_id());
-					
-		return "index";
+		
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);
+								
+		return result_temp;	
 	}
 	
 	
@@ -178,6 +249,16 @@ public class MessageController {
 
 	public void setMessageservice(MessageService messageservice) {
 		this.messageservice = messageservice;
+	}
+
+
+	public UserService getUserservice() {
+		return userservice;
+	}
+
+
+	public void setUserservice(UserService userservice) {
+		this.userservice = userservice;
 	}
 	
 

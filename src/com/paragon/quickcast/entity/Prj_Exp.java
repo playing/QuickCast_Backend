@@ -1,25 +1,43 @@
 package com.paragon.quickcast.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Prj_Exp {
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int exp_id;
 	
+	@Column(nullable=false)
 	private int user_id;
 	
+	@Column(nullable=false)
 	private String prj_name;
 	
+	@Column(nullable=false)
 	private String etp_name;
 	
+	@Column(nullable=false)
 	private String prj_profession;
 	
+	@Column(nullable=false)
 	private String start_time;
 	
+	@Column(nullable=false)
 	private String end_time;
 	
+	@Column(nullable=false)
 	private String prj_desc;
 	
+	@Column(nullable=false)
 	private String prj_duty;
 	
+	@Column(nullable=false)
 	private String prj_achievement;
 
 	

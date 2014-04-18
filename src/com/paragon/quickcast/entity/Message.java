@@ -31,6 +31,8 @@ public class Message {
 	@Column(nullable = false)
 	private String dispatch_time;
 
+	@Column(nullable = false)
+	private String message_type;
 	
 	
 	
@@ -89,4 +91,14 @@ public class Message {
 	public void setDispatch_time(String dispatch_time) {
 		this.dispatch_time = dispatch_time;
 	}
+
+	public String getMessage_type() {
+		return message_type;
+	}
+
+	public void setMessage_type(String message_type) {
+		this.message_type = message_type;
+	}
+
+
 }

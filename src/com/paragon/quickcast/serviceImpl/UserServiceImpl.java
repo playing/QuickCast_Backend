@@ -43,6 +43,10 @@ public class UserServiceImpl implements UserService {
 		return userregDao.check_email(email);
 	}
 
+    public User_Reg queryByUserId(int user_id){
+    	
+		return userregDao.queryByUserId(user_id);
+	}
 
 	public User_RegDAO getUserregDao() {
 		return userregDao;

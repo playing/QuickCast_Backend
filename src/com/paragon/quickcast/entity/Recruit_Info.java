@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.Index;
+
 @Entity
 public class Recruit_Info {
 	@Id
@@ -19,6 +21,7 @@ public class Recruit_Info {
 	private String issue_time;
 	
 	@Column(name="recruit_job",nullable=false)
+	@Index(name="hashindex")
 	private String recruit_job;
 	
 	@Column(name="recruit_num",nullable=false)
@@ -32,6 +35,7 @@ public class Recruit_Info {
 	
 	@Column(name="recruit_detail",nullable=false)
 	private String recruit_detail;
+	
 	
 
 	public int getInfo_id() {

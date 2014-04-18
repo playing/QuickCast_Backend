@@ -15,6 +15,8 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
 import com.paragon.quickcast.controller.Checker;
+import com.paragon.quickcast.controller.Encoding;
+import com.paragon.quickcast.entity.Etp_Info;
 import com.paragon.quickcast.entity.User_Reg;
 
 //求职者是1 雇主是2  猎头是3//
@@ -30,6 +32,8 @@ public class User_RegDAO{
 	private Checker checker;
 	@Resource
 	private ToJson tojson;
+	@Resource
+	private Encoding encoding;
 	
 	/*public void add(User u){
 		System.out.println("UserDao.add()");
@@ -64,6 +68,7 @@ public class User_RegDAO{
 			login_request.put("data", data);
 			json.put(login_request);
 			respon_result = "{\"login_report\":"+ json +"}";
+			respon_result = encoding.encoding(respon_result);
 	    	return respon_result;
 	    }
 		
@@ -73,6 +78,8 @@ public class User_RegDAO{
 			data.put("user_name", user.getUser_name());
 			data.put("user_id",user.getUser_id()+"");
 			data.put("user_type", user.getUser_type()+"");
+			data.put("cn_tname", user.getCn_tname());
+			
             
             json_data.put(data);
 			login_request.put("status", "success");
@@ -82,6 +89,7 @@ public class User_RegDAO{
 			json.put(login_request);
 		
 		 respon_result = "{\"login_report\":"+ json +"}";	
+		 respon_result = encoding.encoding(respon_result);
 			return respon_result;
 		}
 		
@@ -91,6 +99,7 @@ public class User_RegDAO{
 			login_request.put("data", data);
 			json.put(login_request);
 			respon_result = "{\"login_report\":"+ json +"}";
+			respon_result = encoding.encoding(respon_result);
 			return respon_result;
 			
 			
@@ -116,7 +125,7 @@ public class User_RegDAO{
 			}
 			Map data = new HashMap();
 			JSONObject json = new JSONObject();
-			data.put("user_id", user.getUser_id());
+			data.put("user_id", user.getUser_id()); 
 			try {
 				json.put("login_result", data);
 			} catch (JSONException e) {
@@ -190,7 +199,18 @@ public class User_RegDAO{
 		
 	}
 
-	
+	public User_Reg queryByUserId(int user_id){
+		User_Reg user_reg = null;
+ 		Iterator iterator = null;
+ 		List l = (List)this.hibernateTemplate.find("FROM User_Reg as user_reg WHERE user_reg.user_id=?",new Integer(user_id));
+ 		iterator = l.iterator();
+ 		if(iterator.hasNext())
+ 		{
+ 			user_reg = (User_Reg)iterator.next();
+ 		}
+ 		return user_reg;
+ 	}
+
 	
 //public User_Reg queryByUserName(String user_name){
 //		
@@ -272,6 +292,18 @@ public class User_RegDAO{
 
 	public void setChecker(Checker checker) {
 		this.checker = checker;
+	}
+
+
+
+	public Encoding getEncoding() {
+		return encoding;
+	}
+
+
+
+	public void setEncoding(Encoding encoding) {
+		this.encoding = encoding;
 	}
 
 
