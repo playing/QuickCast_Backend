@@ -1,5 +1,9 @@
 package com.paragon.quickcast.dao;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.paragon.quickcast.entity.Friend_List;
 import com.paragon.quickcast.entity.FriendsGroup;
-import com.paragon.quickcast.entity.User_Reg;
 
 @Repository
 public class Friend_ListDAO{
@@ -38,6 +41,8 @@ public class Friend_ListDAO{
 		FriendsGroup friendsgroup = (FriendsGroup)friendsgroupdao.findFriendsGroup(Tempgrouptype);
 		friend_list.setFriendsgroup(friendsgroup);
 		hibernateTemplate.save(friend_list);
+		System.out.println("Group!!!!!!!!!");
+		List<Friend_List> friendl = (List)friendsgroupdao.findFriendsGroup(Tempgrouptype);
 		return true;
 		
 	}
@@ -66,7 +71,6 @@ public class Friend_ListDAO{
 		return l;
 			
 	}
-	
 		
 	public Friend_List queryByRltsId(int rlts_id){
 			
@@ -101,7 +105,52 @@ public class Friend_ListDAO{
 		List l = hibernateTemplate.find(hql, self_id);
 		hibernateTemplate.deleteAll(l);
 	}
+	
+	/********
+	 * 
+	 * 以下是hash_map实现过程
+	 * 1.根据self_id查找partner_id，返回值是partner_id
+	 * 
+	 * 
+	 * *********/
+	public List queryBySelf_ReturnParID(int self_id){
+		String hql = "FROM Friend_List as partner_id WHERE friend_list.self_id=?";
+		List l = hibernateTemplate.find(hql, self_id);
+		return l;
 		
+	}
+		public HashMap hash_indexSelfID(int self_id){
+		HashMap<Object, Integer> friendscircle = new HashMap<Object,Integer>();
+		List<Friend_List> Lfriendlist = (List)this.queryBySelfId(self_id);
+		Iterator iter = Lfriendlist.iterator();
+		//int count_friends = 0;
+		Iterator iter1 = friendscircle.values().iterator();
+		while(iter.hasNext()){
+			Object key = iter.next();
+			if(!friendscircle.containsKey(key)){
+				friendscircle.put(key, 1);
+			}
+			else{
+				Integer count_friends = friendscircle.get(key);
+				friendscircle.put(key,count_friends);
+			}
+		}
+		return friendscircle;
+	}
+		/*public int[] creatarray(int End,int Index){
+			int[] tempArray = new int[20];
+			for(int i = 0 ;i < 20 ; i++ ){
+				tempArray[i] = hash_indexSelfID
+			}
+			return tempArray;
+		}*/
+		
+		public void maxFriendscount(HashMap tempfriend){
+			
+		}
+		
+		/*************************************/
+	
 	public HibernateTemplate getHibernateTemplate() {
 		return hibernateTemplate;
 	}

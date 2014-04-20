@@ -32,7 +32,7 @@ public class Seeker_Info {
 	private String highest_edu;
 	
 	//教育类型（统招全日）
-	@Column(name="edu_type",nullable=false)
+	@Column(name="edu_type")
 	private String edu_type;
 	
 	@Column(name="start_time",nullable=false)
