@@ -65,12 +65,16 @@ public class Friend_ListServiceImpl implements Friend_ListService {
 		
 	}
 	
-	public void deleteBySelfId(int self_id){
+	public void deleteBySelfId(int self_id,int partner_id){
 		
-		friend_listdao.deleteBySelfId(self_id);
+		friend_listdao.deleteBySelfId(self_id,partner_id);
 		
 	}
 
+	public int[] creat_arraysort(int self_id){
+		return friend_listdao.creat_arraysort(self_id);
+	}
+	
 	public Friend_ListDAO getFriend_listdao() {
 		return friend_listdao;
 	}
@@ -78,5 +82,7 @@ public class Friend_ListServiceImpl implements Friend_ListService {
 	public void setFriend_listdao(Friend_ListDAO friend_listdao) {
 		this.friend_listdao = friend_listdao;
 	}
+	
+
 
 }

@@ -1,7 +1,8 @@
 package com.paragon.quickcast.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.paragon.quickcast.entity.User_Reg;
 
@@ -14,5 +15,5 @@ public interface UserService {
     public String check_email(String email);
     public String login(String user_name,String password);
     public User_Reg queryByUserId(int user_id);
-	
+	public int countByUserType(String user_type);
 }

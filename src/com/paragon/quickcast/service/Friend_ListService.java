@@ -25,8 +25,9 @@ public interface Friend_ListService {
 	
 	public void deleteByPartnerId(int partner_id);
 	
-	public void deleteBySelfId(int self_id);
+	public void deleteBySelfId(int self_id,int partner_id);
 	
-	
+	//’“≈Û”—»¶
+	public int[] creat_arraysort(int self_id);
 
 }

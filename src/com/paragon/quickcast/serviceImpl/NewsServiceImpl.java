@@ -32,6 +32,10 @@ public class NewsServiceImpl implements NewsService{
     	return newsdao.queryByPubId(pub_id);
     	
     }
+    
+    public List queryAll(){
+    	return newsdao.queryAll();
+    }
 	
 	public News queryByNewsId(int news_id){
 		

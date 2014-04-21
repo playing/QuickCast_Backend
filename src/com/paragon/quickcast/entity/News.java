@@ -23,7 +23,7 @@ public class News {
 	private String content;
 	
 	@Column(nullable = false)
-	private String type;
+	private String pub_type;
 
 	
 	
@@ -59,12 +59,14 @@ public class News {
 		this.content = content;
 	}
 
-	public String getType() {
-		return type;
+	public String getPub_type() {
+		return pub_type;
 	}
 
-	public void setType(String type) {
-		this.type = type;
-	}	
+	public void setPub_type(String pub_type) {
+		this.pub_type = pub_type;
+	}
+
+	
 	
 }

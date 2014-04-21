@@ -1,5 +1,7 @@
 package com.paragon.quickcast.serviceImpl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
@@ -47,6 +49,12 @@ public class UserServiceImpl implements UserService {
     	
 		return userregDao.queryByUserId(user_id);
 	}
+    
+    public int countByUserType(String user_type){
+    	
+    	return userregDao.countByUserType(user_type);
+    	
+    }
 
 	public User_RegDAO getUserregDao() {
 		return userregDao;

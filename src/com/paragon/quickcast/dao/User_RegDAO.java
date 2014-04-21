@@ -16,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import com.paragon.quickcast.controller.Checker;
 import com.paragon.quickcast.controller.Encoding;
-import com.paragon.quickcast.entity.Etp_Info;
 import com.paragon.quickcast.entity.User_Reg;
 
 //求职者是1 雇主是2  猎头是3//
@@ -210,31 +209,15 @@ public class User_RegDAO{
  		}
  		return user_reg;
  	}
-
 	
-//public User_Reg queryByUserName(String user_name){
-//		
-////		User_Reg user_reg = null;
-////		session = this.getSession();
-////		String hql = "FROM User_Reg as user_reg WHERE user_reg.user_name=?";
-////		//通过Query借口查询
-////		Query q = this.session.createQuery(hql);
-////		q.setString(0,user_name);
-////		List l = q.list();
-////		Iterator iter = l.iterator();
-////		if(iter.hasNext())
-////		{
-////			user_reg = (User_Reg)iter.next();
-////		}
-////		if(session.isOpen()){
-////			session.close();
-////		}
-////		return user_reg;
-//	
-//	return user;
-//	
-//	}
-//	
+	
+	public int countByUserType(String user_type){
+		
+    	String hql = "FROM User_Reg as user_reg WHERE user_reg.user_type=?";
+    	List l = hibernateTemplate.find(hql, user_type);
+    	return l.size();
+
+    }
 	
 	//更新数据库操作
 	//以User_Reg类为传递参数

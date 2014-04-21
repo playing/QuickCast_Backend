@@ -1,10 +1,10 @@
 package com.paragon.quickcast.dao;
 
-import java.sql.Array;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -26,7 +26,8 @@ public class Friend_ListDAO{
 	@Resource
 	private FriendsGroupDAO friendsgroupdao;
 
-
+    //全局变量 Array记录HashMap中的前20大元素
+	int[] hash_list = new int[20];
 	//插入用户新注册信息；
 	//以Friend_List类为传递参数；
 	public boolean insert(Friend_List friend_list){
@@ -40,6 +41,7 @@ public class Friend_ListDAO{
 		hibernateTemplate.save(friend_list);*/
 		FriendsGroup friendsgroup = (FriendsGroup)friendsgroupdao.findFriendsGroup(Tempgrouptype);
 		friend_list.setFriendsgroup(friendsgroup);
+	
 		hibernateTemplate.save(friend_list);
 		System.out.println("Group!!!!!!!!!");
 		List<Friend_List> friendl = (List)friendsgroupdao.findFriendsGroup(Tempgrouptype);
@@ -48,10 +50,13 @@ public class Friend_ListDAO{
 	}
 	
 	
-	public void update(Friend_List friend_list){
-			
+	public void update(Friend_List friend_list){	
 		hibernateTemplate.update(friend_list);
-		
+		Friend_List friend_list2 = new Friend_List();
+		friend_list2.setPartner_id(friend_list.getSelf_id());
+		friend_list2.setSelf_id(friend_list.getPartner_id());
+		friend_list2.setStatus("2");
+		hibernateTemplate.save(friend_list2);
 	}
 	
 	
@@ -99,11 +104,14 @@ public class Friend_ListDAO{
 			
 	}
 		
-	public void deleteBySelfId(int self_id){
+	public void deleteBySelfId(int self_id,int partner_id){
 			
-		String hql = "FROM Friend_List WHERE self_id=?";
-		List l = hibernateTemplate.find(hql, self_id);
-		hibernateTemplate.deleteAll(l);
+		String hql1 = "FROM Friend_List as friend_list WHERE friend_list.self_id=self_id AND friend_list.partner_id=partner_id";
+		List list1 = hibernateTemplate.find(hql1);
+		String hql2 = "FROM Friend_List as friend_list WHERE friend_list.self_id=partner_id AND friend_list.partner_id=self_id";
+		List list2 = hibernateTemplate.find(hql2);
+		hibernateTemplate.deleteAll(list1);
+		hibernateTemplate.deleteAll(list2);
 	}
 	
 	/********
@@ -114,16 +122,16 @@ public class Friend_ListDAO{
 	 * 
 	 * *********/
 	public List queryBySelf_ReturnParID(int self_id){
-		String hql = "FROM Friend_List as partner_id WHERE friend_list.self_id=?";
+		String hql = "Select partner_id FROM Friend_List  as friend_list WHERE friend_list.self_id=?";
 		List l = hibernateTemplate.find(hql, self_id);
 		return l;
 		
 	}
 		public HashMap hash_indexSelfID(int self_id){
 		HashMap<Object, Integer> friendscircle = new HashMap<Object,Integer>();
-		List<Friend_List> Lfriendlist = (List)this.queryBySelfId(self_id);
+		List<Friend_List> Lfriendlist = (List)this.queryBySelf_ReturnParID(self_id);
 		Iterator iter = Lfriendlist.iterator();
-		//int count_friends = 0;
+		int count_list = 0;
 		Iterator iter1 = friendscircle.values().iterator();
 		while(iter.hasNext()){
 			Object key = iter.next();
@@ -132,18 +140,37 @@ public class Friend_ListDAO{
 			}
 			else{
 				Integer count_friends = friendscircle.get(key);
+				if( count_list < 20 ){
+					hash_list[count_list] = count_friends;
+					++count_list;
+				}
 				friendscircle.put(key,count_friends);
 			}
 		}
+		Arrays.sort(hash_list);
+		for(int i = 0; i < 20; i++)
+		System.out.println(" "+hash_list[i]+" ");
 		return friendscircle;
 	}
-		/*public int[] creatarray(int End,int Index){
-			int[] tempArray = new int[20];
-			for(int i = 0 ;i < 20 ; i++ ){
-				tempArray[i] = hash_indexSelfID
+		
+		public int[] creat_arraysort(int self_id){
+			Map temp_friendscircle = hash_indexSelfID(self_id);
+			Iterator iter2 = temp_friendscircle.entrySet().iterator();
+			int count_list2 = 0; 
+			while(iter2.hasNext()){
+			    Map.Entry entry = (Map.Entry)iter2.next();
+			    ++count_list2;
+			    Object key = entry.getKey();
+			    Integer val = (Integer)entry.getValue();
+			    if(count_list2 >= 20){
+			    	if(hash_list[0] < val){
+			    		hash_list[0] = val;
+			    		Arrays.sort(hash_list);
+			    	}
+			    }
 			}
-			return tempArray;
-		}*/
+			return hash_list;
+		}
 		
 		public void maxFriendscount(HashMap tempfriend){
 			

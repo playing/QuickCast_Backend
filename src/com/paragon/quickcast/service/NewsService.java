@@ -22,5 +22,7 @@ public interface NewsService {
 	public void deleteByPubId(int pub_id);
 	
 	public void deleteByNewsId(int news_id);
+	
+	public List queryAll();
 
 }

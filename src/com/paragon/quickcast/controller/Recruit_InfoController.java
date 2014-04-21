@@ -19,18 +19,18 @@ public class Recruit_InfoController {
 	@RequestMapping(params="method=recruitinfo_insert")
 	public String recruitinfo_insert(Recruit_Info recruit_info){
 		recruitserviceimpl.insert(recruit_info);
-		return "index";
+		return "recruit_info";
 	}
 	
 	@RequestMapping(params="method=recruitinfo_delete")
 	public String recruitinfo_delete(int info_id){
 		recruitserviceimpl.delete(info_id);
-		return "index";
+		return "recruit_info";
 	}
 	
 	@RequestMapping(params="method=recruitinfo_update")
 	public String recruitinfo_update(Recruit_Info recruit_info){
 		recruitserviceimpl.update(recruit_info);
-		return "index";
+		return "recruit_info";
 	}
 }

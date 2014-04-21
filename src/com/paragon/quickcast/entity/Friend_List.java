@@ -26,6 +26,7 @@ public class Friend_List {
 	private int partner_id;
 	private int self_id;
 	
+	private String reason;
 	private String status;
   
 	private FriendsGroup friendsgroup;
@@ -75,6 +76,14 @@ public class Friend_List {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 	
 	

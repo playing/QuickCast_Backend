@@ -9,10 +9,12 @@ import javax.annotation.Resource;
 
 import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import com.paragon.quickcast.dao.ToJson;
 import com.paragon.quickcast.entity.Etp_Info;
 import com.paragon.quickcast.entity.Hunter_Info;
 import com.paragon.quickcast.entity.Seeker_Info;
@@ -30,12 +32,33 @@ public class InformationController extends MultiActionController{
 	private HunterinfoServiceImpl hunterinfoImpl = new HunterinfoServiceImpl();
 	@Resource
 	private EtpinfoServiceImpl etpinfoImpl = new EtpinfoServiceImpl();
+	@Resource
+    private Encoding encoding;
+	
+	
+	
 	
 	//Seeker_Info
 	@RequestMapping(params="method=seekerinfo_insert")
-	public @ResponseBody String seekerinfo_insert(Seeker_Info seeker_info){
-		seekerinfoImpl.insert(seeker_info);
-		return "seekerinfo_insert OK";
+	public @ResponseBody String seekerinfo_insert(@RequestBody Seeker_Info seeker_info){
+		
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			seekerinfoImpl.insert(seeker_info);
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);
+								
+		return result_temp;	
 	}
 	
     @RequestMapping(params="method=seekerinfo_update")
@@ -51,7 +74,7 @@ public class InformationController extends MultiActionController{
     }
     
     @RequestMapping(params="method=queryBySeekerInfoId")
-    public @ResponseBody String queryBySeekerInfoId(Seeker_Info seeker_info){
+    public @ResponseBody String queryBySeekerInfoId(@RequestBody Seeker_Info seeker_info){
     	Seeker_Info seeker_infoInstance = seekerinfoImpl.queryBySeekerInfoId(seeker_info.getInfo_id());
     	System.out.println("-----------seekerinfo_id:"+seeker_info.getInfo_id()+"---------");
 		System.out.println("-----------user_id:"+seeker_info.getUser_id()+"---------");
@@ -91,7 +114,7 @@ public class InformationController extends MultiActionController{
     }
     
     @RequestMapping(params="method=queryBySeekerUserId")
-    public @ResponseBody String queryBySeekerUserId(Seeker_Info seeker_info){
+    public @ResponseBody String queryBySeekerUserId(@RequestBody Seeker_Info seeker_info){
     	Seeker_Info seeker_infoInstance = seekerinfoImpl.queryBySeekerUserId(seeker_info.getUser_id());
     	System.out.println("-----------seekerinfo_id:"+seeker_infoInstance.getInfo_id()+"---------");
 		System.out.println("-----------user_id:"+seeker_infoInstance.getUser_id()+"---------");
@@ -146,8 +169,24 @@ public class InformationController extends MultiActionController{
     //Hunter_Info
 	@RequestMapping(params="method=hunterinfo_insert")
 	public @ResponseBody String hunterinfo_insert(Hunter_Info hunter_info){
-		hunterinfoImpl.insert(hunter_info);
-		return "hunterinfo_insert OK";
+		
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			hunterinfoImpl.insert(hunter_info);
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);
+								
+		return result_temp;	
 	}
 	
     @RequestMapping(params="method=hunterinfo_update")
@@ -192,13 +231,30 @@ public class InformationController extends MultiActionController{
 	
 	//Etp_Info
 		@RequestMapping(params="method=etpinfo_insert")
-		public @ResponseBody String etpinfo_insert(Etp_Info etp_info){
-			etpinfoImpl.insert(etp_info);
-			return "etpinfo_insert OK";
+		public @ResponseBody String etpinfo_insert(@RequestBody Etp_Info etp_info){
+			
+			String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				etpinfoImpl.insert(etp_info);
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);
+									
+			return result_temp;	
+			
 		}
 		
 	    @RequestMapping(params="method=etpinfo_update")
-	    public @ResponseBody String etpinfo_update(Etp_Info etp_info){
+	    public @ResponseBody String etpinfo_update(@RequestBody Etp_Info etp_info){
 	    	etpinfoImpl.update(etp_info);
 	    	return "etpinfo_update OK";
 	    }
@@ -265,5 +321,14 @@ public class InformationController extends MultiActionController{
 		public void setEtpinfoImpl(EtpinfoServiceImpl etpinfoImpl) {
 			this.etpinfoImpl = etpinfoImpl;
 		}
+		
+		public Encoding getEncoding() {
+			return encoding;
+		}
+
+
+		public void setEncoding(Encoding encoding) {
+			this.encoding = encoding;
+		}	
 }
 
