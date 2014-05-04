@@ -13,15 +13,15 @@ import javax.persistence.Transient;
 
 @Entity
 public class FriendsGroup {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	
 	private int groupid;
 	
 	private String grouptype;
 	
-	@Transient
+	
 	private Set<Friend_List> friend_list =new HashSet<Friend_List>();
 	
+	@Transient
 	public Set<Friend_List> getFriend_list() {
 		return friend_list;
 	}
@@ -30,6 +30,8 @@ public class FriendsGroup {
 		this.friend_list = friend_list;
 	}
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getGroupid() {
 		return groupid;
 	}

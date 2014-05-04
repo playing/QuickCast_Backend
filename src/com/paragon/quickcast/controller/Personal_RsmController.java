@@ -1,65 +1,150 @@
 package com.paragon.quickcast.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.paragon.quickcast.dao.ToJson;
 import com.paragon.quickcast.entity.Personal_Rsm;
 import com.paragon.quickcast.service.ResumeService;
 
+
+//个人简历
 @Controller
 @RequestMapping("/personal_rsm.do")
 public class Personal_RsmController {
 	
 	@Resource
 	private ResumeService resumeservice;
+	@Resource
+	private Encoding encoding;
 	
+
 	@RequestMapping(params="method=imp_resume_insert")	
-	public String imp_resume_insert(Personal_Rsm personal_rsm){
+	public @ResponseBody String imp_resume_insert(@RequestBody Personal_Rsm personal_rsm){
 		//通过实体类来封装jsp页面
 		System.out.println("简历编号：--------"+personal_rsm.getRsm_id());
 		System.out.println("用户编号：--------"+personal_rsm.getUser_id());
 		System.out.println("编辑时间：--------"+personal_rsm.getEdit_time());
 		System.out.println("谁看过我的简历：--------"+personal_rsm.getRead_status());
-		resumeservice.insert(personal_rsm);
-		return "index";
+		
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			resumeservice.insert(personal_rsm);
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);
+								
+		return result_temp;	
 	}
 	
 	@RequestMapping(params="method=imp_resume_update")
-	public String imp_resume_update(Personal_Rsm personal_rsm){
-		
-		resumeservice.update(personal_rsm);
+	public @ResponseBody String imp_resume_update(@RequestBody Personal_Rsm personal_rsm){
+				
 		System.out.println("简历编号：--------"+personal_rsm.getRsm_id());
 		System.out.println("用户编号：--------"+personal_rsm.getUser_id());
 		System.out.println("编辑时间：--------"+personal_rsm.getEdit_time());
 		System.out.println("谁看过我的简历：--------"+personal_rsm.getRead_status());
-		return "index";
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			resumeservice.update(personal_rsm);
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);
+								
+		return result_temp;	
 	}
 	
 	
 	@RequestMapping(params="method=imp_resume_queryByUserId")
-	public String imp_resume_queryByUserId(int user_id){
+	public @ResponseBody String imp_resume_queryByUserId(@RequestBody Personal_Rsm personal_rsm){
 		
-		Personal_Rsm personal_rsm = resumeservice.queryByUserId(user_id);
-		System.out.println("简历编号：--------"+personal_rsm.getRsm_id());
-		System.out.println("用户编号：--------"+personal_rsm.getUser_id());
-		System.out.println("编辑时间：--------"+personal_rsm.getEdit_time());
-		System.out.println("谁看过我的简历：--------"+personal_rsm.getRead_status());
-		return "index";
+		Personal_Rsm rsm = resumeservice.queryByUserId(personal_rsm.getUser_id());
+		System.out.println("简历编号：--------"+rsm.getRsm_id());
+		System.out.println("用户编号：--------"+rsm.getUser_id());
+		System.out.println("编辑时间：--------"+rsm.getEdit_time());
+		System.out.println("谁看过我的简历：--------"+rsm.getRead_status());
+		
+		Map data = new HashMap();
+		JSONArray json_result = new JSONArray();
+		data.put("rsm_id", rsm.getRsm_id());
+		data.put("user_id", rsm.getUser_id());
+		data.put("edit_time", rsm.getEdit_time());
+		data.put("expect_industry", rsm.getExpect_industry());
+		data.put("expect_job", rsm.getExpect_job());
+		data.put("expect_place", rsm.getExpect_place());
+		data.put("expect_salary", rsm.getExpect_salary());
+		data.put("language_skill", rsm.getLanguage_skill());
+		data.put("month_salary", rsm.getMonth_salary());
+		data.put("read_status", rsm.getRead_status());
+		data.put("self_evaluate", rsm.getSelf_evaluate());
+		data.put("work_month", rsm.getWork_month());
+		data.put("add_info", rsm.getAdd_info());
+		json_result.put(data);
+		
+		String result = "{\"resume\":"+ json_result + "}";
+		String result_temp = "error";
+		result_temp = encoding.encoding(result_temp);						
+		return result_temp;	
 		
 	}
 	
 
 	@RequestMapping(params="method=imp_resume_queryByRsmId")
-	public String imp_resume_queryByRsmId(int rsm_id){
+	public @ResponseBody String imp_resume_queryByRsmId(Personal_Rsm personal_rsm){
 		
-		Personal_Rsm personal_rsm = resumeservice.queryByRsmId(rsm_id);
-		System.out.println("简历编号：--------"+personal_rsm.getRsm_id());
-		System.out.println("用户编号：--------"+personal_rsm.getUser_id());
-		System.out.println("编辑时间：--------"+personal_rsm.getEdit_time());
-		System.out.println("谁看过我的简历：--------"+personal_rsm.getRead_status());
-		return "index";
+		Personal_Rsm rsm = resumeservice.queryByRsmId(personal_rsm.getRsm_id());
+		System.out.println("简历编号：--------"+rsm.getRsm_id());
+		System.out.println("用户编号：--------"+rsm.getUser_id());
+		System.out.println("编辑时间：--------"+rsm.getEdit_time());
+		System.out.println("谁看过我的简历：--------"+rsm.getRead_status());
+		
+		Map data = new HashMap();
+		JSONArray json_result = new JSONArray();
+		data.put("rsm_id", rsm.getRsm_id());
+		data.put("user_id", rsm.getUser_id());
+		data.put("edit_time", rsm.getEdit_time());
+		data.put("expect_industry", rsm.getExpect_industry());
+		data.put("expect_job", rsm.getExpect_job());
+		data.put("expect_place", rsm.getExpect_place());
+		data.put("expect_salary", rsm.getExpect_salary());
+		data.put("language_skill", rsm.getLanguage_skill());
+		data.put("month_salary", rsm.getMonth_salary());
+		data.put("read_status", rsm.getRead_status());
+		data.put("self_evaluate", rsm.getSelf_evaluate());
+		data.put("work_month", rsm.getWork_month());
+		data.put("add_info", rsm.getAdd_info());
+		json_result.put(data);
+		
+		String result = "{\"resume\":"+ json_result + "}";
+		String result_temp = "error";
+		result_temp = encoding.encoding(result_temp);						
+		return result_temp;	
 		
 	}
 	
@@ -82,10 +167,25 @@ public class Personal_RsmController {
 	
 	
 	@RequestMapping(params="method=imp_resume_deleteByRsmId")
-	public String imp_resume_deleteRsmId(int rsm_id){
+	public @ResponseBody String imp_resume_deleteRsmId(Personal_Rsm personal_rsm){
 		
-		resumeservice.deleteByUserId(rsm_id);
-		return "index";
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			resumeservice.deleteByRsmId(personal_rsm.getRsm_id());
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);
+								
+		return result_temp;	
 		
 	}
 	
@@ -96,6 +196,14 @@ public class Personal_RsmController {
 
 	public void setResumeservice(ResumeService resumeservice) {
 		this.resumeservice = resumeservice;
+	}
+	
+	public Encoding getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(Encoding encoding) {
+		this.encoding = encoding;
 	}
 
 }

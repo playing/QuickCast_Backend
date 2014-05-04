@@ -27,19 +27,21 @@ public class ExpController extends MultiActionController{
 	@Resource
 	private PrjexpServiceImpl prjexpimpl = new PrjexpServiceImpl();
 
-	//Work_Exp
+	//Work_Exp 工作经历
 	@RequestMapping(params="method=workexp_insert")
 	public @ResponseBody String workexp_insert(Work_Exp work_exp){
 		 workexpimpl.insert(work_exp);
 		 return "WorkInsert OK";
 	}
 	
+	//工作经历更新
 	@RequestMapping(params="method=workexp_update")
 	public @ResponseBody String workexp_update(Work_Exp work_exp){
 		 workexpimpl.update(work_exp);
 		 return "WorkUpdate OK";
 	}
 	
+	//根据工作经历ID查找工作经历
 	@RequestMapping(params="method=queryByWorkexpId")
 	public @ResponseBody String queryByWorkexpId(int exp_id){
 		 Work_Exp work_exp = workexpimpl.queryByWorkexpId(exp_id);
@@ -47,13 +49,16 @@ public class ExpController extends MultiActionController{
 		 System.out.println("-----------user_id:"+work_exp.getUser_id()+"---------");
 	     return "queryByWorkexpId OK";
 	    }
-	 
+	
+	
+	//删除工作经历
 	@RequestMapping(params="method=workexp_delete")
 	public @ResponseBody String workexp_delete(Work_Exp work_exp){
 		 workexpimpl.delete(work_exp);
 	     return "workexp_delete OK";
 	    }
 	
+	//根据求职者ID查找工作经历
 	@RequestMapping(params="method=queryByWorkuserId")
 	public @ResponseBody String queryByWorkuserId(int user_id){
 		 List list = workexpimpl.queryByUserId(user_id);
@@ -65,24 +70,27 @@ public class ExpController extends MultiActionController{
 	     return "queryByWorkuserId OK";
 	    }
 	 
+	//根据求职者ID删除工作经历
 	@RequestMapping(params="method=deleteByWorkuserId")
 	public @ResponseBody String deleteByWorkuserId(int user_id){
 		 workexpimpl.deleteByUserId(user_id);
 	     return "deleteByWorkuserId OK";
 	    }
 	
+	//根据工作经历ID删除工作经历
 	@RequestMapping(params="method=deleteByWorkexpId")
 	public @ResponseBody String deleteByWorkexpId(int exp_id){
 		 workexpimpl.deleteByExpId(exp_id);
 	     return "deleteByWorkexpId OK";
 	    }
 	
-	//Edu_Exp
+	//创建教育经历
 	@RequestMapping(params="method=eduexp_insert")
 	public @ResponseBody String eduexp_insert(Edu_Exp edu_exp){
 		eduexpimpl.insert(edu_exp);
 		return "EduInsert OK";
 	}
+	
 	
 	@RequestMapping(params="method=eduexp_update")
 	public @ResponseBody String eduexp_update(Edu_Exp edu_exp){

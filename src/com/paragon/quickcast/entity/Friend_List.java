@@ -1,5 +1,8 @@
 package com.paragon.quickcast.entity;
 
+
+import java.util.Comparator;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +22,7 @@ import org.hibernate.annotations.Index;
  * 
  * **/
 @Entity
-public class Friend_List {
+public class Friend_List implements Comparator {
 	
 	private int rlts_id;
 	
@@ -31,6 +34,19 @@ public class Friend_List {
   
 	private FriendsGroup friendsgroup;
 	
+	public final int compare(Object oFirst, Object oSecond){
+		int rlts_idFirst = ((Friend_List)oFirst).getRlts_id();
+		int rlts_idSecond = ((Friend_List)oSecond).getRlts_id();
+		int diff = rlts_idFirst - rlts_idSecond;
+		if(diff  > 0 )
+			return 1;
+		if(diff < 0)
+			return -1;
+		else 
+			return 0;
+		//Friend_List f = (Friend_List)o;
+		//return rlts_id>f.getRlts_id()?1:(rlts_id==f.getRlts_id()?0:-1);
+	}
 	@ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="deptid")
 	public FriendsGroup getFriendsgroup() {

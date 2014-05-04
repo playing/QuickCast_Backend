@@ -5,20 +5,30 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.paragon.quickcast.dao.Seeker_InfoDAO;
+import com.paragon.quickcast.dao.User_RegDAO;
 import com.paragon.quickcast.entity.Etp_Info;
 import com.paragon.quickcast.entity.Hunter_Info;
 import com.paragon.quickcast.entity.Seeker_Info;
+import com.paragon.quickcast.entity.User_Reg;
 import com.paragon.quickcast.service.InformationService;
 
+
+
+//求职者 1 猎头 2 企业 3
 @Service
 public class SeekerinfoServiceImpl implements InformationService {
 
 	@Resource
 	private Seeker_InfoDAO seeker_infodao;
+	@Resource
+	private User_RegDAO user_reg;
+	
+	
 	
 	//Seeker_InfoImpl
 	public boolean insert(Seeker_Info seeker_info) {
 		seeker_infodao.insert(seeker_info);
+		user_reg.update_type(seeker_info.getUser_id(), "1");
 		return true;
 	}
 
@@ -99,6 +109,21 @@ public class SeekerinfoServiceImpl implements InformationService {
 
 	public void deleteByInfoId(int info_id) {
 		seeker_infodao.deleteByInfoId(info_id);
+	}
+	public Seeker_InfoDAO getSeeker_infodao() {
+		return seeker_infodao;
+	}
+
+	public void setSeeker_infodao(Seeker_InfoDAO seeker_infodao) {
+		this.seeker_infodao = seeker_infodao;
+	}
+
+	public User_RegDAO getUser_reg() {
+		return user_reg;
+	}
+
+	public void setUser_reg(User_RegDAO user_reg) {
+		this.user_reg = user_reg;
 	}
 
 }

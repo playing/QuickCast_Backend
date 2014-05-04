@@ -47,15 +47,10 @@ public class Friend_ListServiceImpl implements Friend_ListService {
 		
 	}
 	
-	public void delete(Friend_List friend_list){
-		
-		friend_listdao.delete(friend_list);
-		
-	}
 	
-	public void deleteByRltsId(int rlts_id){
+	public void delete(int rlts_id){
 		
-		friend_listdao.deleteByRltsId(rlts_id);
+		friend_listdao.delete(rlts_id);
 		
 	}
 	
@@ -71,7 +66,7 @@ public class Friend_ListServiceImpl implements Friend_ListService {
 		
 	}
 
-	public int[] creat_arraysort(int self_id){
+	public Friend_List[] creat_arraysort(int self_id){
 		return friend_listdao.creat_arraysort(self_id);
 	}
 	

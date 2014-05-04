@@ -18,10 +18,12 @@ public class UploadController {
 	
 	 @RequestMapping(params = "method=image")  
 	public String upload(@RequestParam(value = "file",required = false) MultipartFile file,HttpServletRequest request,ModelMap model){
-		 System.out.println("开始");  
-	        String path = request.getSession().getServletContext().getRealPath("upload");  
+		 
+	        String path = request.getSession().getServletContext().getRealPath("upload"); 
+	       
 //	        String fileName = file.getOriginalFilename();  
 	        String fileName = new Date().getTime()+".jpg";  
+	        System.out.println("开始"+fileName); 
 	        System.out.println(path);  
 	        File targetFile = new File(path, fileName);  
 	        if(!targetFile.exists()){  

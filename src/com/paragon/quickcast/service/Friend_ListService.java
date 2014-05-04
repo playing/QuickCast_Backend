@@ -19,15 +19,13 @@ public interface Friend_ListService {
 	
 	public Friend_List queryByRltsId(int rlts_id);
 	
-	public void delete(Friend_List friend_list);
-	
-	public void deleteByRltsId(int rlts_id);
+	public void delete(int rlts_id);
 	
 	public void deleteByPartnerId(int partner_id);
 	
 	public void deleteBySelfId(int self_id,int partner_id);
 	
 	//’“≈Û”—»¶
-	public int[] creat_arraysort(int self_id);
+	public Friend_List[] creat_arraysort(int self_id);
 
 }

@@ -36,22 +36,21 @@ public class NewsController {
 	@Resource
     private Encoding encoding;
 	
+	
+	//发布动态，
+	//Pub_type=1表示普通动态
+	//Pub_type=2为猎头发布的猎头信息
+	//Pub_type=3为企业发布的招聘信息
 	@RequestMapping(params="method=imp_news_insert")
 	public @ResponseBody String imp_news_insert(@RequestBody News news){
-		//通过实体类来封装jsp页面
-		
-		
-		System.out.println("-----------news_id:"+news.getNews_id()+"---------");
-		System.out.println("-----------pub_id:"+news.getPub_id()+"---------");
-		System.out.println("-----------pub_time:"+news.getPub_time()+"---------");
-		System.out.println("-----------content:"+news.getContent()+"---------");
-
+				
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
 		try {
+			news.setPub_type("1");
 			newsservice.insert(news);
 		} catch (RuntimeException e) {
-			// TODO Auto-generated catch block
+
 			temp = "fail";
 			String result_temp = tojosn.tojson(temp);
 			result_temp = encoding.encoding(result_temp);			
@@ -67,21 +66,15 @@ public class NewsController {
 	
 	
 	@RequestMapping(params="method=imp_news_update")
-	public @ResponseBody String imp_news_update(@RequestBody News news){
-		//通过实体类来封装jsp页面
-		
+	public @ResponseBody String imp_news_update(@RequestBody News news){		
 		newsservice.update(news);
-		System.out.println("-----------news_id:"+news.getNews_id()+"---------");
-		System.out.println("-----------pub_id:"+news.getPub_id()+"---------");
-		System.out.println("-----------pub_time:"+news.getPub_time()+"---------");
-		System.out.println("-----------content:"+news.getContent()+"---------");
-
 		return "index";
 	}
 	
+	//查看发布者个人的所有动态
 	@RequestMapping(params="method=imp_news_queryByPubId")
 	public @ResponseBody String imp_news_queryByPubId(@RequestBody News news){
-		//通过实体类来封装jsp页面		
+		
 		User_Reg user_reg = userservice.queryByUserId(news.getPub_id());
 		List l = newsservice.queryByPubId(news.getPub_id());
 		Iterator iter = l.iterator();
@@ -96,12 +89,6 @@ public class NewsController {
 		data.put("content", newsInstance.getContent());
 		data.put("pub_type", newsInstance.getPub_type());
 		json_result.put(data);
-		System.out.println("-----------news_id:"+newsInstance.getNews_id()+"---------");
-		System.out.println("-----------pub_id:"+newsInstance.getPub_id()+"---------");
-		System.out.println("-----------pub_name:"+user_reg.getCn_tname()+"---------");
-		System.out.println("-----------pub_time:"+newsInstance.getPub_time()+"---------");
-		System.out.println("-----------content:"+newsInstance.getContent()+"---------");
-		System.out.println("-----------type:"+newsInstance.getPub_type()+"---------");
 		}
 
 		String result = "{\"news\":"+ json_result +"}";
@@ -110,49 +97,46 @@ public class NewsController {
 			result_temp = URLEncoder.encode(result, "utf-8");
 			result_temp = URLEncoder.encode(result, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 									
 		return result_temp;	
 	}
 	
+	//查看好友发布的动态
 	@RequestMapping(params="method=imp_news_display")
 	public @ResponseBody String imp_news_display(@RequestBody News news){
-		
 		List friend_list = friend_listservice.queryBySelfId(news.getPub_id());
-		User_Reg user_reg = userservice.queryByUserId(news.getPub_id());
-		List l = newsservice.queryByPubId(news.getPub_id());
-		Iterator iter = l.iterator();
+		Iterator friend_iter = friend_list.iterator();
 		Map data = new HashMap();
 		JSONArray json_result = new JSONArray();
-		while(iter.hasNext()){
-		News newsInstance = (News)iter.next();
-		data.put("news_id", newsInstance.getNews_id());
-		data.put("pub_id", newsInstance.getPub_id());
-		data.put("pub_name",user_reg.getCn_tname());
-		data.put("pub_time", newsInstance.getPub_time());
-		data.put("content", newsInstance.getContent());
-		data.put("pub_type", newsInstance.getPub_type());
-		json_result.put(data);
-		System.out.println("-----------news_id:"+newsInstance.getNews_id()+"---------");
-		System.out.println("-----------pub_id:"+newsInstance.getPub_id()+"---------");
-		System.out.println("-----------pub_name:"+user_reg.getCn_tname()+"---------");
-		System.out.println("-----------pub_time:"+newsInstance.getPub_time()+"---------");
-		System.out.println("-----------content:"+newsInstance.getContent()+"---------");
-		System.out.println("-----------type:"+newsInstance.getPub_type()+"---------");
+		for(int i=0;i<friend_list.size();i++){
+			Friend_List friend_listInstance = (Friend_List)friend_iter.next();
+			if(friend_listInstance.getStatus().equals("2")){
+			List news_list = newsservice.queryByPubId(friend_listInstance.getPartner_id());
+			Iterator news_iter = news_list.iterator();
+			for(int j=0;j<news_list.size();j++){
+				News newsInstance = (News)news_iter.next();
+				data.put("news_id", newsInstance.getNews_id());
+				data.put("pub_id", newsInstance.getPub_id());
+				User_Reg user_reg = userservice.queryByUserId(friend_listInstance.getPartner_id());
+				data.put("pub_name",user_reg.getCn_tname());
+				data.put("pub_time", newsInstance.getPub_time());
+				data.put("content", newsInstance.getContent());
+				data.put("pub_type", newsInstance.getPub_type());
+				json_result.put(data);
+			}
+		  }
 		}
 
-		String result = "{\"news\":"+ json_result +"}";
+		String result = "{\"news\":"+ json_result + "}";
 		String result_temp = "error";
 		try {
 			result_temp = URLEncoder.encode(result, "utf-8");
 			result_temp = URLEncoder.encode(result, "utf-8");
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-									
+		}						
 		return result_temp;	
 	}
 	
@@ -160,21 +144,14 @@ public class NewsController {
 	
 	@RequestMapping(params="method=imp_news_queryByNewsId")
 	public @ResponseBody String imp_news_queryByNewId(@RequestBody News news){
-		//通过实体类来封装jsp页面
 		
 		News newsInstance = newsservice.queryByNewsId(news.getNews_id());
-		System.out.println("-----------news_id:"+newsInstance.getNews_id()+"---------");
-		System.out.println("-----------pub_id:"+newsInstance.getPub_id()+"---------");
-		System.out.println("-----------pub_time:"+newsInstance.getPub_time()+"---------");
-		System.out.println("-----------content:"+newsInstance.getContent()+"---------");
-
 		return "index";
 	}
 	
 	
 	@RequestMapping(params="method=imp_news_delete")
 	public @ResponseBody String imp_news_delete(@RequestBody News news){
-		//通过实体类来封装jsp页面
 		
 		newsservice.delete(news);
 		return "index";
@@ -189,7 +166,7 @@ public class NewsController {
 		
 	}
 	
-	
+	//删除动态
 	@RequestMapping(params="method=imp_news_deleteByNewsId")
 	public @ResponseBody String imp_news_deleteByNewsId(@RequestBody News news){
 		
@@ -198,7 +175,6 @@ public class NewsController {
 		try {
 			newsservice.deleteByNewsId(news.getNews_id());
 		} catch (RuntimeException e) {
-			// TODO Auto-generated catch block
 			temp = "fail";
 			String result_temp = tojosn.tojson(temp);
 			result_temp = encoding.encoding(result_temp);			

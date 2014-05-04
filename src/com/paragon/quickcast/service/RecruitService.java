@@ -9,6 +9,6 @@ public interface RecruitService {
 
 	public boolean insert(Recruit_Info recruit_info);
 	public boolean delete(int info_id);
-	public boolean queryByInfoId(int info_id);
+	public Recruit_Info queryByInfoId(int info_id);
 	public boolean update(Recruit_Info recruit_info);
 }

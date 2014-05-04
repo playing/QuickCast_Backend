@@ -21,9 +21,11 @@ public class Rsm_Deliver {
 	@Column(nullable = false)
 	private int etp_id;
 	
+	@Column(nullable = true)
 	private int hunter_id;
 
-	
+	@Column(nullable = false)
+	private String handle_status;
 	
 	
 	public int getDeliver_id() {
@@ -56,6 +58,14 @@ public class Rsm_Deliver {
 
 	public void setHunter_id(int hunter_id) {
 		this.hunter_id = hunter_id;
+	}
+
+	public String getHandle_status() {
+		return handle_status;
+	}
+
+	public void setHandle_status(String handle_status) {
+		this.handle_status = handle_status;
 	}	
 	
 }

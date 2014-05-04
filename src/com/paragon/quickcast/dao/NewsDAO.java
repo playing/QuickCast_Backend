@@ -34,7 +34,7 @@ public class NewsDAO{
 	
 
 	public List queryByPubId(int pub_id){
-		String hql = "FROM News as news order by news.pub_time WHERE news.pub_id=?";		
+		String hql = "FROM News as news WHERE news.pub_id=? ";		
 		List l = hibernateTemplate.find(hql, pub_id);
 		return l;		
 	}

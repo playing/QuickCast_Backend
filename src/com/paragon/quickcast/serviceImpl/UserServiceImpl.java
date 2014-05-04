@@ -55,6 +55,17 @@ public class UserServiceImpl implements UserService {
     	return userregDao.countByUserType(user_type);
     	
     }
+    
+    public List queryByName(String cn_tname){
+    	
+    	return userregDao.queryByName(cn_tname);
+    	
+    }
+	public User_Reg queryByEmail(String email){
+		
+		return userregDao.queryByEmail(email);
+		
+	}
 
 	public User_RegDAO getUserregDao() {
 		return userregDao;

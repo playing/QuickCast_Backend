@@ -43,6 +43,7 @@ public class News {
 		this.pub_id = pub_id;
 	}
 
+
 	public String getPub_time() {
 		return pub_time;
 	}

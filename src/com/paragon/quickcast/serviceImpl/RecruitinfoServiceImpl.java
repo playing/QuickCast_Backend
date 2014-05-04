@@ -23,9 +23,9 @@ public class RecruitinfoServiceImpl implements RecruitService {
 		return false;
 	}
 
-	public boolean queryByInfoId(int info_id) {
+	public Recruit_Info queryByInfoId(int info_id) {
+		return recruit_infodao.queryByInfoId(info_id);
 		
-		return false;
 	}
 
 	public boolean update(Recruit_Info recruit_info) {

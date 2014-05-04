@@ -37,6 +37,7 @@ public class InformationController extends MultiActionController{
 	
 	
 	
+	//求职者 1 猎头 2 企业 3
 	
 	//Seeker_Info
 	@RequestMapping(params="method=seekerinfo_insert")
@@ -56,19 +57,33 @@ public class InformationController extends MultiActionController{
 			return result_temp;
 		}
 		String result_temp = tojosn.tojson(temp);
-		result_temp = encoding.encoding(result_temp);
-								
+		result_temp = encoding.encoding(result_temp);							
 		return result_temp;	
 	}
 	
     @RequestMapping(params="method=seekerinfo_update")
-    public @ResponseBody String seekerinfo_update(Seeker_Info seeker_info){
-    	seekerinfoImpl.update(seeker_info);
-    	return "seekerinfo_update OK";
+    public @ResponseBody String seekerinfo_update(@RequestBody Seeker_Info seeker_info){
+    	
+    	String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			seekerinfoImpl.update(seeker_info);
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
     }
     
     @RequestMapping(params="method=seekerinfo_delete")
-    public @ResponseBody String seekerinfo_delete(Seeker_Info seeker_info){
+    public @ResponseBody String seekerinfo_delete(@RequestBody Seeker_Info seeker_info){
     	seekerinfoImpl.delete(seeker_info);
     	return "seekerinfo_delete OK";
     }
@@ -102,14 +117,7 @@ public class InformationController extends MultiActionController{
     	
     	String result = "{\"seeker_info\":"+ json_result +"}";
 		String result_temp = "error";
-		try {
-			result_temp = URLEncoder.encode(result, "utf-8");
-			result_temp = URLEncoder.encode(result, "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-									
+		result_temp = encoding.encoding(result_temp);						
 		return result_temp;
     }
     
@@ -140,35 +148,60 @@ public class InformationController extends MultiActionController{
     	data.put("tech_direction", seeker_infoInstance.getTech_direction());
     	data.put("work_place", seeker_infoInstance.getWork_place());
     	
+    	json_result.put(data);
     	String result = "{\"seeker_info\":"+ json_result +"}";
-		String result_temp = "error";
-		try {
-			result_temp = URLEncoder.encode(result, "utf-8");
-			result_temp = URLEncoder.encode(result, "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-									
+    	String result_temp = "error";
+		result_temp = encoding.encoding(result);							
 		return result_temp;
     }
     
     @RequestMapping(params="method=deleteBySeekerInfoId")
-	public @ResponseBody String deleteBySeekerInfoId(int info_id){
-    	seekerinfoImpl.deleteByInfoId(info_id);
-	    return "deleteBySeekerInfoId OK";
+	public @ResponseBody String deleteBySeekerInfoId(@RequestBody Seeker_Info seeker_info){
+    
+    	String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			seekerinfoImpl.deleteByInfoId(seeker_info.getInfo_id());
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
 	    }
 	
 	@RequestMapping(params="method=deleteBySeekerUserId")
-	public @ResponseBody String deleteBySeekerUserId(int user_id){
-		seekerinfoImpl.deleteByUserId(user_id);
-	    return "deleteBySeekerUserId OK";
-	    }
+	public @ResponseBody String deleteBySeekerUserId(@RequestBody Seeker_Info seeker_info){
+		
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			seekerinfoImpl.deleteByUserId(seeker_info.getUser_id());
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
+}
+
 	
 	
     //Hunter_Info
 	@RequestMapping(params="method=hunterinfo_insert")
-	public @ResponseBody String hunterinfo_insert(Hunter_Info hunter_info){
+	public @ResponseBody String hunterinfo_insert(@RequestBody Hunter_Info hunter_info){
 		
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
@@ -190,44 +223,156 @@ public class InformationController extends MultiActionController{
 	}
 	
     @RequestMapping(params="method=hunterinfo_update")
-    public @ResponseBody String hunterinfo_update(Hunter_Info hunter_info){
-    	hunterinfoImpl.update(hunter_info);
-    	return "hunterinfo_update OK";
+    public @ResponseBody String hunterinfo_update(@RequestBody Hunter_Info hunter_info){
+    	
+    	String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			hunterinfoImpl.update(hunter_info);
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
     }
     
     @RequestMapping(params="method=hunterinfo_delete")
-    public @ResponseBody String hunterinfo_delete(Hunter_Info hunter_info){
-    	hunterinfoImpl.delete(hunter_info);
-    	return "hunterinfo_delete OK";
+    public @ResponseBody String hunterinfo_delete(@RequestBody Hunter_Info hunter_info){
+    	
+    	String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			hunterinfoImpl.delete(hunter_info);
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
     }
     
     @RequestMapping(params="method=queryByHunterInfoId")
-    public @ResponseBody String queryByHunterInfoId(int info_id){
-    	Hunter_Info hunter_info = hunterinfoImpl.queryByHunterInfoId(info_id);
-    	System.out.println("-----------hunterinfo_id:"+hunter_info.getInfo_id()+"---------");
-		System.out.println("-----------user_id:"+hunter_info.getUser_id()+"---------");
-    	return "queryByHunterInfoId OK";
+    public @ResponseBody String queryByHunterInfoId(@RequestBody Hunter_Info hunter_info){
+    	Hunter_Info info = hunterinfoImpl.queryByHunterInfoId(hunter_info.getInfo_id());
+    	System.out.println("-----------hunterinfo_id:"+info.getInfo_id()+"---------");
+		System.out.println("-----------user_id:"+info.getUser_id()+"---------");
+
+    	Map data = new HashMap();
+		JSONArray json_result = new JSONArray();
+		data.put("info_id", info.getInfo_id());
+		data.put("user_id", info.getUser_id());
+		data.put("business_card", info.getBusiness_card());
+		data.put("certificate", info.getCertificate());
+		data.put("check_status", info.getCheck_status());
+		data.put("etp_intro", info.getEtp_intro());
+		data.put("etp_name", info.getEtp_name());
+		data.put("gender", info.getGender());
+		data.put("hunter_fax", info.getHunter_fax());
+		data.put("mobile", info.getMobile());
+		data.put("msg_addr", info.getMsg_addr());
+		data.put("partner", info.getPartner());
+		data.put("self_intro", info.getSelf_intro());
+		data.put("t_area", info.getT_area());
+		data.put("work_city", info.getWork_city());
+		data.put("work_email", info.getWork_email());
+		data.put("work_phone", info.getWork_phone());
+		data.put("work_time", info.getWork_time());
+		json_result.put(data);
+		
+		String result = "{\"hunter_info\":"+ json_result +"}";
+    	String result_temp = "error";
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;
     }
     
     @RequestMapping(params="method=queryByHunterUserId")
-    public @ResponseBody String queryByHunterUserId(int user_id){
-    	Hunter_Info hunter_info = hunterinfoImpl.queryByHunterUserId(user_id);
+    public @ResponseBody String queryByHunterUserId(@RequestBody Hunter_Info hunter_info){
+    	Hunter_Info info = hunterinfoImpl.queryByHunterUserId(hunter_info.getUser_id());
     	System.out.println("-----------hunterinfo_id:"+hunter_info.getInfo_id()+"---------");
     	System.out.println("-----------user_id:"+hunter_info.getUser_id()+"---------");
-    	return "queryByHunterUserId OK";
+    	Map data = new HashMap();
+		JSONArray json_result = new JSONArray();
+		data.put("info_id", info.getInfo_id());
+		data.put("user_id", info.getUser_id());
+		data.put("business_card", info.getBusiness_card());
+		data.put("certificate", info.getCertificate());
+		data.put("check_status", info.getCheck_status());
+		data.put("etp_intro", info.getEtp_intro());
+		data.put("etp_name", info.getEtp_name());
+		data.put("gender", info.getGender());
+		data.put("hunter_fax", info.getHunter_fax());
+		data.put("mobile", info.getMobile());
+		data.put("msg_addr", info.getMsg_addr());
+		data.put("partner", info.getPartner());
+		data.put("self_intro", info.getSelf_intro());
+		data.put("t_area", info.getT_area());
+		data.put("work_city", info.getWork_city());
+		data.put("work_email", info.getWork_email());
+		data.put("work_phone", info.getWork_phone());
+		data.put("work_time", info.getWork_time());
+		json_result.put(data);
+		
+		String result = "{\"hunter_info\":"+ json_result +"}";
+    	String result_temp = "error";
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;
     }
     
     @RequestMapping(params="method=deleteByHunterInfoId")
-	public @ResponseBody String deleteByHunterInfoId(int info_id){
-    	hunterinfoImpl.deleteByInfoId(info_id);
-	    return "deleteByHunterInfoId OK";
+	public @ResponseBody String deleteByHunterInfoId(@RequestBody Hunter_Info hunter_info){
+    	
+    	String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			hunterinfoImpl.deleteByInfoId(hunter_info.getInfo_id());
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
 	    }
 	
 	@RequestMapping(params="method=deleteByHunterUserId")
-	public @ResponseBody String deleteByHunterUserId(int user_id){
-		hunterinfoImpl.deleteByUserId(user_id);
-	    return "deleteByHunterUserId OK";
-	    }
+	public @ResponseBody String deleteByHunterUserId(@RequestBody Hunter_Info hunter_info){
+
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			hunterinfoImpl.deleteByInfoId(hunter_info.getUser_id());
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
+}
+
 	
 	//Etp_Info
 		@RequestMapping(params="method=etpinfo_insert")
@@ -247,50 +392,150 @@ public class InformationController extends MultiActionController{
 				return result_temp;
 			}
 			String result_temp = tojosn.tojson(temp);
-			result_temp = encoding.encoding(result_temp);
-									
+			result_temp = encoding.encoding(result_temp);							
 			return result_temp;	
 			
 		}
 		
 	    @RequestMapping(params="method=etpinfo_update")
 	    public @ResponseBody String etpinfo_update(@RequestBody Etp_Info etp_info){
-	    	etpinfoImpl.update(etp_info);
-	    	return "etpinfo_update OK";
+	    	
+	    	String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				etpinfoImpl.update(etp_info);
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);							
+			return result_temp;	
 	    }
 	    
 	    @RequestMapping(params="method=etpinfo_delete")
-	    public @ResponseBody String etpinfo_delete(Etp_Info etp_info){
-	    	etpinfoImpl.delete(etp_info);
-	    	return "etpinfo_delete OK";
+	    public @ResponseBody String etpinfo_delete(@RequestBody Etp_Info etp_info){
+	    	
+	    	String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				etpinfoImpl.delete(etp_info);
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);							
+			return result_temp;	
 	    }
 	    
 	    @RequestMapping(params="method=queryByEtpInfoId")
-	    public @ResponseBody String queryByEtpInfoId(int info_id){
-	    	Etp_Info etp_info = etpinfoImpl.queryByEtpInfoId(info_id);
-	    	System.out.println("-----------etpinfo_id:"+etp_info.getInfo_id()+"---------");
-			System.out.println("-----------user_id:"+etp_info.getUser_id()+"---------");
-	    	return "queryByEtpInfoId OK";
+	    public @ResponseBody String queryByEtpInfoId(@RequestBody Etp_Info etp_info){
+	    	Etp_Info info = etpinfoImpl.queryByEtpInfoId(etp_info.getInfo_id());
+	    	System.out.println("-----------etpinfo_id:"+info.getInfo_id()+"---------");
+			System.out.println("-----------user_id:"+info.getUser_id()+"---------");
+			Map data = new HashMap();
+			JSONArray json_result = new JSONArray();
+			data.put("info_id", info.getInfo_id());
+			data.put("user_id", info.getUser_id());
+			data.put("certificate", info.getCertificate());
+			data.put("check_status", info.getCheck_status());
+			data.put("etp_intro", info.getEtp_intro());
+			data.put("etp_name", info.getEtp_name());
+			data.put("msg_addr", info.getMsg_addr());
+			data.put("etp_addr", info.getEtp_addr());
+			data.put("etp_email", info.getEtp_email());
+			data.put("contact_person", info.getContact_person());
+			data.put("etp_industry", info.getEtp_industry());
+			data.put("etp_nature", info.getEtp_nature());
+			data.put("etp_phone", info.getEtp_phone());
+			data.put("etp_size", info.getEtp_size());
+			
+			String result = "{\"etp_info\":"+ json_result +"}";
+	    	String result_temp = "error";
+			result_temp = encoding.encoding(result_temp);							
+			return result_temp;
 	    }
 	    
 	    @RequestMapping(params="method=queryByEtpUserId")
-	    public @ResponseBody String queryByEtpUserId(int user_id){
-	    	Etp_Info etp_info = etpinfoImpl.queryByEtpUserId(user_id);
+	    public @ResponseBody String queryByEtpUserId(@RequestBody Etp_Info etp_info){
+	    	Etp_Info info = etpinfoImpl.queryByEtpUserId(etp_info.getUser_id());
 	    	System.out.println("-----------etpinfo_id:"+etp_info.getInfo_id()+"---------");
 			System.out.println("-----------user_id:"+etp_info.getUser_id()+"---------");
-	    	return "queryByEtpUserId OK";
+			Map data = new HashMap();
+			JSONArray json_result = new JSONArray();
+			data.put("info_id", info.getInfo_id());
+			data.put("user_id", info.getUser_id());
+			data.put("certificate", info.getCertificate());
+			data.put("check_status", info.getCheck_status());
+			data.put("etp_intro", info.getEtp_intro());
+			data.put("etp_name", info.getEtp_name());
+			data.put("msg_addr", info.getMsg_addr());
+			data.put("etp_addr", info.getEtp_addr());
+			data.put("etp_email", info.getEtp_email());
+			data.put("contact_person", info.getContact_person());
+			data.put("etp_industry", info.getEtp_industry());
+			data.put("etp_nature", info.getEtp_nature());
+			data.put("etp_phone", info.getEtp_phone());
+			data.put("etp_size", info.getEtp_size());
+			json_result.put(data);
+			
+			String result = "{\"etp_info\":"+ json_result +"}";
+	    	String result_temp = "error";
+			result_temp = encoding.encoding(result_temp);							
+			return result_temp;
 	    }
 	    
 	    @RequestMapping(params="method=deleteByEtpInfoId")
-		public @ResponseBody String deleteByEtpInfoId(int info_id){
-	    	etpinfoImpl.deleteByInfoId(info_id);
-		    return "deleteByEtpInfoId OK";
+		public @ResponseBody String deleteByEtpInfoId(@RequestBody Etp_Info etp_info){
+	    	
+	    	String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				etpinfoImpl.deleteByInfoId(etp_info.getInfo_id());
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);							
+			return result_temp;
 		    }
 		
 		@RequestMapping(params="method=deleteByEtpUserId")
-		public @ResponseBody String deleteByEtpUserId(int user_id){
-			etpinfoImpl.deleteByUserId(user_id);
-		    return "deleteByEtpUserId OK";
+		public @ResponseBody String deleteByEtpUserId(@RequestBody Etp_Info etp_info){
+			
+			String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				etpinfoImpl.deleteByUserId(etp_info.getUser_id());
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);							
+			return result_temp;
 		    }
 
 		

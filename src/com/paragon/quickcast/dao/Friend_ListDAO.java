@@ -1,10 +1,12 @@
 package com.paragon.quickcast.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -26,37 +28,48 @@ public class Friend_ListDAO{
 	@Resource
 	private FriendsGroupDAO friendsgroupdao;
 
-    //全局变量 Array记录HashMap中的前20大元素
+    //全局变量 Array记录HashMap中的前20大元素个数和好友的ID
 	int[] hash_list = new int[20];
+	Friend_List getfriend_list[] = new Friend_List[5];
 	//插入用户新注册信息；
 	//以Friend_List类为传递参数；
 	public boolean insert(Friend_List friend_list){
-		//FriendsGroup friendsgroup = new FriendsGroup();
+		FriendsGroup friendsgroup = new FriendsGroup();
 		//User_Reg user_reg = null;
 		String Tempgrouptype = user_regdao.queryByUserId(friend_list.getPartner_id()).getUser_type();
 		System.out.println("----"+Tempgrouptype+"------");
-		/*friendsgroup.setGrouptype(Tempgrouptype);
+		friendsgroup.setGrouptype(Tempgrouptype);
 		hibernateTemplate.save(friendsgroup);
-		friend_list.setFriendsgroup(friendsgroup);
-		hibernateTemplate.save(friend_list);*/
-		FriendsGroup friendsgroup = (FriendsGroup)friendsgroupdao.findFriendsGroup(Tempgrouptype);
-		friend_list.setFriendsgroup(friendsgroup);
-	
+		//friend_list.setFriendsgroup(friendsgroup);
+		//hibernateTemplate.save(friend_list);
+		//FriendsGroup friendsgroup = (FriendsGroup)friendsgroupdao.findFriendsGroup(Tempgrouptype);
+		//hibernateTemplate.save(friendsgroup);
+		friend_list.setFriendsgroup(friendsgroup);	
 		hibernateTemplate.save(friend_list);
-		System.out.println("Group!!!!!!!!!");
-		List<Friend_List> friendl = (List)friendsgroupdao.findFriendsGroup(Tempgrouptype);
+		
+		//List<Friend_List> friendl = (List)friendsgroupdao.findFriendsGroup(Tempgrouptype);
 		return true;
 		
 	}
 	
 	
-	public void update(Friend_List friend_list){	
-		hibernateTemplate.update(friend_list);
-		Friend_List friend_list2 = new Friend_List();
-		friend_list2.setPartner_id(friend_list.getSelf_id());
-		friend_list2.setSelf_id(friend_list.getPartner_id());
-		friend_list2.setStatus("2");
-		hibernateTemplate.save(friend_list2);
+	public void update(Friend_List friend_list){
+		Object[] args = {friend_list.getSelf_id(),friend_list.getPartner_id()};
+		String hql = "FROM Friend_List as friend_list WHERE friend_list.partner_id=? AND friend_list.self_id=?";
+		List l = hibernateTemplate.find(hql,args);
+		Iterator iter = l.iterator();
+		if(iter.hasNext()){
+			Friend_List list = (Friend_List)iter.next();
+		    list.setStatus("2");
+		    hibernateTemplate.update(list);
+		    Friend_List friend_list2 = new Friend_List();
+		    friend_list2.setPartner_id(list.getSelf_id());
+		    friend_list2.setSelf_id(list.getPartner_id());
+		    friend_list2.setFriendsgroup(list.getFriendsgroup());
+		    friend_list2.setReason(list.getReason());
+		    friend_list2.setStatus(list.getStatus());
+		    hibernateTemplate.save(friend_list2);
+		}
 	}
 	
 	
@@ -83,14 +96,8 @@ public class Friend_ListDAO{
 			
 	}
 		
-
-	public void delete(Friend_List friend_list){
-			
-		hibernateTemplate.delete(friend_list);
-			
-	}
 		
-	public void deleteByRltsId(int rlts_id){
+	public void delete(int rlts_id){
 			
 		hibernateTemplate.delete(hibernateTemplate.get(Friend_List.class, rlts_id));
 			
@@ -105,11 +112,11 @@ public class Friend_ListDAO{
 	}
 		
 	public void deleteBySelfId(int self_id,int partner_id){
-			
-		String hql1 = "FROM Friend_List as friend_list WHERE friend_list.self_id=self_id AND friend_list.partner_id=partner_id";
-		List list1 = hibernateTemplate.find(hql1);
-		String hql2 = "FROM Friend_List as friend_list WHERE friend_list.self_id=partner_id AND friend_list.partner_id=self_id";
-		List list2 = hibernateTemplate.find(hql2);
+		Object[] args = {self_id,partner_id};
+		String hql1 = "FROM Friend_List as friend_list WHERE friend_list.self_id=? AND friend_list.partner_id=?";
+		List list1 = hibernateTemplate.find(hql1,args);
+		String hql2 = "FROM Friend_List as friend_list WHERE friend_list.partner_id=? AND friend_list.self_id=?";
+		List list2 = hibernateTemplate.find(hql2,args);
 		hibernateTemplate.deleteAll(list1);
 		hibernateTemplate.deleteAll(list2);
 	}
@@ -127,49 +134,83 @@ public class Friend_ListDAO{
 		return l;
 		
 	}
+	public List queryBySelf_ReturnPar_PartID(int partner_id){
+		List<Integer> LPartner_ID = (List)this.queryBySelf_ReturnParID(partner_id);
+		Iterator iter = LPartner_ID.iterator();		
+		List Temp_part1= new ArrayList();
+		
+		for(int i = 0 ; i < LPartner_ID.size() ; i ++){
+			List Temp_part2 = this.queryBySelf_ReturnParID(LPartner_ID.get(i));
+			for(int ii = 0 ; ii < Temp_part2.size(); ii ++){
+				Temp_part1.add(Temp_part2.get(ii));
+				System.out.println(Temp_part2.get(ii));
+			}
+		}
+		return Temp_part1;
+	}
+	//按照对象的Rlts_id排序
+	
 		public HashMap hash_indexSelfID(int self_id){
-		HashMap<Object, Integer> friendscircle = new HashMap<Object,Integer>();
-		List<Friend_List> Lfriendlist = (List)this.queryBySelf_ReturnParID(self_id);
+		HashMap<Integer, Integer> friendscircle = new HashMap<Integer,Integer>();
+		List<Integer> Lfriendlist = (List)this.queryBySelf_ReturnPar_PartID(self_id);
+		for(int i = 0; i < Lfriendlist.size() ; i++)
+			System.out.println("-------------- " +Lfriendlist.get(i) +" -----------");
 		Iterator iter = Lfriendlist.iterator();
 		int count_list = 0;
-		Iterator iter1 = friendscircle.values().iterator();
 		while(iter.hasNext()){
-			Object key = iter.next();
+			Integer key = (Integer)iter.next();
 			if(!friendscircle.containsKey(key)){
 				friendscircle.put(key, 1);
+				System.out.println("好友ID"+key);
 			}
 			else{
 				Integer count_friends = friendscircle.get(key);
-				if( count_list < 20 ){
-					hash_list[count_list] = count_friends;
-					++count_list;
-				}
+				++count_friends;
 				friendscircle.put(key,count_friends);
 			}
+			//Iterator iter1 = friendscircle.values().iterator();
 		}
-		Arrays.sort(hash_list);
-		for(int i = 0; i < 20; i++)
-		System.out.println(" "+hash_list[i]+" ");
+		Set<Map.Entry<Integer,Integer>> set = friendscircle.entrySet();
+		Iterator<Map.Entry<Integer, Integer>> iter1 = set.iterator();
+		while( count_list < 5 && (count_list < set.size())){
+			Map.Entry<Integer, Integer> entry = iter1.next();
+			//setPartner_id得到的是间接好友的ID，setSelf_id得到的是共同好友的个数
+			getfriend_list[count_list] = new Friend_List();
+			getfriend_list[count_list].setRlts_id(entry.getValue());
+			getfriend_list[count_list].setPartner_id(entry.getKey());
+			++count_list;
+		}
+		if(getfriend_list.length > 1)
+		Arrays.sort(getfriend_list, new Friend_List());
+		for(int i = 0; i < 5&&(i<set.size()); i++){
+		System.out.println("好友圈的间接好友的个数和好友ID");
+		System.out.println(" "+getfriend_list[i].getRlts_id()+" ");
+		System.out.println(" "+getfriend_list[i].getPartner_id()+" ");
+		}
 		return friendscircle;
 	}
 		
-		public int[] creat_arraysort(int self_id){
+		public Friend_List[] creat_arraysort(int self_id){
 			Map temp_friendscircle = hash_indexSelfID(self_id);
 			Iterator iter2 = temp_friendscircle.entrySet().iterator();
 			int count_list2 = 0; 
 			while(iter2.hasNext()){
 			    Map.Entry entry = (Map.Entry)iter2.next();
 			    ++count_list2;
-			    Object key = entry.getKey();
+			    Object key1 = entry.getKey();
 			    Integer val = (Integer)entry.getValue();
-			    if(count_list2 >= 20){
-			    	if(hash_list[0] < val){
+			    if(count_list2 >= 5){
+			    	/*if(hash_list[0] < val){
 			    		hash_list[0] = val;
 			    		Arrays.sort(hash_list);
+			    	}*/
+	 		    	if(getfriend_list[0].getRlts_id() < val){
+			    		getfriend_list[0].setRlts_id(val);
+			    		Arrays.sort(getfriend_list,new Friend_List());
 			    	}
 			    }
 			}
-			return hash_list;
+			return getfriend_list;
 		}
 		
 		public void maxFriendscount(HashMap tempfriend){

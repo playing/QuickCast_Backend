@@ -1,0 +1,48 @@
+package com.paragon.quickcast.dao;
+
+import java.util.Iterator;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.paragon.quickcast.entity.Count_Rsmhandle;
+import com.paragon.quickcast.entity.Count_User;
+
+@Repository
+public class CountDAO {
+	
+	@Resource
+	private HibernateTemplate hibernateTemplate;
+	
+	
+	public Count_User queryBycountUserId(int id){
+		
+		return hibernateTemplate.get(Count_User.class, id);
+		
+	}
+	
+	public Count_Rsmhandle queryByCountRsmhandleEtpId(int etp_id){
+		Count_Rsmhandle count_rsmhandle = null;
+		String hql = "FROM Count_Rsmhandle as count_rsmhandle WHERE count_rsmhandle.etp_id=?";
+		List l = hibernateTemplate.find(hql,etp_id);
+		Iterator iter = l.iterator();
+		if(iter.hasNext()){
+			count_rsmhandle = (Count_Rsmhandle)iter.next();	
+		}	
+		return count_rsmhandle;
+	}
+
+	public HibernateTemplate getHibernateTemplate() {
+		return hibernateTemplate;
+	}
+
+	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
+		this.hibernateTemplate = hibernateTemplate;
+	}
+	
+	
+
+}

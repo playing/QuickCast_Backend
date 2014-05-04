@@ -154,6 +154,7 @@ function  deleteByReceiveId_message(){
      content:<input type=text name="content"/><br/>
      status:<input type=text name="status"/><br/>
      dispatch_time:<input type=text name="dispatch_time"/><br/>
+     message_type:<input type=text name="message_type"/><br/>
      
      <button type = "button" onclick = "insert_message()">insert_message</button>
      <button type = "button" onclick = "update_message()">update_message</button>

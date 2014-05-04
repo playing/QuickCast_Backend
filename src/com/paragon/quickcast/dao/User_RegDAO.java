@@ -211,6 +211,32 @@ public class User_RegDAO{
  	}
 	
 	
+	public List queryByName(String cn_tname){
+		User_Reg user_reg = null;
+ 		Iterator iterator = null;
+ //		'%"+sname+"%'"
+ //		String hql = "FROM User_Reg as user_reg WHERE user_reg.cn_tname like %?%";
+ 		String hql = "FROM User_Reg as user_reg WHERE user_reg.cn_tname like '%"+cn_tname+"%'";
+ //		List l = (List)hibernateTemplate.find(hql,cn_tname);
+ 		List l = (List)hibernateTemplate.find(hql);
+ 		return l;
+ 	}
+	
+	public User_Reg queryByEmail(String email){
+		User_Reg user_reg = null;
+ 		Iterator iterator = null;
+ 		String hql = "FROM User_Reg as user_reg WHERE user_reg.email=?";
+ 		List l = (List)hibernateTemplate.find(hql,email);
+ 		iterator = l.iterator();
+ 		if(iterator.hasNext())
+ 		{
+ 			user_reg = (User_Reg)iterator.next();
+ 		}
+ 		return user_reg;
+ 	}
+	
+	
+	
 	public int countByUserType(String user_type){
 		
     	String hql = "FROM User_Reg as user_reg WHERE user_reg.user_type=?";
@@ -221,6 +247,20 @@ public class User_RegDAO{
 	
 	//更新数据库操作
 	//以User_Reg类为传递参数
+	public void update_type(int user_id,String type){
+		User_Reg user_reg = null;
+ 		Iterator iterator = null;
+ 		List l = (List)this.hibernateTemplate.find("FROM User_Reg as user_reg WHERE user_reg.user_id=?",new Integer(user_id));
+ 		iterator = l.iterator();
+ 		if(iterator.hasNext())
+ 		{
+ 			user_reg = (User_Reg)iterator.next();
+ 		}
+ 		user_reg.setUser_type(type);
+ 		hibernateTemplate.update(user_reg);
+ 		
+ 	}
+	
 	public void update(User_Reg user_reg){
 			//调用hibernateTemplate自带的update方法；
 			hibernateTemplate.update(user_reg);
