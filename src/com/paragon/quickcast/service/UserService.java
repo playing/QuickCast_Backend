@@ -19,4 +19,5 @@ public interface UserService {
 	public List queryByName(String cn_tname);
 	public User_Reg queryByEmail(String email);
 	
+	
 }

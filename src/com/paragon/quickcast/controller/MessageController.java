@@ -44,27 +44,25 @@ public class MessageController {
 
 
 	@RequestMapping(params="method=imp_message_insert")
-	public @ResponseBody String imp_news_insert(Message message){		
-		
-		messageservice.insert(message);
-		System.out.println("-----------msg_id:"+message.getMsg_id()+"---------");
-		System.out.println("-----------dispatch_id:"+message.getDispatch_id()+"---------");
-		System.out.println("-----------receive_id:"+message.getReceive_id()+"---------");
-		System.out.println("-----------dispatch_time:"+message.getDispatch_time()+"---------");
-		System.out.println("-----------status:"+message.getStatus()+"---------");
-		System.out.println("-----------content:"+message.getContent()+"---------");
-		System.out.println("-----------title:"+message.getTitle()+"---------");
-		
+	public @ResponseBody String imp_news_insert(@RequestBody Message message){		
+			
 		String temp = "success";
-		ToJson tojosn = new ToJson();		
-		String result_temp = tojosn.tojson(temp);
-		try {
-			result_temp = URLEncoder.encode(temp, "utf-8");
-			result_temp = URLEncoder.encode(temp, "utf-8");
-		} catch (UnsupportedEncodingException e) {
+		ToJson tojosn = new ToJson();	
+		try {	
+			message.setMessage_type("1");
+			message.setStatus("1");
+			messageservice.insert(message);
+		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
 			e.printStackTrace();
-		}								
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
 		return result_temp;	
 	}
 	

@@ -95,7 +95,7 @@ public class Friend_ListController {
 		List l = friend_listservice.queryByPartnerId(friend_list.getPartner_id());
 		if(l.isEmpty()){
 			ToJson tojson = new ToJson();
-			String temp = "fail";
+			String temp = null;
 			String result_temp = tojson.tojson(temp);
 			result_temp = encoding.encoding(result_temp);
 			return result_temp;
@@ -205,10 +205,7 @@ public class Friend_ListController {
 		data.put("partner_id", user_regInstacne.getUser_id());
 		data.put("partner_name", user_regInstacne.getCn_tname());
 		data.put("partner_email", user_regInstacne.getEmail());
-		json_result.put(data);
-		System.out.println("-----------partner_name:"+user_regInstacne.getCn_tname()+"---------");
-		System.out.println("-----------partner_email:"+user_regInstacne.getEmail()+"---------");		
-		
+		json_result.put(data);	
 		String result = "{\"query\":"+ json_result +"}";
 		String result_temp = encoding.encoding(result);		
 		return result_temp;	

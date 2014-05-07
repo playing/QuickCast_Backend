@@ -27,7 +27,7 @@ public class Recruit_Info {
 	@Column(name="recruit_num",nullable=false)
 	private int recruit_num;
 	
-	@Column(name="recruit_time",nullable=false)
+	@Column(name="recruit_time")
 	private String recruit_time;
 	
 	@Column(name="salary",nullable=false)
@@ -36,7 +36,8 @@ public class Recruit_Info {
 	@Column(name="recruit_detail",nullable=false)
 	private String recruit_detail;
 	
-	
+	@Column(name="recruit_industry",nullable=false)
+	private String recruit_industry;
 
 	public int getInfo_id() {
 		return info_id;
@@ -100,6 +101,14 @@ public class Recruit_Info {
 
 	public void setRecruit_detail(String recruit_detail) {
 		this.recruit_detail = recruit_detail;
+	}
+
+	public String getRecruit_industry() {
+		return recruit_industry;
+	}
+
+	public void setRecruit_industry(String recruit_industry) {
+		this.recruit_industry = recruit_industry;
 	}
 	
 }

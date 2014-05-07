@@ -34,6 +34,7 @@ public class User_RegDAO{
 	@Resource
 	private Encoding encoding;
 	
+	
 	/*public void add(User u){
 		System.out.println("UserDao.add()");
 		hibernateTemplate.save(u);
@@ -111,7 +112,7 @@ public class User_RegDAO{
 	
 	//插入用户新注册信息；
 	//以User_Reg类为传递参数；
-	public String insert(User_Reg user_reg){
+	public User_Reg insert(User_Reg user_reg){
 
 		
 	//	User_RegDAO user_regdao = new User_RegDAO();
@@ -122,17 +123,8 @@ public class User_RegDAO{
 			if(iter.hasNext()){
 				user = (User_Reg)iter.next();
 			}
-			Map data = new HashMap();
-			JSONObject json = new JSONObject();
-			data.put("user_id", user.getUser_id()); 
-			try {
-				json.put("login_result", data);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			String ss = "";
-			return json.toString();
+			
+			return user;
 		}
     
 	

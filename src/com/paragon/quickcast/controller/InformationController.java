@@ -117,7 +117,7 @@ public class InformationController extends MultiActionController{
     	
     	String result = "{\"seeker_info\":"+ json_result +"}";
 		String result_temp = "error";
-		result_temp = encoding.encoding(result_temp);						
+		result_temp = encoding.encoding(result);						
 		return result_temp;
     }
     
@@ -286,7 +286,7 @@ public class InformationController extends MultiActionController{
 		data.put("partner", info.getPartner());
 		data.put("self_intro", info.getSelf_intro());
 		data.put("t_area", info.getT_area());
-		data.put("work_city", info.getWork_city());
+		data.put("work_city", info.getWork_place());
 		data.put("work_email", info.getWork_email());
 		data.put("work_phone", info.getWork_phone());
 		data.put("work_time", info.getWork_time());
@@ -294,7 +294,7 @@ public class InformationController extends MultiActionController{
 		
 		String result = "{\"hunter_info\":"+ json_result +"}";
     	String result_temp = "error";
-		result_temp = encoding.encoding(result_temp);							
+		result_temp = encoding.encoding(result);							
 		return result_temp;
     }
     
@@ -319,7 +319,7 @@ public class InformationController extends MultiActionController{
 		data.put("partner", info.getPartner());
 		data.put("self_intro", info.getSelf_intro());
 		data.put("t_area", info.getT_area());
-		data.put("work_city", info.getWork_city());
+		data.put("work_city", info.getWork_place());
 		data.put("work_email", info.getWork_email());
 		data.put("work_phone", info.getWork_phone());
 		data.put("work_time", info.getWork_time());
@@ -327,7 +327,7 @@ public class InformationController extends MultiActionController{
 		
 		String result = "{\"hunter_info\":"+ json_result +"}";
     	String result_temp = "error";
-		result_temp = encoding.encoding(result_temp);							
+		result_temp = encoding.encoding(result);							
 		return result_temp;
     }
     
@@ -381,6 +381,7 @@ public class InformationController extends MultiActionController{
 			String temp = "success";
 			ToJson tojosn = new ToJson();	
 			try {
+				
 				etpinfoImpl.insert(etp_info);
 			} catch (RuntimeException e) {
 				// TODO Auto-generated catch block
@@ -458,12 +459,12 @@ public class InformationController extends MultiActionController{
 			data.put("contact_person", info.getContact_person());
 			data.put("etp_industry", info.getEtp_industry());
 			data.put("etp_nature", info.getEtp_nature());
-			data.put("etp_phone", info.getEtp_phone());
+			data.put("mobile", info.getMobile());
 			data.put("etp_size", info.getEtp_size());
 			
 			String result = "{\"etp_info\":"+ json_result +"}";
 	    	String result_temp = "error";
-			result_temp = encoding.encoding(result_temp);							
+			result_temp = encoding.encoding(result);							
 			return result_temp;
 	    }
 	    
@@ -486,13 +487,13 @@ public class InformationController extends MultiActionController{
 			data.put("contact_person", info.getContact_person());
 			data.put("etp_industry", info.getEtp_industry());
 			data.put("etp_nature", info.getEtp_nature());
-			data.put("etp_phone", info.getEtp_phone());
+			data.put("mobile", info.getMobile());
 			data.put("etp_size", info.getEtp_size());
 			json_result.put(data);
 			
 			String result = "{\"etp_info\":"+ json_result +"}";
 	    	String result_temp = "error";
-			result_temp = encoding.encoding(result_temp);							
+			result_temp = encoding.encoding(result);							
 			return result_temp;
 	    }
 	    

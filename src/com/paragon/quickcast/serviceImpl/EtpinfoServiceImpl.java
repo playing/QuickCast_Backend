@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.paragon.quickcast.dao.Etp_InfoDAO;
+import com.paragon.quickcast.dao.User_RegDAO;
 import com.paragon.quickcast.entity.Etp_Info;
 import com.paragon.quickcast.entity.Hunter_Info;
 import com.paragon.quickcast.entity.Seeker_Info;
@@ -15,6 +16,8 @@ public class EtpinfoServiceImpl implements InformationService {
 
 	@Resource
 	private Etp_InfoDAO etp_infodao;
+	@Resource
+	private User_RegDAO user_reg;
 	
 	//Seeker_Info
 	public boolean insert(Seeker_Info seeker_info) {
@@ -73,6 +76,7 @@ public class EtpinfoServiceImpl implements InformationService {
 	//Etp_InfoImpl
 	public boolean insert(Etp_Info etp_info) {
 		etp_infodao.insert(etp_info);
+		user_reg.update_type(etp_info.getUser_id(), "3");
 		return true;
 	}
 
@@ -103,5 +107,22 @@ public class EtpinfoServiceImpl implements InformationService {
 	public void deleteByInfoId(int info_id) {
 		etp_infodao.deleteByInfoId(info_id);
 	}
+
+	public Etp_InfoDAO getEtp_infodao() {
+		return etp_infodao;
+	}
+
+	public void setEtp_infodao(Etp_InfoDAO etp_infodao) {
+		this.etp_infodao = etp_infodao;
+	}
+
+	public User_RegDAO getUser_reg() {
+		return user_reg;
+	}
+
+	public void setUser_reg(User_RegDAO user_reg) {
+		this.user_reg = user_reg;
+	}
+	
 
 }

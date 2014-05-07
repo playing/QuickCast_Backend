@@ -1,14 +1,15 @@
 package com.paragon.quickcast.dao;
 
 
+import java.util.Iterator;
 import java.util.List;
-
-import com.paragon.quickcast.entity.*;
 
 import javax.annotation.Resource;
 
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.paragon.quickcast.entity.Hunter_Info;
 
 
 @Repository
@@ -36,9 +37,14 @@ public class Hunter_InfoDAO{
      
      public Hunter_Info queryByHunterUserId(int user_id){
  		
+    	Hunter_Info hunter_info = null;
     	String hql = "FROM Hunter_Info as hunter_info WHERE hunter_info.user_id=?";		
  		List l = hibernateTemplate.find(hql, user_id);
- 		return (Hunter_Info)l.get(0);
+ 		Iterator iter = l.iterator();
+ 		if(iter.hasNext()){
+ 			hunter_info = (Hunter_Info)iter.next();
+ 	 		}
+ 	 		return hunter_info;
  	}
  	
  	public void deleteByUserId(int user_id){

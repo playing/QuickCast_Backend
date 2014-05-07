@@ -19,10 +19,8 @@ public class Prj_Exp {
 	@Column(nullable=false)
 	private String prj_name;
 	
-	@Column(nullable=false)
 	private String etp_name;
 	
-	@Column(nullable=false)
 	private String prj_profession;
 	
 	@Column(nullable=false)

@@ -1,14 +1,20 @@
 package com.paragon.quickcast.controller;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import com.paragon.quickcast.dao.ToJson;
 import com.paragon.quickcast.entity.Edu_Exp;
 import com.paragon.quickcast.entity.Prj_Exp;
 import com.paragon.quickcast.entity.Work_Exp;
@@ -26,19 +32,59 @@ public class ExpController extends MultiActionController{
 	private EduexpServiceImpl eduexpimpl = new EduexpServiceImpl();
 	@Resource
 	private PrjexpServiceImpl prjexpimpl = new PrjexpServiceImpl();
+	@Resource
+	private Encoding encoding;
+
 
 	//Work_Exp 工作经历
 	@RequestMapping(params="method=workexp_insert")
-	public @ResponseBody String workexp_insert(Work_Exp work_exp){
-		 workexpimpl.insert(work_exp);
-		 return "WorkInsert OK";
+	public @ResponseBody String workexp_insert(@RequestBody Work_Exp[] work_exp){
+		
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {	
+			workexpimpl.deleteByUserId(work_exp[0].getUser_id());
+			for(int i=0;i < work_exp.length;i++){
+				
+					workexpimpl.insert(work_exp[i]);
+					
+			}
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;		
+
 	}
 	
 	//工作经历更新
 	@RequestMapping(params="method=workexp_update")
-	public @ResponseBody String workexp_update(Work_Exp work_exp){
-		 workexpimpl.update(work_exp);
-		 return "WorkUpdate OK";
+	public @ResponseBody String workexp_update(@RequestBody Work_Exp work_exp){
+		 
+		 String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				workexpimpl.update(work_exp);
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);
+									
+			return result_temp;	
 	}
 	
 	//根据工作经历ID查找工作经历
@@ -60,21 +106,55 @@ public class ExpController extends MultiActionController{
 	
 	//根据求职者ID查找工作经历
 	@RequestMapping(params="method=queryByWorkuserId")
-	public @ResponseBody String queryByWorkuserId(int user_id){
-		 List list = workexpimpl.queryByUserId(user_id);
-		 for(int i = 0;i < list.size();i ++){
-			 Work_Exp work_exp = (Work_Exp)list.get(i);
-			 System.out.println("-----------workexp_id:"+work_exp.getExp_id()+"---------");
-			 System.out.println("-----------user_id:"+work_exp.getUser_id()+"---------");
+	public @ResponseBody String queryByWorkuserId(@RequestBody Work_Exp work_exp){
+		 List list = workexpimpl.queryByUserId(work_exp.getUser_id());
+		 Iterator iter = list.iterator();
+		 Map data = new HashMap();
+		 JSONArray json_result = new JSONArray();
+		 for(int i = 0;i < list.size();i++){
+			 Work_Exp work_expIns = (Work_Exp)iter.next();
+			 data.put("user_id", work_expIns.getUser_id());
+			 data.put("exp_id", work_expIns.getExp_id());
+			 data.put("work_place", work_expIns.getWork_place());
+			 data.put("end_time", work_expIns.getEnd_time());
+			 data.put("etp_desc", work_expIns.getEtp_desc());
+			 data.put("etp_industry", work_expIns.getEtp_industry());
+			 data.put("etp_name", work_expIns.getEtp_name());
+			 data.put("etp_nature", work_expIns.getEtp_nature());
+			 data.put("etp_size", work_expIns.getEtp_size());
+			 data.put("profession", work_expIns.getProfession());
+			 data.put("start_time", work_expIns.getStart_time());
+			 data.put("work_duty", work_expIns.getWork_duty());
+			 json_result.put(data); 
 		 }
-	     return "queryByWorkuserId OK";
+		    	
+			String result = "{\"work_exp\":"+ json_result + "}";
+			String result_temp = "error";
+			result_temp = encoding.encoding(result);						
+			return result_temp;	
 	    }
 	 
 	//根据求职者ID删除工作经历
 	@RequestMapping(params="method=deleteByWorkuserId")
-	public @ResponseBody String deleteByWorkuserId(int user_id){
-		 workexpimpl.deleteByUserId(user_id);
-	     return "deleteByWorkuserId OK";
+	public @ResponseBody String deleteByWorkuserId(@RequestBody Work_Exp work_exp){
+		 
+		 String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				workexpimpl.deleteByUserId(work_exp.getUser_id()); 
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);
+									
+			return result_temp;	
 	    }
 	
 	//根据工作经历ID删除工作经历
@@ -86,17 +166,31 @@ public class ExpController extends MultiActionController{
 	
 	//创建教育经历
 	@RequestMapping(params="method=eduexp_insert")
-	public @ResponseBody String eduexp_insert(Edu_Exp edu_exp){
-		eduexpimpl.insert(edu_exp);
-		return "EduInsert OK";
+	public @ResponseBody String eduexp_insert(@RequestBody Edu_Exp[] edu_exp){
+		
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {	
+			eduexpimpl.deleteByUserId(edu_exp[0].getUser_id());
+			for(int i=0;i < edu_exp.length;i++){
+				
+				eduexpimpl.insert(edu_exp[i]);
+					
+			}
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
 	}
-	
-	
-	@RequestMapping(params="method=eduexp_update")
-	public @ResponseBody String eduexp_update(Edu_Exp edu_exp){
-		eduexpimpl.update(edu_exp); 
-		return "EduUpdate OK";
-	}
+
 	
 	@RequestMapping(params="method=queryByEduexpId")
     public @ResponseBody String queryByEduexpId(int exp_id){
@@ -113,20 +207,48 @@ public class ExpController extends MultiActionController{
 	}
 	
 	@RequestMapping(params="method=queryByEduuserId")
-	public @ResponseBody String queryByEduuserId(int user_id){
-		 List list = eduexpimpl.queryByUserId(user_id);
-		 for(int i = 0;i < list.size();i ++){
-			 Edu_Exp edu_exp = (Edu_Exp)list.get(i);
-			 System.out.println("-----------eduexp_id:"+edu_exp.getExp_id()+"---------");
-			 System.out.println("-----------user_id:"+edu_exp.getUser_id()+"---------");
-		 }
-	     return "queryByEduuserId OK";
+	public @ResponseBody String queryByEduuserId(@RequestBody Edu_Exp edu_exp){
+		 List list = eduexpimpl.queryByUserId(edu_exp.getUser_id());
+		 Iterator iter = list.iterator();
+		 Map data = new HashMap();
+		 JSONArray json_result = new JSONArray();
+		 for(int i = 0;i < list.size();i++){
+			 Edu_Exp edu_expIns = (Edu_Exp)iter.next();
+			 data.put("user_id", edu_expIns.getUser_id());
+			 data.put("exp_id", edu_expIns.getExp_id());
+			 data.put("edu_bg", edu_expIns.getEdu_bg());
+			 data.put("edu_desc", edu_expIns.getEdu_desc());
+			 data.put("major", edu_expIns.getMajor());
+			 data.put("school_name", edu_expIns.getSchool_name());
+			 data.put("study_end_time", edu_expIns.getStudy_end_time());
+			 data.put("study_start_time", edu_expIns.getStudy_start_time());
+			 json_result.put(data); 
+		 }	    	
+			String result = "{\"edu_exp\":"+ json_result + "}";
+			String result_temp = "error";
+			result_temp = encoding.encoding(result);						
+			return result_temp;	
 	    }
 	 
 	@RequestMapping(params="method=deleteByEduuserId")
-	public @ResponseBody String deleteByEduuserId(int user_id){
-		 eduexpimpl.deleteByUserId(user_id);
-	     return "deleteByEduuserId OK";
+	public @ResponseBody String deleteByEduuserId(@RequestBody Edu_Exp edu_exp){
+		 
+		 String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				eduexpimpl.deleteByUserId(edu_exp.getUser_id());
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);							
+			return result_temp;	
 	    }
 	
 	@RequestMapping(params="method=deleteByEduexpId")
@@ -137,16 +259,31 @@ public class ExpController extends MultiActionController{
 	
 	//Prj_Exp
 	@RequestMapping(params="method=prjexp_insert")
-	public @ResponseBody String prjexp_insert(Prj_Exp prj_exp){
-		prjexpimpl.insert(prj_exp);
-		return "PrjInsert OK";
+	public @ResponseBody String prjexp_insert(@RequestBody Prj_Exp[] prj_exp){
+		
+		String temp = "success";
+		ToJson tojosn = new ToJson();	
+		try {
+			prjexpimpl.deleteByUserId(prj_exp[0].getUser_id());
+			for(int i=0;i < prj_exp.length;i++){
+				
+				prjexpimpl.insert(prj_exp[i]);
+					
+			}
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			temp = "fail";
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);			
+			e.printStackTrace();			
+			e.printStackTrace();
+			return result_temp;
+		}
+		String result_temp = tojosn.tojson(temp);
+		result_temp = encoding.encoding(result_temp);							
+		return result_temp;	
 	}
 	
-	@RequestMapping(params="method=prjexp_update")
-	public @ResponseBody String prjexp_update(Prj_Exp prj_exp){
-		prjexpimpl.update(prj_exp); 
-		return "PrjUpdate OK";
-	}
 	
 	@RequestMapping(params="method=queryByPrjexpId")
     public @ResponseBody String queryByPrjexpId(int exp_id){
@@ -163,20 +300,52 @@ public class ExpController extends MultiActionController{
 	}
 	
 	@RequestMapping(params="method=queryByPrjuserId")
-	public @ResponseBody String queryByPrjuserId(int user_id){
-		 List list = prjexpimpl.queryByUserId(user_id);
-		 for(int i = 0;i < list.size();i ++){
-			 Prj_Exp prj_exp = (Prj_Exp)list.get(i);
-			 System.out.println("-----------eduexp_id:"+prj_exp.getExp_id()+"---------");
-			 System.out.println("-----------user_id:"+prj_exp.getUser_id()+"---------");
-		 }
-	     return "queryByPrjuserId OK";
+	public @ResponseBody String queryByPrjuserId(@RequestBody Prj_Exp prj_exp){
+		 List list = prjexpimpl.queryByUserId(prj_exp.getUser_id());
+		 Iterator iter = list.iterator();
+		 Map data = new HashMap();
+		 JSONArray json_result = new JSONArray();
+		 for(int i = 0;i < list.size();i++){
+			 Prj_Exp prj_expIns = (Prj_Exp)iter.next();
+			 data.put("user_id", prj_expIns.getUser_id());
+			 data.put("exp_id", prj_expIns.getExp_id());
+			 data.put("end_time", prj_expIns.getEnd_time());
+			 data.put("etp_name", prj_expIns.getEtp_name());
+			 data.put("prj_achievement", prj_expIns.getPrj_achievement());
+			 data.put("prj_desc", prj_expIns.getPrj_desc());
+			 data.put("prj_duty", prj_expIns.getPrj_duty());
+			 data.put("start_time", prj_expIns.getStart_time());
+			 data.put("prj_name", prj_expIns.getPrj_name());
+			 data.put("prj_profession", prj_expIns.getPrj_profession());
+			 json_result.put(data); 
+		 }	    	
+			String result = "{\"prj_exp\":"+ json_result + "}";
+			String result_temp = "error";
+			result_temp = encoding.encoding(result);						
+			return result_temp;
 	    }
 	 
 	@RequestMapping(params="method=deleteByPrjuserId")
-	public @ResponseBody String deleteByPrjuserId(int user_id){
-		 prjexpimpl.deleteByUserId(user_id);
-	     return "deleteByPrjuserId OK";
+	public @ResponseBody String deleteByPrjuserId(Prj_Exp prj_exp){
+		 
+		 prjexpimpl.update(prj_exp); 
+			String temp = "success";
+			ToJson tojosn = new ToJson();	
+			try {
+				prjexpimpl.deleteByUserId(prj_exp.getUser_id());
+
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				temp = "fail";
+				String result_temp = tojosn.tojson(temp);
+				result_temp = encoding.encoding(result_temp);			
+				e.printStackTrace();			
+				e.printStackTrace();
+				return result_temp;
+			}
+			String result_temp = tojosn.tojson(temp);
+			result_temp = encoding.encoding(result_temp);							
+			return result_temp;	
 	    }
 	
 	@RequestMapping(params="method=deleteByPrjexpId")
@@ -212,6 +381,13 @@ public class ExpController extends MultiActionController{
 		this.prjexpimpl = prjexpimpl;
 	}
 	
-	
+
+	public Encoding getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(Encoding encoding) {
+		this.encoding = encoding;
+	}
 	
 }

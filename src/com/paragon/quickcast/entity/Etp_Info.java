@@ -1,5 +1,6 @@
 package com.paragon.quickcast.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,15 +30,32 @@ public class Etp_Info {
 	
 	private String contact_person;
 	
-	private String etp_phone;
+	private String mobile;
 	
-	private String etp_intro;
 	
 	private String certificate;
 
 	private String check_status;
 	
+	private String work_place;
 	
+	private String age;
+	
+	private String gender;
+	
+	@Column(name="etp_intro",nullable=false)
+	private String etp_intro;
+	
+	
+
+	public String getEtp_intro() {
+		return etp_intro;
+	}
+
+	public void setEtp_intro(String etp_intro) {
+		this.etp_intro = etp_intro;
+	}
+
 	public int getInfo_id() {
 		return info_id;
 	}
@@ -118,21 +136,14 @@ public class Etp_Info {
 		this.contact_person = contact_person;
 	}
 
-	public String getEtp_phone() {
-		return etp_phone;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setEtp_phone(String etp_phone) {
-		this.etp_phone = etp_phone;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
-	public String getEtp_intro() {
-		return etp_intro;
-	}
-
-	public void setEtp_intro(String etp_intro) {
-		this.etp_intro = etp_intro;
-	}
 
 	public String getCertificate() {
 		return certificate;
@@ -149,5 +160,31 @@ public class Etp_Info {
 	public void setCheck_status(String check_status) {
 		this.check_status = check_status;
 	}
-		
+
+	public String getWork_place() {
+		return work_place;
+	}
+
+	public void setWork_place(String work_place) {
+		this.work_place = work_place;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	
+	
+	
 }

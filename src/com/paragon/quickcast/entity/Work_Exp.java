@@ -16,16 +16,12 @@ public class Work_Exp {
 	@Column(nullable=false)
 	private int user_id;
 	
-	@Column(nullable=false)
 	private String start_time;
 	
-	@Column(nullable=false)
 	private String end_time;
 	
-	@Column(nullable=false)
 	private String etp_name;
 	
-	@Column(nullable=false)
 	private String etp_industry;
 	
 	private String etp_nature;

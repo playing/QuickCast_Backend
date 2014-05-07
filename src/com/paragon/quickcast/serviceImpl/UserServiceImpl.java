@@ -1,13 +1,19 @@
 package com.paragon.quickcast.serviceImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
+import com.paragon.quickcast.dao.Personal_RsmDAO;
 import com.paragon.quickcast.dao.ToJson;
 import com.paragon.quickcast.dao.User_RegDAO;
+import com.paragon.quickcast.entity.Personal_Rsm;
 import com.paragon.quickcast.entity.User_Reg;
 import com.paragon.quickcast.service.UserService;
 
@@ -16,21 +22,44 @@ public class UserServiceImpl implements UserService {
 
 	@Resource
 	private User_RegDAO userregDao;
+	@Resource
+	private Personal_RsmDAO personal_rsmdao;
 	@Resource 
 	private ToJson tojson;
 	
+	private User_Reg user_reg = new User_Reg();
+	
 	public String insert(User_Reg user){
-		//System.out.println("UserServiceImpl.add()");
-		// System.out.printf("ssssssss");
-		
+	
+		Personal_Rsm personal = new Personal_Rsm();
 		String id = tojson.tojson("false");
-		id = userregDao.insert(user);
-		return id;
+		user_reg = userregDao.insert(user);
+		personal.setUser_id(user_reg.getUser_id());
+		personal_rsmdao.insert(personal);
+     
+
+		String ss = System.getProperty("user.dir");
+		String temp = ss.replace("\\", "/");
+		String temp2 = temp.substring(0,temp.length()-3);
+		String path = temp2+"webapps/quickcast/upload/";
+        
+        
+        personal_rsmdao.copyFile(path+"mr.jpg",path+user_reg.getUser_id()+".jpg");
+		Map data = new HashMap();
+		JSONObject json = new JSONObject();
+		data.put("user_id", user_reg.getUser_id()); 
+		try {
+			json.put("login_result", data);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return json.toString();
 	}
 	
 	public String login(String user_name, String password) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 		String result = userregDao.login(user_name,password);
 		return result;
 	}
@@ -84,8 +113,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	public Personal_RsmDAO getPersonal_rsmdao() {
+		return personal_rsmdao;
+	}
 
-	
-	
+
+	public void setPersonal_rsmdao(Personal_RsmDAO personal_rsmdao) {
+		this.personal_rsmdao = personal_rsmdao;
+	}
 
 }

@@ -20,7 +20,13 @@ public class Edu_Exp {
 	private String school_name;
 	
 	@Column(nullable=false)
-	private String study_date;
+	private String study_start_time;
+	
+	@Column(nullable=false)
+	private String study_end_time;
+	
+	@Column(nullable=false)
+	private String edu_desc;
 	
 	@Column(nullable=false)
 	private String major;
@@ -56,14 +62,6 @@ public class Edu_Exp {
 		this.school_name = school_name;
 	}
 
-	public String getStudy_date() {
-		return study_date;
-	}
-
-	public void setStudy_date(String study_date) {
-		this.study_date = study_date;
-	}
-
 	public String getMajor() {
 		return major;
 	}
@@ -78,6 +76,30 @@ public class Edu_Exp {
 
 	public void setEdu_bg(String edu_bg) {
 		this.edu_bg = edu_bg;
+	}
+
+	public String getStudy_start_time() {
+		return study_start_time;
+	}
+
+	public void setStudy_start_time(String study_start_time) {
+		this.study_start_time = study_start_time;
+	}
+
+	public String getStudy_end_time() {
+		return study_end_time;
+	}
+
+	public void setStudy_end_time(String study_end_time) {
+		this.study_end_time = study_end_time;
+	}
+
+	public String getEdu_desc() {
+		return edu_desc;
+	}
+
+	public void setEdu_desc(String edu_desc) {
+		this.edu_desc = edu_desc;
 	}
 	
 }

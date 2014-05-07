@@ -30,10 +30,6 @@ public class Personal_RsmController {
 	@RequestMapping(params="method=imp_resume_insert")	
 	public @ResponseBody String imp_resume_insert(@RequestBody Personal_Rsm personal_rsm){
 		//通过实体类来封装jsp页面
-		System.out.println("简历编号：--------"+personal_rsm.getRsm_id());
-		System.out.println("用户编号：--------"+personal_rsm.getUser_id());
-		System.out.println("编辑时间：--------"+personal_rsm.getEdit_time());
-		System.out.println("谁看过我的简历：--------"+personal_rsm.getRead_status());
 		
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
@@ -49,18 +45,13 @@ public class Personal_RsmController {
 			return result_temp;
 		}
 		String result_temp = tojosn.tojson(temp);
-		result_temp = encoding.encoding(result_temp);
-								
+		result_temp = encoding.encoding(result_temp);							
 		return result_temp;	
 	}
 	
 	@RequestMapping(params="method=imp_resume_update")
 	public @ResponseBody String imp_resume_update(@RequestBody Personal_Rsm personal_rsm){
-				
-		System.out.println("简历编号：--------"+personal_rsm.getRsm_id());
-		System.out.println("用户编号：--------"+personal_rsm.getUser_id());
-		System.out.println("编辑时间：--------"+personal_rsm.getEdit_time());
-		System.out.println("谁看过我的简历：--------"+personal_rsm.getRead_status());
+
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
 		try {
@@ -75,8 +66,7 @@ public class Personal_RsmController {
 			return result_temp;
 		}
 		String result_temp = tojosn.tojson(temp);
-		result_temp = encoding.encoding(result_temp);
-								
+		result_temp = encoding.encoding(result_temp);							
 		return result_temp;	
 	}
 	
@@ -86,10 +76,6 @@ public class Personal_RsmController {
 		
 		Personal_Rsm rsm = resumeservice.queryByUserId(personal_rsm.getUser_id());
 		System.out.println("简历编号：--------"+rsm.getRsm_id());
-		System.out.println("用户编号：--------"+rsm.getUser_id());
-		System.out.println("编辑时间：--------"+rsm.getEdit_time());
-		System.out.println("谁看过我的简历：--------"+rsm.getRead_status());
-		
 		Map data = new HashMap();
 		JSONArray json_result = new JSONArray();
 		data.put("rsm_id", rsm.getRsm_id());
@@ -109,7 +95,7 @@ public class Personal_RsmController {
 		
 		String result = "{\"resume\":"+ json_result + "}";
 		String result_temp = "error";
-		result_temp = encoding.encoding(result_temp);						
+		result_temp = encoding.encoding(result);						
 		return result_temp;	
 		
 	}
@@ -143,7 +129,7 @@ public class Personal_RsmController {
 		
 		String result = "{\"resume\":"+ json_result + "}";
 		String result_temp = "error";
-		result_temp = encoding.encoding(result_temp);						
+		result_temp = encoding.encoding(result);						
 		return result_temp;	
 		
 	}

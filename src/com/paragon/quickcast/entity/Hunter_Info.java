@@ -24,13 +24,10 @@ public class Hunter_Info {
 	@Column(name="mobile",nullable=false)
 	private String mobile;
 	
-	@Column(name="work_phone",nullable=false)
 	private String work_phone;
 	
-	@Column(name="hunter_fax",nullable=false)
 	private String hunter_fax;
 	
-	@Column(name="work_email",nullable=false)
 	private String work_email;
 	
 	private String work_time;
@@ -38,8 +35,8 @@ public class Hunter_Info {
 	@Column(name="t_area",nullable=false)
 	private String t_area;
 	
-	@Column(name="work_city",nullable=false)
-	private String work_city;
+	@Column(name="work_place",nullable=false)
+	private String work_place;
 	
 	@Column(name="msg_addr",nullable=false)
 	private String msg_addr;
@@ -52,10 +49,12 @@ public class Hunter_Info {
 	
 	private String business_card;
 	
-	@Column(name="certificate",nullable=false)
+	private String age;
+	
+	@Column(name="certificate",nullable=true)
 	private String certificate;
 	
-	@Column(name="check_status",nullable=false)
+	@Column(name="check_status",nullable=true)
 	private String check_status;
 	
 
@@ -139,13 +138,7 @@ public class Hunter_Info {
 		this.t_area = t_area;
 	}
 
-	public String getWork_city() {
-		return work_city;
-	}
-
-	public void setWork_city(String work_city) {
-		this.work_city = work_city;
-	}
+	
 	
 	public String getMsg_addr() {
 		return msg_addr;
@@ -201,6 +194,22 @@ public class Hunter_Info {
 
 	public void setCheck_status(String check_status) {
 		this.check_status = check_status;
+	}
+
+	public String getWork_place() {
+		return work_place;
+	}
+
+	public void setWork_place(String work_place) {
+		this.work_place = work_place;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
 	}
 		
 }

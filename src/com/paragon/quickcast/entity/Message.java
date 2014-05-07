@@ -34,6 +34,8 @@ public class Message {
 	@Column(nullable = false)
 	private String message_type;
 	
+
+	
 	
 	
 	public int getMsg_id() {
@@ -100,5 +102,9 @@ public class Message {
 		this.message_type = message_type;
 	}
 
+	
+
+	
+	
 
 }

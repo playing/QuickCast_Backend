@@ -40,10 +40,6 @@ public class Friend_ListDAO{
 		System.out.println("----"+Tempgrouptype+"------");
 		friendsgroup.setGrouptype(Tempgrouptype);
 		hibernateTemplate.save(friendsgroup);
-		//friend_list.setFriendsgroup(friendsgroup);
-		//hibernateTemplate.save(friend_list);
-		//FriendsGroup friendsgroup = (FriendsGroup)friendsgroupdao.findFriendsGroup(Tempgrouptype);
-		//hibernateTemplate.save(friendsgroup);
 		friend_list.setFriendsgroup(friendsgroup);	
 		hibernateTemplate.save(friend_list);
 		
@@ -65,9 +61,13 @@ public class Friend_ListDAO{
 		    Friend_List friend_list2 = new Friend_List();
 		    friend_list2.setPartner_id(list.getSelf_id());
 		    friend_list2.setSelf_id(list.getPartner_id());
-		    friend_list2.setFriendsgroup(list.getFriendsgroup());
 		    friend_list2.setReason(list.getReason());
 		    friend_list2.setStatus(list.getStatus());
+		    FriendsGroup friendsgroup = new FriendsGroup();
+			String Tempgrouptype = user_regdao.queryByUserId(friend_list.getPartner_id()).getUser_type();
+			friendsgroup.setGrouptype(Tempgrouptype);
+			hibernateTemplate.save(friendsgroup);
+			friend_list2.setFriendsgroup(friendsgroup);	
 		    hibernateTemplate.save(friend_list2);
 		}
 	}

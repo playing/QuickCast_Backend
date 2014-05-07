@@ -17,24 +17,18 @@ public class Personal_Rsm {
 	@Column(unique = true,nullable = false)
 	private int user_id;
 	
-	@Column(nullable = false)
 	private String edit_time;
 	
-	@Column(nullable = false)
 	private String read_status;
 	
-	@Column(nullable = false)
 	private String deliver_status;
 	
 	private String expect_industry;
 	
-	@Column(nullable = false)
 	private String expect_job;
 	
-	@Column(nullable = false)
 	private String expect_place;
 	
-	@Column(nullable = false)
 	private String expect_salary;
 	
 	private String month_salary;
