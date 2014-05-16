@@ -25,7 +25,14 @@ public class News {
 	@Column(nullable = false)
 	private String pub_type;
 
+	@Column(nullable = true)
+	private int info_id;
 	
+	@Column(nullable = true)
+	private String work_place;
+	
+	@Column(nullable = true)
+	private String etp_name;
 	
 	public int getNews_id() {
 		return news_id;
@@ -68,6 +75,28 @@ public class News {
 		this.pub_type = pub_type;
 	}
 
+	public int getInfo_id() {
+		return info_id;
+	}
+
+	public void setInfo_id(int info_id) {
+		this.info_id = info_id;
+	}
+
+	public String getWork_place() {
+		return work_place;
+	}
+
+	public void setWork_place(String work_place) {
+		this.work_place = work_place;
+	}
 	
+	public String getEtp_name() {
+		return etp_name;
+	}
+
+	public void setEtp_name(String etp_name) {
+		this.etp_name = etp_name;
+	}
 	
 }

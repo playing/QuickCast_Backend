@@ -11,8 +11,10 @@ import org.springframework.stereotype.Repository;
 import com.paragon.quickcast.entity.Count_Rsmhandle;
 import com.paragon.quickcast.entity.Count_User;
 import com.paragon.quickcast.entity.Count_WorkPlace;
+import com.paragon.quickcast.entity.Etp_Info;
+import com.paragon.quickcast.entity.Hunter_Info;
+import com.paragon.quickcast.entity.Seeker_Info;
 
-//此类为统计数据专用
 
 @Repository
 public class CountDAO {
@@ -21,14 +23,13 @@ public class CountDAO {
 	private HibernateTemplate hibernateTemplate;
 	
 	
-	//统计用户数
 	public Count_User queryBycountUserId(int id){
 		
 		return hibernateTemplate.get(Count_User.class, id);
 		
 	}
 	
-	//统计简历处理率
+	//统锟狡硷拷锟斤拷锟斤拷锟斤拷
 	public Count_Rsmhandle queryByCountRsmhandleEtpId(int etp_id){
 		Count_Rsmhandle count_rsmhandle = null;
 		String hql = "FROM Count_Rsmhandle as count_rsmhandle WHERE count_rsmhandle.etp_id=?";
@@ -45,6 +46,28 @@ public class CountDAO {
 		return hibernateTemplate.get(Count_WorkPlace.class, id);
 		
 	}
+	
+	
+	public List queryByHunterGender(String gender){
+		Hunter_Info info = null;
+		String hql = "FROM Hunter_Info as hunter_info WHERE hunter_info.gender=?";
+		List l = hibernateTemplate.find(hql,gender);
+		return l;
+	} 
+	
+	public List queryByEtpGender(String gender){
+		Etp_Info info = null;
+		String hql = "FROM Etp_Info as etp_info WHERE etp_info.gender=?";
+		List l = hibernateTemplate.find(hql,gender);
+		return l;
+	} 
+	
+	public List queryBySeekerGender(String gender){
+		Seeker_Info info = null;
+		String hql = "FROM Seeker_Info as seeker_info WHERE seeker_info.gender=?";
+		List l = hibernateTemplate.find(hql,gender);
+		return l;
+	} 
 	
 
 	public HibernateTemplate getHibernateTemplate() {

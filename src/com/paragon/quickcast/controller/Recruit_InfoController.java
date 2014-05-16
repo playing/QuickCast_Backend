@@ -1,6 +1,8 @@
 package com.paragon.quickcast.controller;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,19 +14,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.paragon.quickcast.dao.ToJson;
+import com.paragon.quickcast.entity.Etp_Info;
+import com.paragon.quickcast.entity.Hunter_Info;
+import com.paragon.quickcast.entity.News;
 import com.paragon.quickcast.entity.Recruit_Info;
-import com.paragon.quickcast.serviceImpl.RecruitinfoServiceImpl;
+import com.paragon.quickcast.entity.Seeker_Info;
+import com.paragon.quickcast.entity.User_Reg;
+import com.paragon.quickcast.service.NewsService;
+import com.paragon.quickcast.service.RecruitService;
+import com.paragon.quickcast.service.UserService;
+import com.paragon.quickcast.serviceImpl.EtpinfoServiceImpl;
+import com.paragon.quickcast.serviceImpl.HunterinfoServiceImpl;
+import com.paragon.quickcast.serviceImpl.SeekerinfoServiceImpl;
 
-
-//’–∆∏–≈œ¢
 @Controller
 @RequestMapping("/recruitinfo.do")
 public class Recruit_InfoController {
 
 	@Resource
-    private RecruitinfoServiceImpl recruitserviceimpl;
+    private RecruitService recruitservice;
+	@Resource
+	private NewsService newsservice;
+	@Resource
+	private UserService userservice;
 	@Resource 
 	private Encoding encoding;
+	@Resource 
+	private SeekerinfoServiceImpl seekerinfoImpl;
+	@Resource 
+	private HunterinfoServiceImpl hunterinfoImpl;
+	@Resource
+	private EtpinfoServiceImpl etpinfoImpl;
 	
 	@RequestMapping(params="method=recruitinfo_insert")
 	public @ResponseBody String recruitinfo_insert(@RequestBody Recruit_Info recruit_info){
@@ -32,7 +52,16 @@ public class Recruit_InfoController {
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
 		try {
-			recruitserviceimpl.insert(recruit_info);
+			recruitservice.insert(recruit_info);
+			News news = new News();
+			news.setContent(recruit_info.getRecruit_job());
+			news.setPub_id(recruit_info.getUser_id());
+			news.setPub_time(recruit_info.getIssue_time());
+			news.setPub_type("2");
+			news.setInfo_id(recruit_info.getInfo_id());
+			news.setEtp_name(recruit_info.getEtp_name());
+			news.setWork_place(recruit_info.getWork_place());
+			newsservice.insert(news);
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
 			temp = "fail";
@@ -53,7 +82,7 @@ public class Recruit_InfoController {
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
 		try {
-			recruitserviceimpl.delete(recruit_info.getInfo_id());
+			recruitservice.delete(recruit_info.getInfo_id());
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
 			temp = "fail";
@@ -74,7 +103,7 @@ public class Recruit_InfoController {
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
 		try {
-			recruitserviceimpl.update(recruit_info);
+			recruitservice.update(recruit_info);
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
 			temp = "fail";
@@ -89,32 +118,136 @@ public class Recruit_InfoController {
 		return result_temp;	
 	}
 	
+	
 	@RequestMapping(params="method=recruitinfo_queryByInfoId")
 	public @ResponseBody String recruitinfo_queryByInfoId(@RequestBody Recruit_Info recruit_info){
 		
-		Recruit_Info info = recruitserviceimpl.queryByInfoId(recruit_info.getInfo_id());
+		Recruit_Info info = recruitservice.queryByInfoId(recruit_info.getInfo_id());
+		Map data = new HashMap();
+		JSONArray json_result = new JSONArray();		
+	    data.put("info_id", info.getInfo_id());
+	    data.put("issue_time", info.getIssue_time());
+	    data.put("recruit_detail", info.getRecruit_detail());
+	    data.put("recruit_job", info.getRecruit_job());
+	    data.put("recruit_time", info.getRecruit_time());
+	    data.put("salary", info.getSalary());
+	    data.put("recruit_num", info.getRecruit_num());
+	    data.put("user_id", info.getUser_id());
+	    User_Reg user = userservice.queryByUserId(info.getUser_id());
+	    data.put("user_type", user.getUser_type());
+	    data.put("recruit_industry", info.getRecruit_industry());
+	    data.put("work_place", info.getWork_place());
+	    data.put("etp_name", info.getEtp_name());
+	    json_result.put(data);
+		String result = "{\"recruit_info\":"+ json_result +"}";
+		String result_temp = "error";
+		result_temp = encoding.encoding(result);						
+		return result_temp;	
+	}
+	
+	
+	@RequestMapping(params="method=recruitinfo_queryByUserId")
+	public @ResponseBody String recruitinfo_queryByUserId(@RequestBody Recruit_Info recruit_info){
+		
+		List l = recruitservice.queryByUserId(recruit_info.getUser_id());
+		Iterator iter = l.iterator();
 		Map data = new HashMap();
 		JSONArray json_result = new JSONArray();
-    	data.put("info_id", info.getInfo_id());
-    	data.put("info_id", info.getIssue_time());
-    	data.put("info_id", info.getRecruit_detail());
-    	data.put("info_id", info.getRecruit_job());
-    	data.put("info_id", info.getRecruit_time());
-    	data.put("info_id", info.getSalary());
-    	data.put("info_id", info.getRecruit_num());
-    	data.put("info_id", info.getUser_id());
-    	String result = "{\"recruit_info\":"+ json_result +"}";
+		for(int i=0;i<l.size();i++){
+			Recruit_Info info = (Recruit_Info)iter.next();			
+	    	data.put("info_id", info.getInfo_id());
+	    	data.put("issue_time", info.getIssue_time());
+	    	data.put("recruit_detail", info.getRecruit_detail());
+	    	data.put("recruit_job", info.getRecruit_job());
+	    	data.put("recruit_time", info.getRecruit_time());
+	    	data.put("salary", info.getSalary());
+	    	data.put("recruit_num", info.getRecruit_num());
+	    	data.put("user_id", info.getUser_id());
+	    	User_Reg user = userservice.queryByUserId(info.getUser_id());
+		    data.put("user_type", user.getUser_type());
+	    	data.put("recruit_industry", info.getRecruit_industry());
+	    	data.put("work_place", info.getRecruit_industry());
+		    data.put("etp_name", info.getEtp_name());
+	    	json_result.put(data);
+		}
+		String result = "{\"recruit_info\":"+ json_result +"}";
 		String result_temp = "error";
-		result_temp = encoding.encoding(result_temp);						
+		result_temp = encoding.encoding(result);						
+		return result_temp;	
+	}
+	
+	
+	
+	@RequestMapping(params="method=recruitinfo_recommend")
+	public @ResponseBody String recruitinfo_recommend(@RequestBody int user_id){
+		User_Reg user_reg = userservice.queryByUserId(user_id);
+		List l = null;
+		if(user_reg.getUser_type().equals("1")){
+			 Seeker_Info  info = seekerinfoImpl.queryBySeekerUserId(user_reg.getUser_id());
+			 l = recruitservice.queryByIndustry(info.getEtp_industry());
+		 }else
+			 if(user_reg.getUser_type().equals("2")){
+				 Hunter_Info info = hunterinfoImpl.queryByHunterUserId(user_reg.getUser_id());
+				 l = recruitservice.queryByIndustry(info.getT_area());
+			 }else 
+				 if(user_reg.getUser_type().equals("3")){
+					 Etp_Info info = etpinfoImpl.queryByEtpUserId(user_reg.getUser_id());
+					 l = recruitservice.queryByIndustry(info.getEtp_industry());
+				 }
+		Iterator iter = l.iterator();
+		Map data = new HashMap();
+		JSONArray json_result = new JSONArray();
+		Recruit_Info  info = null;
+		int index = 0;
+		if(l.size()>2){
+		   index=(int)(Math.random()*(l.size()-2));
+		}
+		for(int i=0;i <index+2&&i<l.size()&&i>=index;i++){
+			info = (Recruit_Info)iter.next();
+			data.put("user_id",info.getUser_id());
+	    	data.put("info_id", info.getInfo_id());
+	    	data.put("issue_time", info.getIssue_time());
+	    	data.put("recruit_job", info.getRecruit_job());
+	    	data.put("salary", info.getSalary());
+	    	data.put("recruit_industry", info.getRecruit_industry());
+	    	data.put("work_place", info.getRecruit_industry());
+		    data.put("etp_name", info.getEtp_name());
+	    	json_result.put(data);
+		}
+		String result = "{\"recruit_info\":"+ json_result +"}";
+		String result_temp = "error";
+		result_temp = encoding.encoding(result);						
 		return result_temp;	
 	}
 
-	public RecruitinfoServiceImpl getRecruitserviceimpl() {
-		return recruitserviceimpl;
+
+
+	public RecruitService getRecruitservice() {
+		return recruitservice;
 	}
 
-	public void setRecruitserviceimpl(RecruitinfoServiceImpl recruitserviceimpl) {
-		this.recruitserviceimpl = recruitserviceimpl;
+	public void setRecruitservice(RecruitService recruitservice) {
+		this.recruitservice = recruitservice;
+	}
+	
+	
+
+	public NewsService getNewsservice() {
+		return newsservice;
+	}
+
+	public void setNewsservice(NewsService newsservice) {
+		this.newsservice = newsservice;
+	}
+	
+	
+
+	public UserService getUserservice() {
+		return userservice;
+	}
+
+	public void setUserservice(UserService userservice) {
+		this.userservice = userservice;
 	}
 
 	public Encoding getEncoding() {
@@ -123,6 +256,30 @@ public class Recruit_InfoController {
 
 	public void setEncoding(Encoding encoding) {
 		this.encoding = encoding;
+	}
+
+	public SeekerinfoServiceImpl getSeekerinfoImpl() {
+		return seekerinfoImpl;
+	}
+
+	public void setSeekerinfoImpl(SeekerinfoServiceImpl seekerinfoImpl) {
+		this.seekerinfoImpl = seekerinfoImpl;
+	}
+
+	public HunterinfoServiceImpl getHunterinfoImpl() {
+		return hunterinfoImpl;
+	}
+
+	public void setHunterinfoImpl(HunterinfoServiceImpl hunterinfoImpl) {
+		this.hunterinfoImpl = hunterinfoImpl;
+	}
+
+	public EtpinfoServiceImpl getEtpinfoImpl() {
+		return etpinfoImpl;
+	}
+
+	public void setEtpinfoImpl(EtpinfoServiceImpl etpinfoImpl) {
+		this.etpinfoImpl = etpinfoImpl;
 	}
 	
 	

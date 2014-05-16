@@ -1,6 +1,7 @@
 package com.paragon.quickcast.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -25,11 +26,11 @@ public class CountController {
 	@Resource
     private Encoding encoding;
 	
-	//Í³¼ÆÃ¿ÀàÓÃ»§µÄÈËÊı
-	//1 ÇóÖ°Õß
-	//2 ÁÔÍ·
-	//3 ÆóÒµ
-	//4 Î´Ñ¡Àà±ğ
+	//Í³æ ¹æ®ç”¨æˆ·ç±»å‹ç»Ÿè®¡ç”¨æˆ·æ•°
+	//1 æ±‚èŒè€…
+	//2 çŒå¤´
+	//3 å…¬å¸
+	//4 å…¶å®ƒ
 	@RequestMapping(params="method=imp_count_queryByCountUserId")
 	public @ResponseBody String imp_count_queryByCountUserId(){
 		
@@ -55,6 +56,32 @@ public class CountController {
 		String result_temp = encoding.encoding(result);		
 		return result_temp;	
 	}
+	
+	
+	@RequestMapping(params="method=imp_count_queryByCountGender")
+	public @ResponseBody String imp_count_queryByCountRsmhandleEtpId(){
+		
+		List mseeker = countservice.queryBySeekerGender("ç”·");
+		List fseeker = countservice.queryBySeekerGender("å¥³");
+		List mhunter = countservice.queryByHunterGender("ç”·");
+		List fhunter = countservice.queryByHunterGender("å¥³");
+		List metp = countservice.queryByEtpGender("ç”·");
+		List fetp = countservice.queryByEtpGender("å¥³");
+		Map data = new HashMap();
+		JSONArray json_result = new JSONArray();
+		data.put("mseeker_num",mseeker.size());
+		data.put("fseeker_num", fseeker.size());
+		data.put("mhunter_num",mhunter.size());
+		data.put("fhunter_num", fhunter.size());
+		data.put("metp_num",metp.size());
+		data.put("fetp_num", fetp.size());
+		json_result.put(data);
+		
+		String result = "{\"count\":"+ json_result +"}";
+		String result_temp = encoding.encoding(result);		
+		return result_temp;	
+	}
+	
 	
 	@RequestMapping(params="method=imp_count_queryByCountRsmhandleEtpId")
 	public @ResponseBody String imp_count_queryByCountRsmhandleEtpId(Rsm_Deliver rsm_deliver){

@@ -1,5 +1,7 @@
 package com.paragon.quickcast.serviceImpl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -25,6 +27,25 @@ public class CountServiceImpl implements CountService {
 	public Count_Rsmhandle queryByCountRsmhandleEtpId(int etp_id){
 		
 		return countdao.queryByCountRsmhandleEtpId(etp_id);
+		
+	}
+	
+	
+    public List queryByHunterGender(String gender){
+    	
+    	return countdao.queryByHunterGender(gender);
+    	
+    }
+	
+	public List queryByEtpGender(String gender){
+		
+		return countdao.queryByHunterGender(gender);
+		
+	}
+	
+	public List queryBySeekerGender(String gender){
+		
+		return countdao.queryBySeekerGender(gender);
 		
 	}
 	

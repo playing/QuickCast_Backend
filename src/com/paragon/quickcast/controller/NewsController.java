@@ -37,17 +37,15 @@ public class NewsController {
     private Encoding encoding;
 	
 	
-	//·¢²¼¶¯Ì¬£¬
-	//Pub_type=1±íÊ¾ÆÕÍ¨¶¯Ì¬
-	//Pub_type=2ÎªÁÔÍ··¢²¼µÄÁÔÍ·ĞÅÏ¢
-	//Pub_type=3ÎªÆóÒµ·¢²¼µÄÕĞÆ¸ĞÅÏ¢
+	//Pub_type=1 æ™®é€šåŠ¨æ€ï¿½ï¿½Ê¾ï¿½ï¿½Í¨ï¿½ï¿½Ì¬
+	//Pub_type=2 æ‹›è˜ä¿¡æ¯
 	@RequestMapping(params="method=imp_news_insert")
 	public @ResponseBody String imp_news_insert(@RequestBody News news){
 				
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
 		try {
-			news.setPub_type("1");
+			news.setInfo_id(0);
 			newsservice.insert(news);
 		} catch (RuntimeException e) {
 
@@ -71,7 +69,6 @@ public class NewsController {
 		return "index";
 	}
 	
-	//²é¿´·¢²¼Õß¸öÈËµÄËùÓĞ¶¯Ì¬
 	@RequestMapping(params="method=imp_news_queryByPubId")
 	public @ResponseBody String imp_news_queryByPubId(@RequestBody News news){
 		
@@ -88,6 +85,9 @@ public class NewsController {
 		data.put("pub_time", newsInstance.getPub_time());
 		data.put("content", newsInstance.getContent());
 		data.put("pub_type", newsInstance.getPub_type());
+		data.put("info_id", newsInstance.getInfo_id());
+		data.put("work_place", newsInstance.getWork_place());
+		data.put("etp_name", newsInstance.getEtp_name());
 		json_result.put(data);
 		}
 
@@ -103,7 +103,6 @@ public class NewsController {
 		return result_temp;	
 	}
 	
-	//²é¿´ºÃÓÑ·¢²¼µÄ¶¯Ì¬
 	@RequestMapping(params="method=imp_news_display")
 	public @ResponseBody String imp_news_display(@RequestBody News news){
 		List friend_list = friend_listservice.queryBySelfId(news.getPub_id());
@@ -124,6 +123,9 @@ public class NewsController {
 				data.put("pub_time", newsInstance.getPub_time());
 				data.put("content", newsInstance.getContent());
 				data.put("pub_type", newsInstance.getPub_type());
+				data.put("info_id", newsInstance.getInfo_id());
+				data.put("work_place", newsInstance.getWork_place());
+				data.put("etp_name", newsInstance.getEtp_name());
 				json_result.put(data);
 			}
 		  }
@@ -166,7 +168,7 @@ public class NewsController {
 		
 	}
 	
-	//É¾³ı¶¯Ì¬
+	//É¾ï¿½ï¿½Ì¬
 	@RequestMapping(params="method=imp_news_deleteByNewsId")
 	public @ResponseBody String imp_news_deleteByNewsId(@RequestBody News news){
 		

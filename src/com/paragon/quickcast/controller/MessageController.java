@@ -32,16 +32,6 @@ public class MessageController {
 	@Resource
 	private Encoding encoding;
 	
-	
-	public Encoding getEncoding() {
-		return encoding;
-	}
-
-
-	public void setEncoding(Encoding encoding) {
-		this.encoding = encoding;
-	}
-
 
 	@RequestMapping(params="method=imp_message_insert")
 	public @ResponseBody String imp_news_insert(@RequestBody Message message){		
@@ -71,14 +61,6 @@ public class MessageController {
 	public String imp_message_update(Message message){
 		
 		messageservice.update(message);
-		System.out.println("-----------msg_id:"+message.getMsg_id()+"---------");
-		System.out.println("-----------dispatch_id:"+message.getDispatch_id()+"---------");
-		System.out.println("-----------receive_id:"+message.getReceive_id()+"---------");
-		System.out.println("-----------dispatch_time:"+message.getDispatch_time()+"---------");
-		System.out.println("-----------status:"+message.getStatus()+"---------");
-		System.out.println("-----------content:"+message.getContent()+"---------");
-		System.out.println("-----------title:"+message.getTitle()+"---------");
-			
 		return "index";
 	}
 	
@@ -104,15 +86,6 @@ public class MessageController {
 			data.put("content", messageInstance.getContent());
 			data.put("message_type", messageInstance.getMessage_type());
 			json_result.put(data);
-			System.out.println("-----------msg_id:"+messageInstance.getMsg_id()+"---------");
-			System.out.println("-----------dispatch_id:"+messageInstance.getDispatch_id()+"---------");
-			System.out.println("-----------receive_name:"+userregInstance.getCn_tname()+"---------");
-			System.out.println("-----------receive_id:"+messageInstance.getReceive_id()+"---------");
-			System.out.println("-----------dispatch_time:"+messageInstance.getDispatch_time()+"---------");
-			System.out.println("-----------status:"+messageInstance.getStatus()+"---------");
-			System.out.println("-----------content:"+messageInstance.getContent()+"---------");
-			System.out.println("-----------title:"+messageInstance.getTitle()+"---------");
-			System.out.println("-----------message_type:"+messageInstance.getMessage_type()+"---------");
 		}
 		String result = "{\"message\":"+ json_result +"}";
 		String result_temp = "error";
@@ -150,16 +123,6 @@ public class MessageController {
 			data.put("content", messageInstance.getContent());
 			data.put("message_type", messageInstance.getMessage_type());
 			json_result.put(data);
-			System.out.println("-----------msg_id:"+messageInstance.getMsg_id()+"---------");
-			System.out.println("-----------dispatch_id:"+messageInstance.getDispatch_id()+"---------");
-			System.out.println("-----------dispatch_name:"+userregInstance.getCn_tname()+"---------");
-			System.out.println("-----------receive_id:"+messageInstance.getReceive_id()+"---------");
-			System.out.println("-----------dispatch_time:"+messageInstance.getDispatch_time()+"---------");
-			System.out.println("-----------status:"+messageInstance.getStatus()+"---------");
-			System.out.println("-----------content:"+messageInstance.getContent()+"---------");
-			System.out.println("-----------title:"+messageInstance.getTitle()+"---------");
-			System.out.println("-----------message_type:"+messageInstance.getMessage_type()+"---------");
-		
 		}
 		String result = "{\"message\":"+ json_result +"}";
 		String result_temp = "error";
@@ -177,15 +140,7 @@ public class MessageController {
 	@RequestMapping(params="method=imp_message_queryByMsgId")
 	public String imp_message_queryByMsgId(Message message){
 		
-		Message messageInstance = messageservice.queryByMsgId(message.getMsg_id());
-		System.out.println("-----------msg_id:"+messageInstance.getMsg_id()+"---------");
-		System.out.println("-----------dispatch_id:"+messageInstance.getDispatch_id()+"---------");
-		System.out.println("-----------receive_id:"+messageInstance.getReceive_id()+"---------");
-		System.out.println("-----------dispatch_time:"+messageInstance.getDispatch_time()+"---------");
-		System.out.println("-----------status:"+messageInstance.getStatus()+"---------");
-		System.out.println("-----------content:"+messageInstance.getContent()+"---------");
-		System.out.println("-----------title:"+messageInstance.getTitle()+"---------");
-										
+		Message messageInstance = messageservice.queryByMsgId(message.getMsg_id());									
 		return "index";
 	}
 	
@@ -259,6 +214,14 @@ public class MessageController {
 		this.userservice = userservice;
 	}
 	
+	public Encoding getEncoding() {
+		return encoding;
+	}
+
+
+	public void setEncoding(Encoding encoding) {
+		this.encoding = encoding;
+	}
 
 	
 

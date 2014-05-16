@@ -15,9 +15,8 @@ public interface UserService {
     public String check_email(String email);
     public String login(String user_name,String password);
     public User_Reg queryByUserId(int user_id);
-	public int countByUserType(String user_type);
 	public List queryByName(String cn_tname);
 	public User_Reg queryByEmail(String email);
-	
+	public List queryByUserType(String user_type);
 	
 }

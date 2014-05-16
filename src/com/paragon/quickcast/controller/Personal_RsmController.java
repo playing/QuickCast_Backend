@@ -16,7 +16,7 @@ import com.paragon.quickcast.entity.Personal_Rsm;
 import com.paragon.quickcast.service.ResumeService;
 
 
-//个人简历
+//锟斤拷锟剿硷拷锟斤拷
 @Controller
 @RequestMapping("/personal_rsm.do")
 public class Personal_RsmController {
@@ -29,7 +29,6 @@ public class Personal_RsmController {
 
 	@RequestMapping(params="method=imp_resume_insert")	
 	public @ResponseBody String imp_resume_insert(@RequestBody Personal_Rsm personal_rsm){
-		//通过实体类来封装jsp页面
 		
 		String temp = "success";
 		ToJson tojosn = new ToJson();	
@@ -75,7 +74,7 @@ public class Personal_RsmController {
 	public @ResponseBody String imp_resume_queryByUserId(@RequestBody Personal_Rsm personal_rsm){
 		
 		Personal_Rsm rsm = resumeservice.queryByUserId(personal_rsm.getUser_id());
-		System.out.println("简历编号：--------"+rsm.getRsm_id());
+		System.out.println("锟斤拷锟斤拷锟脚ｏ拷--------"+rsm.getRsm_id());
 		Map data = new HashMap();
 		JSONArray json_result = new JSONArray();
 		data.put("rsm_id", rsm.getRsm_id());
@@ -104,12 +103,7 @@ public class Personal_RsmController {
 	@RequestMapping(params="method=imp_resume_queryByRsmId")
 	public @ResponseBody String imp_resume_queryByRsmId(Personal_Rsm personal_rsm){
 		
-		Personal_Rsm rsm = resumeservice.queryByRsmId(personal_rsm.getRsm_id());
-		System.out.println("简历编号：--------"+rsm.getRsm_id());
-		System.out.println("用户编号：--------"+rsm.getUser_id());
-		System.out.println("编辑时间：--------"+rsm.getEdit_time());
-		System.out.println("谁看过我的简历：--------"+rsm.getRead_status());
-		
+		Personal_Rsm rsm = resumeservice.queryByRsmId(personal_rsm.getRsm_id());	
 		Map data = new HashMap();
 		JSONArray json_result = new JSONArray();
 		data.put("rsm_id", rsm.getRsm_id());

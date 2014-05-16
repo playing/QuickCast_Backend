@@ -27,13 +27,14 @@ public class UserServiceImpl implements UserService {
 	@Resource 
 	private ToJson tojson;
 	
-	private User_Reg user_reg = new User_Reg();
+	private User_Reg user_reg = null;
 	
 	public String insert(User_Reg user){
 	
 		Personal_Rsm personal = new Personal_Rsm();
-		String id = tojson.tojson("false");
+		
 		user_reg = userregDao.insert(user);
+		String id = tojson.tojson("false");
 		personal.setUser_id(user_reg.getUser_id());
 		personal_rsmdao.insert(personal);
      
@@ -79,9 +80,10 @@ public class UserServiceImpl implements UserService {
 		return userregDao.queryByUserId(user_id);
 	}
     
-    public int countByUserType(String user_type){
+    
+    public List queryByUserType(String user_type){
     	
-    	return userregDao.countByUserType(user_type);
+    	return userregDao.queryByUserType(user_type);
     	
     }
     

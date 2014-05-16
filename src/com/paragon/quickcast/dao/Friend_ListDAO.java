@@ -28,11 +28,8 @@ public class Friend_ListDAO{
 	@Resource
 	private FriendsGroupDAO friendsgroupdao;
 
-    //全局变量 Array记录HashMap中的前20大元素个数和好友的ID
 	int[] hash_list = new int[20];
 	Friend_List getfriend_list[] = new Friend_List[5];
-	//插入用户新注册信息；
-	//以Friend_List类为传递参数；
 	public boolean insert(Friend_List friend_list){
 		FriendsGroup friendsgroup = new FriendsGroup();
 		//User_Reg user_reg = null;
@@ -121,13 +118,7 @@ public class Friend_ListDAO{
 		hibernateTemplate.deleteAll(list2);
 	}
 	
-	/********
-	 * 
-	 * 以下是hash_map实现过程
-	 * 1.根据self_id查找partner_id，返回值是partner_id
-	 * 
-	 * 
-	 * *********/
+
 	public List queryBySelf_ReturnParID(int self_id){
 		String hql = "Select partner_id FROM Friend_List  as friend_list WHERE friend_list.self_id=?";
 		List l = hibernateTemplate.find(hql, self_id);
@@ -143,25 +134,25 @@ public class Friend_ListDAO{
 			List Temp_part2 = this.queryBySelf_ReturnParID(LPartner_ID.get(i));
 			for(int ii = 0 ; ii < Temp_part2.size(); ii ++){
 				Temp_part1.add(Temp_part2.get(ii));
-				System.out.println(Temp_part2.get(ii));
 			}
 		}
 		return Temp_part1;
 	}
-	//按照对象的Rlts_id排序
 	
 		public HashMap hash_indexSelfID(int self_id){
 		HashMap<Integer, Integer> friendscircle = new HashMap<Integer,Integer>();
 		List<Integer> Lfriendlist = (List)this.queryBySelf_ReturnPar_PartID(self_id);
-		for(int i = 0; i < Lfriendlist.size() ; i++)
-			System.out.println("-------------- " +Lfriendlist.get(i) +" -----------");
+		List<Integer> Lfriend     = (List)this.queryBySelf_ReturnParID(self_id);
+		Lfriend.add(self_id);
+		Lfriendlist.removeAll(Lfriend);
+//		for(int i = 0; i < Lfriendlist.size() ; i++)
+//			System.out.println("-------------- " +Lfriendlist.get(i) +" -----------");
 		Iterator iter = Lfriendlist.iterator();
 		int count_list = 0;
 		while(iter.hasNext()){
 			Integer key = (Integer)iter.next();
 			if(!friendscircle.containsKey(key)){
 				friendscircle.put(key, 1);
-				System.out.println("好友ID"+key);
 			}
 			else{
 				Integer count_friends = friendscircle.get(key);
@@ -174,19 +165,27 @@ public class Friend_ListDAO{
 		Iterator<Map.Entry<Integer, Integer>> iter1 = set.iterator();
 		while( count_list < 5 && (count_list < set.size())){
 			Map.Entry<Integer, Integer> entry = iter1.next();
-			//setPartner_id得到的是间接好友的ID，setSelf_id得到的是共同好友的个数
 			getfriend_list[count_list] = new Friend_List();
 			getfriend_list[count_list].setRlts_id(entry.getValue());
 			getfriend_list[count_list].setPartner_id(entry.getKey());
 			++count_list;
 		}
-		if(getfriend_list.length > 1)
-		Arrays.sort(getfriend_list, new Friend_List());
-		for(int i = 0; i < 5&&(i<set.size()); i++){
-		System.out.println("好友圈的间接好友的个数和好友ID");
-		System.out.println(" "+getfriend_list[i].getRlts_id()+" ");
-		System.out.println(" "+getfriend_list[i].getPartner_id()+" ");
+		int temp3 = count_list;
+		while(temp3 < 5){
+			getfriend_list[temp3] = new Friend_List();
+			getfriend_list[temp3].setRlts_id(0);
+			getfriend_list[temp3].setPartner_id(self_id);
+			++temp3;
 		}
+		Arrays.sort(getfriend_list, new Friend_List());
+//		//for(int i = 0; i < 5&&(i<set.size()); i++){
+//		for(int i = 0; i < 5; i++){
+//			if(getfriend_list[i].getRlts_id() != 0){
+//				System.out.println("濂藉弸ID");
+//				System.out.println(" "+getfriend_list[i].getRlts_id()+" ");
+//				System.out.println(" "+getfriend_list[i].getPartner_id()+" ");
+//			}
+//		}
 		return friendscircle;
 	}
 		

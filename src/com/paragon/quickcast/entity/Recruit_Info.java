@@ -14,7 +14,7 @@ public class Recruit_Info {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int info_id;
 	
-	@Column(name="user_id",unique=true,nullable=false)
+	@Column(name="user_id",nullable=false)
 	private int user_id;
 	
 	@Column(name="issue_time",nullable=false)
@@ -38,7 +38,13 @@ public class Recruit_Info {
 	
 	@Column(name="recruit_industry",nullable=false)
 	private String recruit_industry;
-
+	
+	@Column(nullable = true)
+	private String work_place;
+	
+	@Column(nullable = true)
+	private String etp_name;
+	
 	public int getInfo_id() {
 		return info_id;
 	}
@@ -95,6 +101,7 @@ public class Recruit_Info {
 		this.salary = salary;
 	}
 
+
 	public String getRecruit_detail() {
 		return recruit_detail;
 	}
@@ -109,6 +116,22 @@ public class Recruit_Info {
 
 	public void setRecruit_industry(String recruit_industry) {
 		this.recruit_industry = recruit_industry;
+	}
+
+	public String getWork_place() {
+		return work_place;
+	}
+
+	public void setWork_place(String work_place) {
+		this.work_place = work_place;
+	}
+
+	public String getEtp_name() {
+		return etp_name;
+	}
+
+	public void setEtp_name(String etp_name) {
+		this.etp_name = etp_name;
 	}
 	
 }

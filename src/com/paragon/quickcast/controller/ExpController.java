@@ -36,7 +36,7 @@ public class ExpController extends MultiActionController{
 	private Encoding encoding;
 
 
-	//Work_Exp 工作经历
+	//Work_Exp 锟斤拷锟斤拷锟斤拷
 	@RequestMapping(params="method=workexp_insert")
 	public @ResponseBody String workexp_insert(@RequestBody Work_Exp[] work_exp){
 		
@@ -64,7 +64,7 @@ public class ExpController extends MultiActionController{
 
 	}
 	
-	//工作经历更新
+
 	@RequestMapping(params="method=workexp_update")
 	public @ResponseBody String workexp_update(@RequestBody Work_Exp work_exp){
 		 
@@ -87,24 +87,21 @@ public class ExpController extends MultiActionController{
 			return result_temp;	
 	}
 	
-	//根据工作经历ID查找工作经历
 	@RequestMapping(params="method=queryByWorkexpId")
 	public @ResponseBody String queryByWorkexpId(int exp_id){
 		 Work_Exp work_exp = workexpimpl.queryByWorkexpId(exp_id);
-		 System.out.println("-----------workexp_id:"+work_exp.getExp_id()+"---------");
-		 System.out.println("-----------user_id:"+work_exp.getUser_id()+"---------");
 	     return "queryByWorkexpId OK";
 	    }
 	
 	
-	//删除工作经历
+
 	@RequestMapping(params="method=workexp_delete")
 	public @ResponseBody String workexp_delete(Work_Exp work_exp){
 		 workexpimpl.delete(work_exp);
 	     return "workexp_delete OK";
 	    }
 	
-	//根据求职者ID查找工作经历
+
 	@RequestMapping(params="method=queryByWorkuserId")
 	public @ResponseBody String queryByWorkuserId(@RequestBody Work_Exp work_exp){
 		 List list = workexpimpl.queryByUserId(work_exp.getUser_id());
@@ -134,7 +131,7 @@ public class ExpController extends MultiActionController{
 			return result_temp;	
 	    }
 	 
-	//根据求职者ID删除工作经历
+
 	@RequestMapping(params="method=deleteByWorkuserId")
 	public @ResponseBody String deleteByWorkuserId(@RequestBody Work_Exp work_exp){
 		 
@@ -157,14 +154,13 @@ public class ExpController extends MultiActionController{
 			return result_temp;	
 	    }
 	
-	//根据工作经历ID删除工作经历
+
 	@RequestMapping(params="method=deleteByWorkexpId")
 	public @ResponseBody String deleteByWorkexpId(int exp_id){
 		 workexpimpl.deleteByExpId(exp_id);
 	     return "deleteByWorkexpId OK";
 	    }
 	
-	//创建教育经历
 	@RequestMapping(params="method=eduexp_insert")
 	public @ResponseBody String eduexp_insert(@RequestBody Edu_Exp[] edu_exp){
 		

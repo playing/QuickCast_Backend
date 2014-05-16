@@ -14,13 +14,6 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Index;
 
-/**
- * 
- * 接下来的任务就是实现好友圈
- * 遍历partner_id，找到并缓存记录partner_id的好友，统计每个好友出现的次数，找出次数最多的前20位
- * 算法实现：hash_map以好友_id作为key值，value值是好友_id出现的次数
- * 
- * **/
 @Entity
 public class Friend_List implements Comparator {
 	
@@ -36,7 +29,7 @@ public class Friend_List implements Comparator {
 	
 	public final int compare(Object oFirst, Object oSecond){
 		int rlts_idFirst = ((Friend_List)oFirst).getRlts_id();
-		int rlts_idSecond = ((Friend_List)oSecond).getRlts_id();
+		int rlts_idSecond = ((Friend_List)oSecond).getRlts_id(); 
 		int diff = rlts_idFirst - rlts_idSecond;
 		if(diff  > 0 )
 			return 1;

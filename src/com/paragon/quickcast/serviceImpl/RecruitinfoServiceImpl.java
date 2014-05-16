@@ -1,5 +1,7 @@
 package com.paragon.quickcast.serviceImpl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +33,24 @@ public class RecruitinfoServiceImpl implements RecruitService {
 	public boolean update(Recruit_Info recruit_info) {
 	    recruit_infodao.update(recruit_info);
 		return false;
+	}
+	
+	public List queryByUserId(int user_id){
+		
+		return recruit_infodao.queryByUserId(user_id);
+		
+	}
+	
+	public List queryAll(){
+		
+		return recruit_infodao.queryAll();
+		
+	}
+	
+	public List queryByIndustry(String recruit_industry){
+		
+		return recruit_infodao.queryByIndustry(recruit_industry);
+		
 	}
 
 }
